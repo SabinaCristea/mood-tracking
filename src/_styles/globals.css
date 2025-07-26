@@ -1,12 +1,34 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 @import "tailwindcss";
+
+html {
+  font-size: 62.5%;
+}
 
 body {
   margin: 0;
   height: 100vh;
   background: linear-gradient(180deg, #f5f5ff 72.99%, #e0e0ff 100%);
   background-repeat: no-repeat;
+}
+
+@theme {
+  --color-neutral-900: #21214d;
+  --color-neutral-600: #57577b;
+  --color-neutral-300: #9393b7;
+  --color-neutral-200: #cbcdd0;
+  --color-neutral-0: #ffffff;
+  --color-blue-700: #2a4cd5;
+  --color-blue-600: #4865db;
+  --color-blue-200: #c7d3f7;
+  --color-blue-100: #e0e6fa;
+  --color-red-700: #e60013;
+  --color-red-300: #ff9b99;
+  --color-indigo-200: #b8b1ff;
+  --color-blue-300: #89caff;
+  --color-green-300: #89e780;
+  --color-amber-300: #ffc97c;
 }

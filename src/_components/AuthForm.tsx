@@ -21,13 +21,17 @@ export const AuthForm = ({
   footerHref: string;
 }) => {
   return (
-    <>
+    <div className="flex flex-col items-center gap-[3.2rem] mt-[8rem]">
       <Image src={logo} alt="Logo" className="" />
 
-      <div className="">
-        <h1 className="">{title}</h1>
+      <div className="card bg-neutral-0 py-[4rem] px-[1.6rem] mx-[1.6rem] rounded-[1.6rem] tracking-[-0.3px]">
+        <h1 className="text-neutral-900 font-bold text-[2.8rem]  leading-[130%]">
+          {title}
+        </h1>
 
-        <p className=" ">{subtitle}</p>
+        <p className="text-neutral-600 text-[1.8rem] leading-[140%]">
+          {subtitle}
+        </p>
         <form action="">
           <div className="input-email">
             <label>Email address</label>
@@ -48,6 +52,6 @@ export const AuthForm = ({
           </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 };

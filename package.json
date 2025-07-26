@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.26.0",
+    "@tailwindcss/postcss": "^4.1.11",
     "convex": "^1.25.4",
     "next": "15.4.3",
     "react": "19.1.0",
