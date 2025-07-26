@@ -1,7 +1,8 @@
+import "./../_styles/globals.css";
 import type { Metadata } from "next";
 import { Reddit_Sans } from "next/font/google";
-import "./../_styles/globals.css";
-import ConvexClientProvider from "./ConvexClientProvider";
+// import "./../../_styles/globals.css";
+import ConvexClientProvider from "../ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 
 const redditSans = Reddit_Sans({

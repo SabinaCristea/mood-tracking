@@ -3,6 +3,7 @@ import { AuthButton } from "./AuthButton";
 import logo from "../../public/assets/images/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import "./../_styles/globals.css";
 
 export const AuthForm = ({
   title,
@@ -21,10 +22,12 @@ export const AuthForm = ({
 }) => {
   return (
     <>
-      <Image src={logo} alt="Logo" />
-      <div className="auth-card">
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
+      <Image src={logo} alt="Logo" className="" />
+
+      <div className="">
+        <h1 className="">{title}</h1>
+
+        <p className=" ">{subtitle}</p>
         <form action="">
           <div className="input-email">
             <label>Email address</label>
