@@ -20,4 +20,3 @@ export default defineSchema({
     text: v.string(),
   }),
 });
-// moods for specific users
