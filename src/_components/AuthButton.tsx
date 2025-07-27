@@ -12,5 +12,9 @@ export const AuthButton = ({
 }) => {
   const { pending } = useFormStatus();
 
-  return <button>{pending ? pendingLabel : children}</button>;
+  return (
+    <button className="bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem]">
+      {pending ? pendingLabel : children}
+    </button>
+  );
 };

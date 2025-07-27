@@ -9,7 +9,7 @@ export default function Page() {
         subtitle="Log in to continue tracking your mood and sleep."
         buttonText="Log In"
         footerMsg="Haven't got an account?"
-        footerAction="Sign up."
+        footerAction=" Sign up."
         footerHref="/signup"
       />
     </div>
