@@ -2,8 +2,15 @@ import "./../_styles/globals.css";
 import type { Metadata } from "next";
 import { Reddit_Sans } from "next/font/google";
 // import "./../../_styles/globals.css";
-import ConvexClientProvider from "../ConvexClientProvider";
-import { ClerkProvider } from "@clerk/nextjs";
+import ConvexClientProvider from "./ConvexClientProvider";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
@@ -22,12 +29,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${redditSans.className} antialiased`}>
-        <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${redditSans.className} antialiased`}>
           <ConvexClientProvider>{children}</ConvexClientProvider>
-        </ClerkProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

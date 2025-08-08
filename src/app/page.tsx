@@ -12,7 +12,7 @@ export default function Page() {
       </Authenticated>
 
       <Unauthenticated>
-        <RedirectTo path="/login" />
+        <RedirectTo path="/sign-in" />
       </Unauthenticated>
     </>
   );

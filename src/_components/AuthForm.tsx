@@ -6,7 +6,7 @@ import logo from "../../public/assets/images/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import "./../_styles/globals.css";
-import { useSignIn, useSignUp } from "@clerk/nextjs";
+import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 export const AuthForm = ({
@@ -25,16 +25,23 @@ export const AuthForm = ({
   footerHref: string;
 }) => {
   const { isLoaded: signInLoaded, signIn } = useSignIn();
-  const { isLoaded: signUpLoaded, signUp } = useSignUp();
+  const { isLoaded: signUpLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = React.useState(false);
+  const [code, setCode] = React.useState("");
   const [error, setError] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  console.log(buttonText);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    console.log("Form submitted");
+
     setError("");
     setLoading(true);
 
@@ -42,24 +49,24 @@ export const AuthForm = ({
       if (buttonText === "Log In") {
         if (!signInLoaded) return;
         const result = await signIn.create({
-          identifier: email,
+          identifier: emailAddress,
           password,
         });
 
         if (result.status === "complete") {
-          router.push("/home");
+          router.push("/home"); // Redirect after login
         } else {
           console.log(result);
         }
       } else if (buttonText === "Sign Up") {
         if (!signUpLoaded) return;
         const result = await signUp.create({
-          emailAddress: email,
+          emailAddress: emailAddress,
           password,
         });
 
         if (result.status === "complete") {
-          router.push("/test");
+          router.push("/onboarding"); // Redirect after signup
         } else {
           console.log(result);
         }
@@ -70,8 +77,6 @@ export const AuthForm = ({
       } else {
         setError("Something went wrong");
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -91,6 +96,8 @@ export const AuthForm = ({
               name="email"
               className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] placeholder:text-neutral-600 px-[1.6rem]"
               placeholder="name@mail.com"
+              value={emailAddress}
+              onChange={(e) => setEmailAddress(e.target.value)}
             />
           </div>
           <div className="input-password flex flex-col gap-[0.8rem] mb-[3.2rem]">
@@ -99,8 +106,12 @@ export const AuthForm = ({
               type="password"
               name="password"
               className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] px-[1.6rem]"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {/* CAPTCHA Widget */}
+          <div id="clerk-captcha"></div>
           <div className="action-btn">
             <AuthButton pendingLabel="Loading..." isPending={loading}>
               {buttonText}
