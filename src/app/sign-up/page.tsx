@@ -2,15 +2,14 @@
 
 import React, { useState } from "react";
 import logo from "../../../public/assets/images/logo.svg";
+import infoIcon from "../../../public/assets/images/info-circle.svg";
 import Image from "next/image";
 import Link from "next/link";
 import "./../../_styles/globals.css";
 import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-
-type ClerkError = {
-  errors: { message: string }[];
-};
+import { ClerkAPIError } from "@clerk/types";
+import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 
 export default function Page() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -19,15 +18,22 @@ export default function Page() {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [verifying, setVerifying] = React.useState(false);
-  const [code, setCode] = React.useState("");
-  const [error, setError] = useState("");
+  const [code, setCode] = useState("");
+  const [errors, setErrors] = useState<ClerkAPIError[]>();
 
+  let isPasswordError = false;
+  if (errors && errors.length > 0) {
+    isPasswordError = errors[0].meta?.paramName === "password";
+  }
   if (!isLoaded) {
     return null;
   }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+
+    setErrors([]);
+
     if (!isLoaded) {
       return null;
     }
@@ -44,9 +50,8 @@ export default function Page() {
 
       setVerifying(true);
     } catch (err: unknown) {
-      const clerkErr = err as ClerkError;
-      console.log(JSON.stringify(error, null, 2));
-      setError(clerkErr.errors[0].message);
+      if (isClerkAPIResponseError(err)) setErrors(err.errors);
+      console.error(JSON.stringify(err, null, 2));
     }
   }
 
@@ -68,9 +73,8 @@ export default function Page() {
         router.push("/onboarding");
       }
     } catch (err: unknown) {
-      const clerkErr = err as ClerkError;
-      console.log(JSON.stringify(err, null, 2));
-      setError(clerkErr.errors[0].message);
+      if (isClerkAPIResponseError(err)) setErrors(err.errors);
+      console.error(JSON.stringify(err, null, 2));
     }
   }
 
@@ -109,6 +113,18 @@ export default function Page() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              {isPasswordError && (
+                <ul>
+                  {errors.map((el, index) => (
+                    <div key={index} className="flex items-start gap-[0.8rem]">
+                      <Image src={infoIcon} alt="Info icon" />
+                      <li className="text-red-500 text-[1.2rem] leading-[110%]">
+                        {el.longMessage}
+                      </li>
+                    </div>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <div className="action-btn">
@@ -144,6 +160,19 @@ export default function Page() {
           </Link>
         </div>
       </div>
+
+      {/* {errors && (
+        <ul>
+          {errors.map((el, index) => (
+            <div key={index} className="flex items-start gap-[0.8rem]">
+              <Image src={infoIcon} alt="Info icon" />
+              <li className="text-red-500 text-[1.2rem] leading-[110%]">
+                {el.longMessage}
+              </li>
+            </div>
+          ))}
+        </ul>
+      )} */}
     </div>
   );
 }
