@@ -22,9 +22,30 @@ export default function Page() {
   const [errors, setErrors] = useState<ClerkAPIError[]>();
 
   let isPasswordError = false;
+  let isEmailError = false;
+  let isCodeError = false;
   if (errors && errors.length > 0) {
-    isPasswordError = errors[0].meta?.paramName === "password";
+    isPasswordError = errors.some((err) => err.meta?.paramName === "password");
+    isEmailError = errors.some(
+      (err) => err.meta?.paramName === "email_address"
+    );
+    isCodeError = errors.some((err) => err.meta?.paramName === "code");
   }
+
+  const emailErrorMessage = errors?.find(
+    (err) => err.meta?.paramName === "email_address"
+  )?.message;
+
+  const passwordErrorMessage = errors?.find(
+    (err) => err.meta?.paramName === "password"
+  )?.message;
+
+  const codeErrorMessage = errors?.find(
+    (err) => err.meta?.paramName === "code"
+  )?.message;
+
+  //console.log(isEmailError, isPasswordError);
+
   if (!isLoaded) {
     return null;
   }
@@ -50,7 +71,24 @@ export default function Page() {
 
       setVerifying(true);
     } catch (err: unknown) {
-      if (isClerkAPIResponseError(err)) setErrors(err.errors);
+      // if (isClerkAPIResponseError(err)) setErrors(err.errors);
+      // console.error(JSON.stringify(err, null, 2));
+      if (isClerkAPIResponseError(err)) {
+        const formattedErrors = err.errors.map((e) => {
+          if (
+            e.code === "form_param_format_invalid" &&
+            e.meta?.paramName === "email_address"
+          ) {
+            return {
+              ...e,
+              message: "Invalid email format",
+              longMessage: "Invalid email format.",
+            };
+          }
+          return e;
+        });
+        setErrors(formattedErrors);
+      }
       console.error(JSON.stringify(err, null, 2));
     }
   }
@@ -101,7 +139,25 @@ export default function Page() {
                 value={emailAddress}
                 onChange={(e) => setEmailAddress(e.target.value)}
                 required
+                style={{ borderColor: isEmailError ? "red" : "" }}
               />
+              {emailErrorMessage && (
+                <ul>
+                  {errors
+                    ?.filter((el) => el.meta?.paramName === "email_address")
+                    .map((el, index) => (
+                      <div
+                        key={index}
+                        className="flex items-start gap-[0.8rem]"
+                      >
+                        <Image src={infoIcon} alt="Info icon" />
+                        <li className="text-red-500 text-[1.2rem] leading-[110%]">
+                          {el.longMessage}
+                        </li>
+                      </div>
+                    ))}
+                </ul>
+              )}
             </div>
             <div className="input-password flex flex-col gap-[0.8rem] mb-[3.2rem]">
               <label>Password</label>
@@ -112,17 +168,23 @@ export default function Page() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                style={{ borderColor: isPasswordError ? "red" : "" }}
               />
-              {isPasswordError && (
+              {passwordErrorMessage && (
                 <ul>
-                  {errors.map((el, index) => (
-                    <div key={index} className="flex items-start gap-[0.8rem]">
-                      <Image src={infoIcon} alt="Info icon" />
-                      <li className="text-red-500 text-[1.2rem] leading-[110%]">
-                        {el.longMessage}
-                      </li>
-                    </div>
-                  ))}
+                  {errors
+                    ?.filter((el) => el.meta?.paramName === "email_address")
+                    .map((el, index) => (
+                      <div
+                        key={index}
+                        className="flex items-start gap-[0.8rem]"
+                      >
+                        <Image src={infoIcon} alt="Info icon" />
+                        <li className="text-red-500 text-[1.2rem] leading-[110%]">
+                          {el.longMessage}
+                        </li>
+                      </div>
+                    ))}
                 </ul>
               )}
             </div>
@@ -140,7 +202,7 @@ export default function Page() {
           </form>
         ) : (
           <form onSubmit={onPressVerify}>
-            <div>
+            <div className="flex flex-col gap-[0.8rem] mb-[3.2rem]">
               <label htmlFor="code">Verification Code</label>
               <input
                 id="code"
@@ -148,9 +210,28 @@ export default function Page() {
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Enter verification code"
                 required
+                className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] px-[1.6rem]"
+                style={{ borderColor: isCodeError ? "red" : "" }}
               />
+              {codeErrorMessage && (
+                <ul>
+                  {errors?.map((el, index) => (
+                    <div key={index} className="flex items-start gap-[0.8rem]">
+                      <Image src={infoIcon} alt="Info icon" />
+                      <li className="text-red-500 text-[1.2rem] leading-[110%]">
+                        {el.longMessage}
+                      </li>
+                    </div>
+                  ))}
+                </ul>
+              )}
             </div>
-            <button type="submit">Verify email</button>
+            <button
+              type="submit"
+              className="bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem]"
+            >
+              Verify email
+            </button>
           </form>
         )}
         <div className="flex gap-[0.5rem] mt-[2rem] justify-center">
