@@ -28,3 +28,7 @@ body {
   --color-green-300: #89e780;
   --color-amber-300: #ffc97c;
 }
+
+.outline-focus {
+  @apply focus-visible:outline-[2px] focus-visible:outline-offset-4 focus-visible:outline-blue-600;
+}

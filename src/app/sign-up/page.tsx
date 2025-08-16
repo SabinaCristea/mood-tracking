@@ -21,6 +21,8 @@ export default function Page() {
   const [code, setCode] = useState("");
   const [errors, setErrors] = useState<ClerkAPIError[]>();
 
+  const [loading, setLoading] = useState(false);
+
   let isPasswordError = false;
   let isEmailError = false;
   let isCodeError = false;
@@ -59,6 +61,8 @@ export default function Page() {
       return null;
     }
 
+    setLoading(true);
+
     try {
       await signUp.create({
         emailAddress,
@@ -71,8 +75,6 @@ export default function Page() {
 
       setVerifying(true);
     } catch (err: unknown) {
-      // if (isClerkAPIResponseError(err)) setErrors(err.errors);
-      // console.error(JSON.stringify(err, null, 2));
       if (isClerkAPIResponseError(err)) {
         const formattedErrors = err.errors.map((e) => {
           if (
@@ -90,12 +92,16 @@ export default function Page() {
         setErrors(formattedErrors);
       }
       console.error(JSON.stringify(err, null, 2));
+    } finally {
+      setLoading(false);
     }
   }
 
   async function onPressVerify(e: React.FormEvent) {
     e.preventDefault();
     if (!isLoaded) return;
+
+    setLoading(true);
 
     try {
       const completeSignup = await signUp.attemptEmailAddressVerification({
@@ -113,6 +119,8 @@ export default function Page() {
     } catch (err: unknown) {
       if (isClerkAPIResponseError(err)) setErrors(err.errors);
       console.error(JSON.stringify(err, null, 2));
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -134,7 +142,7 @@ export default function Page() {
               <input
                 type="email"
                 name="email"
-                className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] placeholder:text-neutral-600 px-[1.6rem]"
+                className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] placeholder:text-neutral-600 px-[1.6rem] hover:border-neutral-600 outline-focus"
                 placeholder="name@mail.com"
                 value={emailAddress}
                 onChange={(e) => setEmailAddress(e.target.value)}
@@ -164,7 +172,7 @@ export default function Page() {
               <input
                 type="password"
                 name="password"
-                className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] px-[1.6rem]"
+                className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] px-[1.6rem] hover:border-neutral-600 outline-focus"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -173,7 +181,7 @@ export default function Page() {
               {passwordErrorMessage && (
                 <ul>
                   {errors
-                    ?.filter((el) => el.meta?.paramName === "email_address")
+                    ?.filter((el) => el.meta?.paramName === "password")
                     .map((el, index) => (
                       <div
                         key={index}
@@ -192,10 +200,10 @@ export default function Page() {
             <div className="action-btn">
               <button
                 type="submit"
-                className="bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem]"
+                disabled={loading}
+                className=" bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem] hover:bg-blue-700 hover:cursor-pointer outline-focus"
               >
-                {/* {isLoaded ? "Loading..." : "Sign Up"} */}
-                Sign Up
+                {loading ? "Loading..." : "Sign Up"}
               </button>
             </div>
             <div id="clerk-captcha"></div>
@@ -210,7 +218,7 @@ export default function Page() {
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Enter verification code"
                 required
-                className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] px-[1.6rem]"
+                className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] px-[1.6rem] hover:border-neutral-600 outline-focus"
                 style={{ borderColor: isCodeError ? "red" : "" }}
               />
               {codeErrorMessage && (
@@ -228,32 +236,21 @@ export default function Page() {
             </div>
             <button
               type="submit"
-              className="bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem]"
+              className="bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem] hover:bg-blue-700 hover:cursor-pointer outline-focus"
             >
-              Verify email
+              {loading ? "Loading..." : "Verify email"}
             </button>
           </form>
         )}
         <div className="flex gap-[0.5rem] mt-[2rem] justify-center">
           <p className="text-neutral-600"> Already got an account? </p>
           <Link href="/sign-in">
-            <button className="text-blue-600"> Log In.</button>
+            <button className="text-blue-600 hover:cursor-pointer">
+              Log In.
+            </button>
           </Link>
         </div>
       </div>
-
-      {/* {errors && (
-        <ul>
-          {errors.map((el, index) => (
-            <div key={index} className="flex items-start gap-[0.8rem]">
-              <Image src={infoIcon} alt="Info icon" />
-              <li className="text-red-500 text-[1.2rem] leading-[110%]">
-                {el.longMessage}
-              </li>
-            </div>
-          ))}
-        </ul>
-      )} */}
     </div>
   );
 }
