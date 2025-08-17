@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as functions_moodEntries from "../functions/moodEntries.js";
+import type * as functions_users from "../functions/users.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -25,6 +26,7 @@ import type * as functions_moodEntries from "../functions/moodEntries.js";
  */
 declare const fullApi: ApiFromModules<{
   "functions/moodEntries": typeof functions_moodEntries;
+  "functions/users": typeof functions_users;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

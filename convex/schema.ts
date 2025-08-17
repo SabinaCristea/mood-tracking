@@ -14,7 +14,9 @@ export default defineSchema({
     feelings: v.array(v.string()),
     journalEntry: v.string(),
     sleepHours: v.number(),
+    userId: v.string(),
   }),
+
   mood_quotes: defineTable({
     mood: v.number(),
     text: v.string(),

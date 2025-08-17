@@ -5,17 +5,34 @@ import React, { useState } from "react";
 import logo from "../../../public/assets/images/logo.svg";
 import Image from "next/image";
 import placeholderImage from "../../../public/assets/images/avatar-placeholder.svg";
+import { saveUserProfile } from "../../../convex/functions/users";
+import { useUser } from "@clerk/nextjs";
 
 export default function Page() {
   const [name, setName] = useState("");
   const [image, setImage] = useState(placeholderImage);
   const [loading, setLoading] = useState(false);
+  const { user } = useUser();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
 
+    if (!user) return;
+
     try {
-    } catch (err: unknown) {
+      setLoading(true);
+
+      // Update name
+      await user.update({ firstName: name });
+
+      // Upload profile picture (if one was chosen)
+      if (image) {
+        await user.setProfileImage({ file: image });
+      }
+
+      console.log("✅ Profile updated!");
+    } catch (err) {
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -33,9 +50,7 @@ export default function Page() {
           Add your name and a profile picture to make Mood yours.
         </p>
 
-        <form
-        //  onSubmit={submit}
-        >
+        <form onSubmit={submit}>
           <div className="input-name flex flex-col gap-[0.8rem] mb-[2.4rem]">
             <label className="text-neutral-900">Name</label>
             <input
@@ -43,10 +58,9 @@ export default function Page() {
               name="name"
               className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] placeholder:text-neutral-600 px-[1.6rem] hover:border-neutral-600 outline-focus"
               placeholder="Jane Appleseed"
-              // value={emailAddress}
-              // onChange={(e) => setEmailAddress(e.target.value)}
-              // required
-              // style={{ borderColor: isEmailError ? "red" : "" }}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
 
@@ -59,9 +73,29 @@ export default function Page() {
               <p className="mb-[1.6rem] text-[1.5rem] text-neutral-600">
                 Max 250K, PNG or JPEG
               </p>
-              <button className="leading-[130%] tracking-[0px] px-[1.6rem] py-[0.8rem] border-[1px] border-neutral-300 rounded-[0.8rem] outline-focus hover:cursor-pointer ">
+              {/* <input
+                type="file"
+                accept="image/png, image/jpeg"
+                onChange={(e) => setImage(e.target.files?.[0] || null)}
+              />
+              {/* <button className="leading-[130%] tracking-[0px] px-[1.6rem] py-[0.8rem] border-[1px] border-neutral-300 rounded-[0.8rem] outline-focus hover:cursor-pointer ">
                 Upload
-              </button>
+              </button> */}
+              <div className="relative">
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  id="file-upload"
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  onChange={(e) => setImage(e.target.files?.[0] || null)}
+                />
+                <label
+                  htmlFor="file-upload"
+                  className="leading-[130%] tracking-[0px] px-[1.6rem] py-[0.8rem] border-[1px] border-neutral-300 rounded-[0.8rem] outline-focus hover:cursor-pointer flex justify-center items-center"
+                >
+                  Upload
+                </label>
+              </div>
             </div>
           </div>
 
