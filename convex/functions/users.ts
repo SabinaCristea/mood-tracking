@@ -1,27 +1,22 @@
-import { mutation } from "../_generated/server";
-import { v } from "convex/values";
+import { mutation } from "./_generated/server";
 
-export const saveUserProfile = mutation({
-  args: {
-    clerkId: v.string(),
-    email: v.string(),
-    name: v.optional(v.string()),
-  },
-  handler: async (ctx, args) => {
-    const existing = await ctx.db
-      .query("users")
-      .filter((q) => q.eq(q.field("clerkId"), args.clerkId))
-      .first();
+export const syncClerkUser = mutation(async ({ db }, clerkUser) => {
+  const existing = await db
+    .query("users")
+    .withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkUser.id))
+    .unique();
 
-    if (existing) {
-      await ctx.db.patch(existing._id, { name: args.name });
-    } else {
-      await ctx.db.insert("users", {
-        clerkId: args.clerkId,
-        email: args.email,
-        name: args.name,
-        createdAt: new Date().toISOString(),
-      });
-    }
-  },
+  const userData = {
+    clerkId: clerkUser.id,
+    firstName: clerkUser.firstName || "",
+    lastName: clerkUser.lastName || "",
+    imageUrl: clerkUser.imageUrl || "",
+    email: clerkUser.emailAddresses?.[0]?.emailAddress || "",
+  };
+
+  if (existing) {
+    await db.patch(existing._id, userData);
+  } else {
+    await db.insert("users", userData);
+  }
 });

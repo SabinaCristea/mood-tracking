@@ -10,7 +10,9 @@ import { useUser } from "@clerk/nextjs";
 
 export default function Page() {
   const [name, setName] = useState("");
-  const [image, setImage] = useState(placeholderImage);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState(placeholderImage);
+
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
 
@@ -26,8 +28,8 @@ export default function Page() {
       await user.update({ firstName: name });
 
       // Upload profile picture (if one was chosen)
-      if (image) {
-        await user.setProfileImage({ file: image });
+      if (imageFile) {
+        await user.setProfileImage({ file: imageFile });
       }
 
       console.log("✅ Profile updated!");
@@ -66,28 +68,27 @@ export default function Page() {
 
           <div className="flex gap-[2rem] mb-[3.2rem]">
             <div className="photo">
-              <Image src={image} alt="photo" />
+              <Image src={imagePreview} alt="photo" width={80} height={80} />
             </div>
             <div className="details-and-btn flex flex-col items-start">
               <p className="mb-[0.6rem]">Upload Image</p>
               <p className="mb-[1.6rem] text-[1.5rem] text-neutral-600">
                 Max 250K, PNG or JPEG
               </p>
-              {/* <input
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={(e) => setImage(e.target.files?.[0] || null)}
-              />
-              {/* <button className="leading-[130%] tracking-[0px] px-[1.6rem] py-[0.8rem] border-[1px] border-neutral-300 rounded-[0.8rem] outline-focus hover:cursor-pointer ">
-                Upload
-              </button> */}
+
               <div className="relative">
                 <input
                   type="file"
                   accept="image/png, image/jpeg"
                   id="file-upload"
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  onChange={(e) => setImage(e.target.files?.[0] || null)}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+
+                    setImageFile(file);
+                    setImagePreview(URL.createObjectURL(file));
+                  }}
                 />
                 <label
                   htmlFor="file-upload"
