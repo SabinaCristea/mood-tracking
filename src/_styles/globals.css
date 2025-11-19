@@ -6,7 +6,7 @@ html {
 
 body {
   margin: 0;
-  height: 100vh;
+  /* height: 100vh; */
   background: linear-gradient(180deg, #f5f5ff 72.99%, #e0e0ff 100%);
   background-repeat: no-repeat;
 }
