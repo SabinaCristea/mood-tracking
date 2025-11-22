@@ -9,6 +9,7 @@ import placeholderImage from "../../../public/assets/images/avatar-placeholder.s
 import dropdownArrow from "../../../public/assets/images/icon-dropdown-arrow.svg";
 import pattern from "../../../public/assets/images/bg-pattern-averages.svg";
 import formatDate from "@/_lib/helpers/formatDate";
+import CardBarChart from "@/_components/MoodChart";
 
 export default function HomePage() {
   const obj = useAuth();
@@ -20,6 +21,15 @@ export default function HomePage() {
   console.log(obj);
 
   const today = formatDate(new Date());
+
+  const data = [
+    { date: "April 12", hours: 7.5, color: "#8DD3FF", face: "😟" },
+    { date: "April 13", hours: 7, color: "#8EF2A0", face: "🙂" },
+    { date: "April 14", hours: 3, color: "#FF9E9E", face: "😔" },
+    { date: "April 15", hours: 9.5, color: "#FFD47B", face: "😊" },
+  ];
+
+  const maxHours = 10;
 
   return (
     <div className="pt-[4rem] px-[1rem] sm:px-[2rem] max-w-[34.3rem]  sm:max-w-[70.4rem] lg:max-w-[117rem] mx-auto text-neutral-900">
@@ -113,7 +123,10 @@ export default function HomePage() {
       </div>
 
       {/* MOOD AND SLEEP TRENDS */}
-      <div className="mt-[3.2rem]">bla bla</div>
+      <div className="mt-[3.2rem] bg-neutral-0 px-[1.6rem] py-[2rem] rounded-[1.6rem] w-[34.3rem]">
+        <h1>Mood and sleep trends</h1>
+        <CardBarChart />
+      </div>
     </div>
   );
 }
