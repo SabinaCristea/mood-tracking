@@ -1,6 +1,8 @@
 import React from "react";
 import Chart from "chart.js";
 
+import { ReactComponent as SleepSVG } from "./../../public/assets/images/icon-sleep.svg";
+
 export default function CardBarChart() {
   React.useEffect(() => {
     // Generate last 15 days
@@ -38,7 +40,8 @@ export default function CardBarChart() {
             // label: new Date().getFullYear(),
             backgroundColor: backgroundColors,
             borderColor: backgroundColors,
-            data: hours,
+            //data: hours,
+            data: [],
             fill: false,
             barThickness: 40,
             categoryPercentage: 0.6, // ADD GAP BETWEEN CATEGORIES
@@ -47,6 +50,7 @@ export default function CardBarChart() {
         ],
       },
       options: {
+        indexAxis: "y",
         maintainAspectRatio: false,
         responsive: false, // ⭐ REQUIRED so custom width works
         // responsive: true,
@@ -66,12 +70,14 @@ export default function CardBarChart() {
               },
               ticks: {
                 autoSkip: false, // 👈 REQUIRED
+
                 callback: function (value) {
                   const [month, day] = value.split(" ");
                   return [month, day];
                 },
                 fontColor: "#333",
                 padding: 10,
+                fontFamily: "Inter, Arial, sans-serif",
               },
             },
           ],
@@ -80,16 +86,16 @@ export default function CardBarChart() {
               display: true,
               ticks: {
                 min: 0,
-                max: 10, // needed to align the labels
+                max: 8, // needed to align the labels
                 stepSize: 2, // generates values: 0,2,4,6,8,10
+                fontFamily: "Inter, Arial, sans-serif",
                 callback: function (value) {
                   const map = {
-                    0: "0–2 hours",
-                    2: "3–4 hours",
-                    4: "5–6 hours",
-                    6: "7–8 hours",
-                    8: "9+ hours",
-                    10: "", // hides the top tick
+                    0: "💤 0–2 hours",
+                    2: "💤 3–4 hours",
+                    4: "💤 5–6 hours",
+                    6: "💤 7–8 hours",
+                    8: "💤 9+ hours",
                   };
                   return map[value] || "";
                 },
@@ -175,11 +181,14 @@ export default function CardBarChart() {
   }, []);
 
   return (
-    <div className="relative flex flex-col min-w-0 break-words h-[42rem] ">
+    <div className="relative flex flex-col min-w-0 break-words h-[42rem] lg:h-[40rem]">
       {/* <div className="relative h-full"> */}
-      <div className="overflow-x-auto overflow-y-hidden ">
-        <canvas id="bar-chart" width={1500}></canvas>
+      <div className="overflow-x-auto overflow-y-hidden h-[100%]">
+        <canvas id="bar-chart"></canvas>
       </div>
     </div>
   );
 }
+// display: block;
+// height: 45rem;
+// width: 63rem;

@@ -22,17 +22,8 @@ export default function HomePage() {
 
   const today = formatDate(new Date());
 
-  const data = [
-    { date: "April 12", hours: 7.5, color: "#8DD3FF", face: "😟" },
-    { date: "April 13", hours: 7, color: "#8EF2A0", face: "🙂" },
-    { date: "April 14", hours: 3, color: "#FF9E9E", face: "😔" },
-    { date: "April 15", hours: 9.5, color: "#FFD47B", face: "😊" },
-  ];
-
-  const maxHours = 10;
-
   return (
-    <div className="pt-[4rem] px-[1rem] sm:px-[2rem] max-w-[34.3rem]  sm:max-w-[70.4rem] lg:max-w-[117rem] mx-auto text-neutral-900">
+    <div className="pt-[4rem] px-[1rem] sm:px-[2rem] max-w-[34.3rem] sm:max-w-[70.4rem] lg:max-w-[117rem] mx-auto text-neutral-900 ">
       {/* <h1 className="text-2xl font-bold">
         Welcome {userId ? `User ${userId}` : "Guest"}
       </h1>
@@ -53,7 +44,7 @@ export default function HomePage() {
         </div>
       </div>
       {/* CTA - SALUTATION */}
-      <div className="flex flex-col w-full justify-center items-center mt-[4.8rem] gap-[1.6rem]">
+      <div className="flex flex-col w-full justify-center items-center mt-[4.8rem] gap-[1.6rem] sm:gap-[1rem] lg:mt-[6.4rem]">
         <h4 className="text-[2.8rem] md:text-[3.2rem] text-blue-600 leading-[130%] md:leading-[140%] tracking-[-0.3px] font-bold">
           {/* Hello, {userId}! */}
           Hello, Bina!
@@ -68,64 +59,66 @@ export default function HomePage() {
 
         <button
           type="submit"
-          className="bg-blue-600 rounded-[1rem] text-neutral-0 text-[2rem] px-[3.2rem] h-[6rem] hover:bg-blue-700 hover:cursor-pointer outline-focus mt-[3.2rem]"
+          className="bg-blue-600 rounded-[1rem] text-neutral-0 text-[2rem] px-[3.2rem] h-[6rem] hover:bg-blue-700 hover:cursor-pointer outline-focus mt-[3.2rem] sm:mt-[4.8rem] lg:mt-[6.4rem]"
         >
           Log today&apos;s mood
         </button>
       </div>
-
-      {/* AVERAGE MOOD */}
-      <div className="mt-[4.8rem] bg-white rounded-[1.6rem] flex flex-col gap-[2.4rem] px-[1.6rem] py-[2rem] w-[34.3rem]">
-        {/* average mood */}
-        <div className="flex flex-col gap-[1.2rem]">
-          <p className="text-[2rem] leading-[140%] font-semibold">
-            Average Mood{" "}
-            <span className="text-neutral-600 text-[1.5rem] leading-[140%] ">
-              (Last 5 Check-ins)
-            </span>
-          </p>
-          <div className="bg-blue-100 rounded-[1.6rem] flex flex-col gap-[1.2rem] justify-center h-[15rem] px-[1.6rem] py-[2rem] relative overflow-hidden">
-            <h4 className="text-[2.4rem] leading-[140%] font-semibold ">
-              Keep tracking!
-            </h4>
-            <p className="text-neutral-600 text-[1.5rem] leading-[140%]">
-              Log 5 check-ins to see your average mood.
+      {/* lg:h-[45.3rem] */}
+      <div className="flex flex-col lg:flex-row lg:gap-[3.2rem] lg:mt-[6.4rem] mb-[8rem]">
+        {/* AVERAGE MOOD */}
+        <div className="mt-[4.8rem] bg-white rounded-[1.6rem] flex flex-col gap-[2.4rem] px-[1.6rem] py-[2rem] w-[34.3rem] mx-auto md:w-[70.4rem]  lg:w-[45.3rem]  lg:p-[2.4rem] lg:mt-0">
+          {/* average mood */}
+          <div className="flex flex-col gap-[1.2rem]">
+            <p className="text-[2rem] leading-[140%] font-semibold">
+              Average Mood{" "}
+              <span className="text-neutral-600 text-[1.5rem] leading-[140%] ">
+                (Last 5 Check-ins)
+              </span>
             </p>
-            <Image
-              src={pattern}
-              alt="pattern"
-              className="absolute z-[100] top-[-3.5rem] right-[-19rem]"
-            />
+            <div className="bg-blue-100 rounded-[1.6rem] flex flex-col gap-[1.2rem] justify-center h-[15rem] px-[1.6rem] py-[2rem] relative overflow-hidden lg:p-[2rem] ">
+              <h4 className="text-[2.4rem] leading-[140%] font-semibold ">
+                Keep tracking!
+              </h4>
+              <p className="text-neutral-600 text-[1.5rem] leading-[140%]">
+                Log 5 check-ins to see your average mood.
+              </p>
+              <Image
+                src={pattern}
+                alt="pattern"
+                className="absolute z-[100] top-[-3.5rem] right-[-19rem]"
+              />
+            </div>
+          </div>
+          {/* average sleep */}
+          <div className="flex flex-col gap-[1.2rem]">
+            <p className="text-[2rem] leading-[140%] font-semibold">
+              Average Sleep{" "}
+              <span className="text-neutral-600 text-[1.5rem] leading-[140%]">
+                (Last 5 Check-ins)
+              </span>
+            </p>
+            <div className="bg-blue-100 rounded-[1.6rem] flex flex-col gap-[1.2rem] justify-center h-[15rem] px-[1.6rem] py-[2rem] relative overflow-hidden lg:p-[2rem] ">
+              <h4 className="text-[2.4rem] leading-[140%] font-semibold ">
+                Not enough data yet!
+              </h4>
+              <p className="text-neutral-600 text-[1.5rem] leading-[140%]">
+                Track 5 nights to view average sleep.
+              </p>
+              <Image
+                src={pattern}
+                alt="pattern"
+                className="absolute z-[100] top-[-3.5rem] right-[-19rem]"
+              />
+            </div>
           </div>
         </div>
-        {/* average sleep */}
-        <div className="flex flex-col gap-[1.2rem]">
-          <p className="text-[2rem] leading-[140%] font-semibold">
-            Average Sleep{" "}
-            <span className="text-neutral-600 text-[1.5rem] leading-[140%]">
-              (Last 5 Check-ins)
-            </span>
-          </p>
-          <div className="bg-blue-100 rounded-[1.6rem] flex flex-col gap-[1.2rem] justify-center h-[15rem] px-[1.6rem] py-[2rem] relative overflow-hidden">
-            <h4 className="text-[2.4rem] leading-[140%] font-semibold ">
-              Not enough data yet!
-            </h4>
-            <p className="text-neutral-600 text-[1.5rem] leading-[140%]">
-              Track 5 nights to view average sleep.
-            </p>
-            <Image
-              src={pattern}
-              alt="pattern"
-              className="absolute z-[100] top-[-3.5rem] right-[-19rem]"
-            />
-          </div>
-        </div>
-      </div>
 
-      {/* MOOD AND SLEEP TRENDS */}
-      <div className="mt-[3.2rem] bg-neutral-0 px-[1.6rem] py-[2rem] rounded-[1.6rem] w-[34.3rem]">
-        <h1>Mood and sleep trends</h1>
-        <CardBarChart />
+        {/* MOOD AND SLEEP TRENDS */}
+        <div className="mt-[3.2rem] bg-neutral-0 px-[1.6rem] py-[2rem] rounded-[1.6rem] w-[34.3rem] mx-auto md:w-[70.4rem]  lg:mt-0">
+          <h1>Mood and sleep trends</h1>
+          <CardBarChart />
+        </div>
       </div>
     </div>
   );
