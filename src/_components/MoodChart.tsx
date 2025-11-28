@@ -189,6 +189,3 @@ export default function CardBarChart() {
     </div>
   );
 }
-// display: block;
-// height: 45rem;
-// width: 63rem;
