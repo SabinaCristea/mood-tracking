@@ -16,22 +16,14 @@ export const LogMoodModal = () => {
 
       <Tabs selectedIndex={step} disabled onSelect={() => {}}>
         <TabList className="flex gap-[1.6rem] mb-[2.4rem]">
-          <Tab
-            className="bg-blue-200 rounded-full h-[6px] w-[25%]"
-            selectedClassName="bg-blue-600"
-          ></Tab>
-          <Tab
-            className="bg-blue-200 rounded-full h-[6px] w-[25%]"
-            selectedClassName="bg-blue-600"
-          ></Tab>
-          <Tab
-            className="bg-blue-200 rounded-full h-[6px] w-[25%]"
-            selectedClassName="bg-blue-600"
-          ></Tab>
-          <Tab
-            className="bg-blue-200 rounded-full h-[6px] w-[25%]"
-            selectedClassName="bg-blue-600"
-          ></Tab>
+          {[0, 1, 2, 3].map((i) => (
+            <Tab
+              key={i}
+              className={`rounded-full h-[6px] w-[25%] transition-colors
+        ${i <= step ? "bg-blue-600" : "bg-blue-200"}`}
+              disabled
+            />
+          ))}
         </TabList>
 
         <TabPanel>
