@@ -11,6 +11,7 @@ import pattern from "../../../public/assets/images/bg-pattern-averages.svg";
 import formatDate from "@/_lib/helpers/formatDate";
 import CardBarChart from "@/_components/MoodChart";
 import { LogMoodModal } from "@/_components/LogMoodModal";
+import { Button } from "@/_components/Button";
 
 export default function HomePage() {
   const obj = useAuth();
@@ -62,16 +63,20 @@ export default function HomePage() {
           <h1 className="text-[4.6rem] md:text-[5.2rem] leading-[120%] md:leading-[140%] tracking-[-2px] font-bold text-center">
             How are you feeling today?
           </h1>
-          <p className="text-[1.8rem]  text-neutral-600 leading-[120%]">
+          <p className="text-[1.8rem]  text-neutral-600 leading-[120%] mb-[3.2rem] sm:mb-[4.8rem] lg:mb-[6.4rem]">
             {today}
           </p>
 
-          <button
+          {/* <button
             className="bg-blue-600 rounded-[1rem] text-neutral-0 text-[2rem] px-[3.2rem] h-[6rem] hover:bg-blue-700 hover:cursor-pointer outline-focus mt-[3.2rem] sm:mt-[4.8rem] lg:mt-[6.4rem]"
             onClick={() => setIsLogOpen((prev) => !prev)}
           >
             Log today&apos;s mood
-          </button>
+          </button> */}
+          <Button
+            onClick={() => setIsLogOpen((prev) => !prev)}
+            label="Log today's mood"
+          />
         </div>
         {isLogOpen && <LogMoodModal />}
         {/* lg:h-[45.3rem] */}
@@ -96,7 +101,7 @@ export default function HomePage() {
                 <Image
                   src={pattern}
                   alt="pattern"
-                  className="absolute z-[100] top-[-3.5rem] right-[-19rem]"
+                  className="absolute z-[50] top-[-3.5rem] right-[-19rem]"
                 />
               </div>
             </div>
@@ -118,7 +123,7 @@ export default function HomePage() {
                 <Image
                   src={pattern}
                   alt="pattern"
-                  className="absolute z-[100] top-[-3.5rem] right-[-19rem]"
+                  className="absolute z-[50] top-[-3.5rem] right-[-19rem]"
                 />
               </div>
             </div>

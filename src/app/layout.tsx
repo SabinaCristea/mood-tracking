@@ -1,7 +1,6 @@
-import "./../_styles/globals.css";
 import type { Metadata } from "next";
 import { Reddit_Sans } from "next/font/google";
-// import "./../../_styles/globals.css";
+
 import ConvexClientProvider from "./ConvexClientProvider";
 import {
   ClerkProvider,
@@ -11,6 +10,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import "./../_styles/globals.css";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
@@ -30,8 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`${redditSans.className} antialiased`}>
+      <html lang="en" className="min-h-screen">
+        <body
+          className={`${redditSans.className} antialiased bg-gradient-to-b from-[#f5f7ff] from-0% via-[#F5F5FF] via-[73%] to-[#E0E0FF] to-100%`}
+        >
           <ConvexClientProvider>{children}</ConvexClientProvider>
         </body>
       </html>
