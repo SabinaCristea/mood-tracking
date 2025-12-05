@@ -1,11 +1,13 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import VeryHappyface from "./../../public/assets/images/icon-very-happy-color.svg";
-import Happyface from "./../../public/assets/images/icon-happy-color.svg";
-import Neutralface from "./../../public/assets/images/icon-neutral-color.svg";
-import Sadface from "./../../public/assets/images/icon-sad-color.svg";
-import VerySadface from "./../../public/assets/images/icon-very-sad-color.svg";
+import VeryHappyface from "/public/assets/images/icon-very-happy-color.svg";
+import Happyface from "/public/assets/images/icon-happy-color.svg";
+import Neutralface from "/public/assets/images/icon-neutral-color.svg";
+import Sadface from "/public/assets/images/icon-sad-color.svg";
+import VerySadface from "/public/assets/images/icon-very-sad-color.svg";
 import { Button } from "./Button";
+
+import infoIcon from "/public/assets/images/info-circle.svg";
 
 const options = [
   { id: 1, label: "Very Happy", icon: VeryHappyface },
@@ -17,6 +19,17 @@ const options = [
 
 export const LogMoodStep1 = ({ onContinue }: { onContinue: () => void }) => {
   const [selected, setSelected] = useState<number | null>(null);
+
+  const [error, setError] = useState<string>("");
+
+  const handleContinue = () => {
+    if (selected === null) {
+      setError("Please select a mood before continuing.");
+      return;
+    }
+    setError(""); // clear error
+    onContinue();
+  };
 
   return (
     <div className="flex flex-col gap-[2.4rem]">
@@ -64,7 +77,15 @@ export const LogMoodStep1 = ({ onContinue }: { onContinue: () => void }) => {
           </button>
         ))}
       </section>
-      <Button label="Continue" onClick={onContinue} />
+
+      {error && (
+        <div className="flex items-center  gap-[0.8rem]">
+          <Image src={infoIcon} alt="Info icon" />
+          <p className="text-red-500 text-[1.2rem] leading-[110%]">{error}</p>
+        </div>
+      )}
+
+      <Button label="Continue" onClick={handleContinue} />
     </div>
   );
 };
