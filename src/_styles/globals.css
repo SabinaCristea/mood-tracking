@@ -35,3 +35,7 @@ body {
 .text-preset-6 {
   @apply text-[1.8rem] leading-[120%];
 }
+
+.text-preset-6-regular {
+  @apply text-[1.8rem] leading-[140%] tracking-[-0.3px];
+}

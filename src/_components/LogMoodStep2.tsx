@@ -84,20 +84,20 @@ export const LogMoodStep2 = ({ onContinue }: { onContinue: () => void }) => {
                 key={feeling}
                 onClick={() => toggleFeeling(feeling)}
                 className={`
-        inline-flex items-center gap-2 px-4 py-2 rounded-xl border
+        inline-flex items-center gap-[1.2rem] px-[1.6rem] py-[1.2rem] rounded-[1rem] border-[2px]
         transition-all duration-200
-        ${isSelected ? "border-blue-500 bg-blue-50 text-blue-600" : "border-gray-300 bg-white text-gray-600"}
+        ${isSelected ? "border-blue-600" : "border-blue-100 "}
       `}
               >
                 <span
                   className={`
-          w-4 h-4 flex items-center justify-center rounded-sm border
-          ${isSelected ? "bg-blue-500 border-blue-500 text-white" : "border-gray-400"}
+          w-[1.6rem] h-[1.6rem] flex items-center justify-center rounded-[4px] border-[1.5px]
+          ${isSelected ? "bg-blue-600 border-blue-600 text-white" : "border-blue-200"}
         `}
                 >
-                  {isSelected && <CheckIcon size={12} />}
+                  {isSelected && <CheckIcon size={9} />}
                 </span>
-                {feeling}
+                <p className="text-preset-6-regular">{feeling}</p>
               </button>
             );
           })}
