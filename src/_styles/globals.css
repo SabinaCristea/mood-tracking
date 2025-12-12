@@ -31,3 +31,7 @@ body {
 .outline-focus {
   @apply focus-visible:outline-[2px] focus-visible:outline-offset-4 focus-visible:outline-blue-600;
 }
+
+.text-preset-6 {
+  @apply text-[1.8rem] leading-[120%];
+}

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React, { useState } from "react";
 import VeryHappyface from "/public/assets/images/icon-very-happy-color.svg";
@@ -85,7 +87,7 @@ export const LogMoodStep1 = ({ onContinue }: { onContinue: () => void }) => {
         </div>
       )}
 
-      <Button label="Continue" onClick={handleContinue} />
+      <Button label="Continue" onClick={handleContinue} isFullWidth={true} />
     </div>
   );
 };

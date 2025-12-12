@@ -78,7 +78,7 @@ export default function HomePage() {
             label="Log today's mood"
           />
         </div>
-        {isLogOpen && <LogMoodModal />}
+        {isLogOpen && <LogMoodModal setOpen={setIsLogOpen} />}
         {/* lg:h-[45.3rem] */}
         <div className="flex flex-col lg:flex-row lg:gap-[3.2rem] lg:mt-[6.4rem] mb-[8rem]">
           {/* AVERAGE MOOD */}
