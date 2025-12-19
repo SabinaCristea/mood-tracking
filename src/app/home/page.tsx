@@ -33,7 +33,7 @@ export default function HomePage() {
       {isLogOpen && (
         <div className="bg-neutral-900 opacity-70 w-[100vw] h-[100vh] z-100 fixed"></div>
       )}
-      <div className="pt-[4rem] px-[1rem] sm:px-[2rem] max-w-[34.3rem] sm:max-w-[70.4rem] lg:max-w-[117rem] mx-auto text-neutral-900 ">
+      <div className="pt-[4rem] px-[1.6rem] sm:px-[3.2rem]  w-full xl:max-w-[125rem] 2xl:max-w-[130rem] mx-auto text-neutral-900 ">
         {/* <h1 className="text-2xl font-bold">
         Welcome {userId ? `User ${userId}` : "Guest"}
       </h1>
@@ -54,7 +54,7 @@ export default function HomePage() {
           </div>
         </div>
         {/* CTA - SALUTATION */}
-        <div className="flex flex-col w-full justify-center items-center mt-[4.8rem] gap-[1.6rem] sm:gap-[1rem] lg:mt-[6.4rem]">
+        <div className="flex flex-col w-full justify-center items-center mt-[4.8rem] gap-[1.6rem]  sm:gap-[1rem] lg:mt-[6.4rem]">
           <h4 className="text-[2.8rem] md:text-[3.2rem] text-blue-600 leading-[130%] md:leading-[140%] tracking-[-0.3px] font-bold">
             {/* Hello, {userId}! */}
             Hello, Bina!
@@ -67,22 +67,16 @@ export default function HomePage() {
             {today}
           </p>
 
-          {/* <button
-            className="bg-blue-600 rounded-[1rem] text-neutral-0 text-[2rem] px-[3.2rem] h-[6rem] hover:bg-blue-700 hover:cursor-pointer outline-focus mt-[3.2rem] sm:mt-[4.8rem] lg:mt-[6.4rem]"
-            onClick={() => setIsLogOpen((prev) => !prev)}
-          >
-            Log today&apos;s mood
-          </button> */}
           <Button
             onClick={() => setIsLogOpen((prev) => !prev)}
             label="Log today's mood"
           />
         </div>
         {isLogOpen && <LogMoodModal setOpen={setIsLogOpen} />}
-        {/* lg:h-[45.3rem] */}
+
         <div className="flex flex-col lg:flex-row lg:gap-[3.2rem] lg:mt-[6.4rem] mb-[8rem]">
           {/* AVERAGE MOOD */}
-          <div className="mt-[4.8rem] bg-white rounded-[1.6rem] flex flex-col gap-[2.4rem] px-[1.6rem] py-[2rem] w-[34.3rem] mx-auto md:w-[70.4rem]  lg:w-[45.3rem]  lg:p-[2.4rem] lg:mt-0">
+          <div className="mt-[4.8rem] bg-white rounded-[1.6rem] flex flex-col gap-[2.4rem] px-[1.6rem]  py-[2rem] w-full  xl:w-full mx-auto lg:p-[2.4rem] lg:mt-0">
             {/* average mood */}
             <div className="flex flex-col gap-[1.2rem]">
               <p className="text-[2rem] leading-[140%] font-semibold">
@@ -130,7 +124,7 @@ export default function HomePage() {
           </div>
 
           {/* MOOD AND SLEEP TRENDS */}
-          <div className="mt-[3.2rem] bg-neutral-0 px-[1.6rem] py-[2rem] rounded-[1.6rem] w-[34.3rem] mx-auto md:w-[70.4rem]  lg:mt-0">
+          <div className="mt-[3.2rem] bg-neutral-0 px-[1.6rem] py-[2rem] rounded-[1.6rem] w-full mx-auto lg:w-[76.8rem]  lg:mt-0 ">
             <h1>Mood and sleep trends</h1>
             <CardBarChart />
           </div>

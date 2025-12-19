@@ -39,3 +39,11 @@ body {
 .text-preset-6-regular {
   @apply text-[1.8rem] leading-[140%] tracking-[-0.3px];
 }
+
+.text-preset-6-italic {
+  @apply text-[1.8rem] leading-[130%] tracking-[0px] italic text-neutral-600;
+}
+
+.text-preset-8 {
+  @apply text-[1.3rem] leading-[100%] tracking-[0px] font-semibold text-neutral-600;
+}

@@ -181,11 +181,15 @@ export default function CardBarChart() {
   }, []);
 
   return (
-    <div className="relative flex flex-col min-w-0 break-words h-[42rem] lg:h-[40rem]">
+    <div className="relative flex flex-col min-w-0 break-words h-[42rem] lg:h-[40rem] ">
       {/* <div className="relative h-full"> */}
-      <div className="overflow-x-auto overflow-y-hidden h-[100%]">
+      <div className="overflow-x-auto overflow-y-hidden h-[100%] outline-focus">
         <canvas id="bar-chart"></canvas>
       </div>
     </div>
   );
 }
+
+// focus-visible:outline-none
+//     focus-visible:ring-0
+//     focus-visible:border-neutral-300

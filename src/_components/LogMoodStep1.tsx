@@ -46,7 +46,7 @@ export const LogMoodStep1 = ({ onContinue }: { onContinue: () => void }) => {
             onClick={() => setSelected(opt.id)}
             className={`
               px-[2rem] py-[1.2rem] flex items-center gap-[1.2rem]
-              border-[2px] rounded-[1rem] bg-white
+              border-[2px] rounded-[1rem] bg-white outline-focus
               transition-all
               ${
                 selected === opt.id
