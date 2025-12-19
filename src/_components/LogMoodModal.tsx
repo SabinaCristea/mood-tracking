@@ -5,6 +5,7 @@ import { LogMoodStep2 } from "./LogMoodStep2";
 import Image from "next/image";
 import closeIcon from "/public/assets/images/close.svg";
 import { LogMoodStep3 } from "./LogMoodStep3";
+import { LogMoodStep4 } from "./LogMoodStep4";
 
 export const LogMoodModal = ({
   setOpen,
@@ -12,6 +13,18 @@ export const LogMoodModal = ({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [step, setStep] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmitInformation = () => {
+    try {
+      console.log("saved");
+      setOpen(false);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <dialog
@@ -54,9 +67,14 @@ export const LogMoodModal = ({
           <LogMoodStep2 onContinue={() => setStep(2)} />
         </TabPanel>
         <TabPanel>
-          <LogMoodStep3 onContinue={() => setStep(3)} />{" "}
+          <LogMoodStep3 onContinue={() => setStep(3)} />
         </TabPanel>
-        <TabPanel>4 fjvhsfu</TabPanel>
+        <TabPanel>
+          <LogMoodStep4
+            onSubmit={handleSubmitInformation}
+            loading={isLoading}
+          />
+        </TabPanel>
       </Tabs>
     </dialog>
   );
