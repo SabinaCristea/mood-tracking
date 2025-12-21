@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { ClipLoader } from "react-spinners";
 import dropdownArrow from "../../public/assets/images/icon-dropdown-arrow.svg";
 import placeholderImage from "../../public/assets/images/avatar-placeholder.svg";
@@ -10,13 +16,21 @@ import Image from "next/image";
 import type { UserResource } from "@clerk/types";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { ProfileDetails } from "./ProfileDetails";
 
 type UserProfileProps = {
   user: UserResource | null | undefined;
   isLoaded: boolean;
+  isProfileDetailsOpen: boolean;
+  setIsProfileDetailsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export const UserProfile = ({ user, isLoaded }: UserProfileProps) => {
+export const UserProfile = ({
+  user,
+  isLoaded,
+  isProfileDetailsOpen,
+  setIsProfileDetailsOpen,
+}: UserProfileProps) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   const { signOut } = useAuth();
@@ -56,53 +70,62 @@ export const UserProfile = ({ user, isLoaded }: UserProfileProps) => {
     );
 
   return (
-    <div className="relative flex items-center">
-      <button
-        className="flex gap-4 hover:cursor-pointer outline-focus "
-        onClick={() => {
-          setIsProfileDropdownOpen(true);
-        }}
-      >
-        <Image
-          src={avatarSrc}
-          width={40}
-          height={40}
-          className="rounded-full"
-          alt={fullName ?? "User avatar"}
-        />
-        <Image src={dropdownArrow} alt="arrow down" />
-      </button>
-      {isProfileDropdownOpen && (
-        <div
-          ref={dropdownRef}
-          className="bg-neutral-0 absolute right-0 top-20 w-120 sm:w-100 px-[1.6rem] py-[1.2rem] rounded-[0.8rem] drop-shadow-[0_5px_8px_#21214D16]"
+    <>
+      <div className="relative flex items-center">
+        <button
+          className="flex gap-4 hover:cursor-pointer outline-focus "
+          onClick={() => {
+            setIsProfileDropdownOpen(true);
+          }}
         >
-          <h1 className="text-preset-6 truncate">{fullName}</h1>
-          <p className="text-preset-7 text-neutral-300 pb-[1.2rem] truncate">
-            {emailAddress}
-          </p>
-          <hr className="pt-[1.2rem] border-blue-100 " />
-          <div className="flex items-center gap-4">
-            <Image
-              src={settingsIcon}
-              alt="Setting Icon"
-              width={16}
-              height={16}
-            />
-            <p className="text-preset-7">Settings</p>
-          </div>
+          <Image
+            src={avatarSrc}
+            width={40}
+            height={40}
+            className="rounded-full"
+            alt={fullName ?? "User avatar"}
+          />
+          <Image src={dropdownArrow} alt="arrow down" />
+        </button>
+        {isProfileDropdownOpen && (
           <div
-            className="flex items-center gap-4 pt-[1.2rem] hover:cursor-pointer"
-            onClick={() => {
-              signOut();
-              router.push("/sign-in");
-            }}
+            ref={dropdownRef}
+            className="bg-neutral-0 absolute right-0 top-20 w-120 sm:w-100 px-[1.6rem] py-[1.2rem] rounded-[0.8rem] drop-shadow-[0_5px_8px_#21214D16]"
           >
-            <Image src={logoutIcon} alt="Logout Icon" />
-            <p className="text-preset-7">Logout</p>
+            <h1 className="text-preset-6 truncate">{fullName}</h1>
+            <p className="text-preset-7 text-neutral-300 pb-[1.2rem] truncate">
+              {emailAddress}
+            </p>
+            <hr className="pt-[1.2rem] border-blue-100 " />
+            <div
+              className="flex items-center gap-4 hover:cursor-pointer"
+              onClick={() => {
+                setIsProfileDropdownOpen(false);
+                setIsProfileDetailsOpen(true);
+              }}
+            >
+              <Image
+                src={settingsIcon}
+                alt="Setting Icon"
+                width={16}
+                height={16}
+              />
+              <p className="text-preset-7">Settings</p>
+            </div>
+
+            <div
+              className="flex items-center gap-4 pt-[1.2rem] hover:cursor-pointer"
+              onClick={() => {
+                signOut();
+                router.push("/sign-in");
+              }}
+            >
+              <Image src={logoutIcon} alt="Logout Icon" />
+              <p className="text-preset-7">Logout</p>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };

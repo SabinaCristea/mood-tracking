@@ -12,7 +12,7 @@ export default function Page() {
       </SignedOut>
 
       <SignedIn>
-        <RedirectTo path="/home" />
+        <RedirectTo path="/onboarding" />
       </SignedIn>
     </>
   );

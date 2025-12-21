@@ -28,8 +28,12 @@ body {
   --color-amber-300: #ffc97c;
 }
 
+.transparent-overlay {
+  @apply bg-neutral-900 opacity-70 w-screen h-screen z-100 fixed inset-0;
+}
+
 .outline-focus {
-  @apply focus-visible:outline-[2px] focus-visible:outline-offset-4 focus-visible:outline-blue-600;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600;
 }
 
 .text-preset-6 {

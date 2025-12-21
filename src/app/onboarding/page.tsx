@@ -5,8 +5,9 @@ import React, { useState } from "react";
 import logo from "../../../public/assets/images/logo.svg";
 import Image from "next/image";
 import placeholderImage from "../../../public/assets/images/avatar-placeholder.svg";
-import { saveUserProfile } from "../../../convex/functions/users";
+// import { saveUserProfile } from "../../../convex/functions/users";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -15,6 +16,7 @@ export default function Page() {
 
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -33,6 +35,8 @@ export default function Page() {
       }
 
       console.log("✅ Profile updated!");
+
+      router.push("/home");
     } catch (err) {
       console.error(err);
     } finally {

@@ -11,12 +11,16 @@ import CardBarChart from "@/_components/MoodChart";
 import { LogMoodModal } from "@/_components/LogMoodModal";
 import { Button } from "@/_components/Button";
 import { UserProfile } from "@/_components/UserProfile";
+import { ProfileDetails } from "@/_components/ProfileDetails";
 
 export default function HomePage() {
   const { isLoaded, isSignedIn } = useAuth();
 
   const { user, isLoaded: isUserLoaded } = useUser();
   const [isLogOpen, setIsLogOpen] = useState(false);
+
+  const [isProfileDetailsOpen, setIsProfileDetailsOpen] = useState(false);
+
   const router = useRouter();
 
   const today = formatDate(new Date());
@@ -35,9 +39,8 @@ export default function HomePage() {
 
   return (
     <>
-      {isLogOpen && (
-        <div className="bg-neutral-900 opacity-70 w-screen h-screen z-100 fixed"></div>
-      )}
+      {isLogOpen ||
+        (isProfileDetailsOpen && <div className="transparent-overlay"></div>)}
       <div className="pt-16 px-[1.6rem] sm:px-[3.2rem]  w-full xl:max-w-500 2xl:max-w-520 mx-auto text-neutral-900 ">
         {/* <h1 className="text-2xl font-bold">
         Welcome {userId ? `User ${userId}` : "Guest"}
@@ -53,7 +56,12 @@ export default function HomePage() {
         {/* HEADER */}
         <div className="flex justify-between">
           <Image src={logo} alt="Logo" />
-          <UserProfile user={user} isLoaded={isUserLoaded} />
+          <UserProfile
+            user={user}
+            isLoaded={isUserLoaded}
+            isProfileDetailsOpen={isProfileDetailsOpen}
+            setIsProfileDetailsOpen={setIsProfileDetailsOpen}
+          />
         </div>
         {/* CTA - SALUTATION */}
         <div className="flex flex-col w-full justify-center items-center mt-[4.8rem] gap-[1.6rem]  sm:gap-4 lg:mt-[6.4rem]">
@@ -132,6 +140,13 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      {isProfileDetailsOpen && (
+        <ProfileDetails
+          title="Update your profile"
+          description="Personalize your account with your name and photo."
+          setIsProfileDetailsOpen={setIsProfileDetailsOpen}
+        />
+      )}
     </>
   );
 }
