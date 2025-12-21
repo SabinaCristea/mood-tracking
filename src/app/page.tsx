@@ -1,19 +1,19 @@
 "use client";
 
-import { Authenticated, Unauthenticated } from "convex/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function Page() {
   return (
     <>
-      <Authenticated>
-        <RedirectTo path="/home" />
-      </Authenticated>
-
-      <Unauthenticated>
+      <SignedOut>
         <RedirectTo path="/sign-in" />
-      </Unauthenticated>
+      </SignedOut>
+
+      <SignedIn>
+        <RedirectTo path="/home" />
+      </SignedIn>
     </>
   );
 }
