@@ -78,13 +78,15 @@ export const UserProfile = ({
             setIsProfileDropdownOpen(true);
           }}
         >
-          <Image
-            src={avatarSrc}
-            width={40}
-            height={40}
-            className="rounded-full"
-            alt={fullName ?? "User avatar"}
-          />
+          <div className="rounded-full overflow-hidden w-[4rem] h-[4rem]">
+            <Image
+              src={avatarSrc}
+              width={40}
+              height={40}
+              className=" object-cover object-center w-full h-full"
+              alt={fullName ?? "User avatar"}
+            />
+          </div>
           <Image src={dropdownArrow} alt="arrow down" />
         </button>
         {isProfileDropdownOpen && (

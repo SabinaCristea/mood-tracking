@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../../public/assets/images/logo.svg";
 import Image from "next/image";
 import placeholderImage from "../../../public/assets/images/avatar-placeholder.svg";
@@ -44,11 +44,20 @@ export default function Page() {
     }
   }
 
+  // clean for improvement
+  useEffect(() => {
+    return () => {
+      if (typeof imagePreview === "string") {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
+
   return (
-    <div className="flex flex-col items-center gap-[3.2rem] mt-[8rem]">
+    <div className="flex flex-col items-center gap-[3.2rem] mt-32">
       <Image src={logo} alt="Logo" />
 
-      <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px]  text-neutral-900 bg-neutral-0 py-[4rem] px-[1.6rem] mx-[1.6rem] rounded-[1.6rem] ">
+      <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px] text-neutral-900 bg-neutral-0 py-16 px-[1.6rem] mx-[1.6rem] sm:px-[3.2rem] rounded-[1.6rem] ">
         <h1 className="font-bold text-[2.8rem] leading-[130%] mb-[0.8rem]">
           Personalize your experience
         </h1>
@@ -62,7 +71,7 @@ export default function Page() {
             <input
               type="text"
               name="name"
-              className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] placeholder:text-neutral-600 px-[1.6rem] hover:border-neutral-600 outline-focus"
+              className="h-[4.9rem] border border-neutral-300 rounded-2xl placeholder:text-neutral-600 px-[1.6rem] hover:border-neutral-600 outline-focus"
               placeholder="Jane Appleseed"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -70,9 +79,15 @@ export default function Page() {
             />
           </div>
 
-          <div className="flex gap-[2rem] mb-[3.2rem]">
-            <div className="photo">
-              <Image src={imagePreview} alt="photo" width={80} height={80} />
+          <div className="flex gap-8 mb-[3.2rem]">
+            <div className="photo w-[6.4rem] h-[6.4rem] rounded-full overflow-hidden">
+              <Image
+                src={imagePreview}
+                width={64}
+                height={64}
+                className="object-cover object-center w-full h-full"
+                alt="User avatar"
+              />
             </div>
             <div className="details-and-btn flex flex-col items-start">
               <p className="mb-[0.6rem]">Upload Image</p>
@@ -96,7 +111,7 @@ export default function Page() {
                 />
                 <label
                   htmlFor="file-upload"
-                  className="leading-[130%] tracking-[0px] px-[1.6rem] py-[0.8rem] border-[1px] border-neutral-300 rounded-[0.8rem] outline-focus hover:cursor-pointer flex justify-center items-center"
+                  className="leading-[130%] tracking-[0px] px-[1.6rem] py-[0.8rem] border border-neutral-300 rounded-[0.8rem] outline-focus hover:cursor-pointer flex justify-center items-center"
                 >
                   Upload
                 </label>
@@ -108,7 +123,7 @@ export default function Page() {
             <button
               type="submit"
               disabled={loading}
-              className=" bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem] hover:bg-blue-700 hover:cursor-pointer outline-focus"
+              className=" bg-blue-600 rounded-2xl text-neutral-0 w-full h-[5.2rem] hover:bg-blue-700 hover:cursor-pointer outline-focus"
             >
               {loading ? "Loading..." : "Start Tracking"}
             </button>

@@ -39,20 +39,10 @@ export default function HomePage() {
 
   return (
     <>
-      {isLogOpen ||
-        (isProfileDetailsOpen && <div className="transparent-overlay"></div>)}
+      {(isLogOpen || isProfileDetailsOpen) && (
+        <div className="transparent-overlay"></div>
+      )}
       <div className="pt-16 px-[1.6rem] sm:px-[3.2rem]  w-full xl:max-w-500 2xl:max-w-520 mx-auto text-neutral-900 ">
-        {/* <h1 className="text-2xl font-bold">
-        Welcome {userId ? `User ${userId}` : "Guest"}
-      </h1>
-      <button
-        onClick={() => {
-          signOut();
-          router.push("/sign-in");
-        }}
-      >
-        Log out
-      </button> */}
         {/* HEADER */}
         <div className="flex justify-between">
           <Image src={logo} alt="Logo" />
@@ -145,6 +135,7 @@ export default function HomePage() {
           title="Update your profile"
           description="Personalize your account with your name and photo."
           setIsProfileDetailsOpen={setIsProfileDetailsOpen}
+          saveBtnText="Save Changes"
         />
       )}
     </>
