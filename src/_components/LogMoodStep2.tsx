@@ -29,38 +29,46 @@ const feelings = [
   "Restless",
 ];
 
-export const LogMoodStep2 = ({ onContinue }: { onContinue: () => void }) => {
-  const [selected, setSelected] = useState<string[]>([]);
+type LogMoodStep2Props = {
+  value: string[];
+  onChange: (value: string[]) => void;
+  onContinue: () => void;
+};
+
+export const LogMoodStep2 = ({
+  value,
+  onChange,
+  onContinue,
+}: LogMoodStep2Props) => {
+  //const [selected, setSelected] = useState<string[]>([]);
   const [error, setError] = useState("");
 
   const toggleFeeling = (feeling: string) => {
-    const isSelected = selected.includes(feeling);
+    const isSelected = value.includes(feeling);
 
     let newSelected: string[];
 
     if (isSelected) {
-      newSelected = selected.filter((x) => x !== feeling);
+      newSelected = value.filter((x) => x !== feeling);
     } else {
-      newSelected = [...selected, feeling];
+      newSelected = [...value, feeling];
     }
 
-    setSelected(newSelected);
+    //setSelected(newSelected);
 
-    if (selected.length > 3) {
+    if (newSelected.length > 3) {
       setError("You can only select a maximum of 3 tags");
     } else {
       setError("");
     }
+
+    setError("");
+    onChange(newSelected);
   };
 
   const handleContinue = () => {
-    if (selected.length === 0) {
+    if (value.length === 0) {
       setError("Please select at least one tag");
-      return;
-    }
-
-    if (selected.length > 3) {
-      setError("You can only select a maximum of 3 tags");
       return;
     }
 
@@ -77,7 +85,7 @@ export const LogMoodStep2 = ({ onContinue }: { onContinue: () => void }) => {
       <div className="flex flex-wrap gap-3 my-[3.2rem]">
         {feelings.length > 0 &&
           feelings.map((feeling) => {
-            const isSelected = selected.includes(feeling);
+            const isSelected = value.includes(feeling);
 
             return (
               <button
@@ -110,7 +118,7 @@ export const LogMoodStep2 = ({ onContinue }: { onContinue: () => void }) => {
         </div>
       )}
 
-      <Button label="Continue" onClick={handleContinue} isFullWidth={true} />
+      <Button label="Continue" onClick={handleContinue} isFullWidth />
     </div>
   );
 };

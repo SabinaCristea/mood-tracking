@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
 import VeryHappyface from "/public/assets/images/icon-very-happy-color.svg";
 import Happyface from "/public/assets/images/icon-happy-color.svg";
@@ -10,19 +10,50 @@ import VerySadface from "/public/assets/images/icon-very-sad-color.svg";
 import { Button } from "./Button";
 
 import infoIcon from "/public/assets/images/info-circle.svg";
+import { MoodEntryDraft } from "@/_lib/helpers/types";
+import { MOOD_MAP_REVERSE } from "@/_lib/helpers/moodMaps";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
-const options = [
-  { id: 1, label: "Very Happy", icon: VeryHappyface },
-  { id: 2, label: "Happy", icon: Happyface },
-  { id: 3, label: "Neutral", icon: Neutralface },
-  { id: 4, label: "Sad", icon: Sadface },
-  { id: 5, label: "Very Sad", icon: VerySadface },
-];
+const MOOD_ICONS: Record<number, StaticImageData> = {
+  2: VeryHappyface,
+  1: Happyface,
+  0: Neutralface,
+  "-1": Sadface,
+  "-2": VerySadface,
+};
 
-export const LogMoodStep1 = ({ onContinue }: { onContinue: () => void }) => {
-  const [selected, setSelected] = useState<number | null>(null);
+// const options = [
+//   { id: 2, label: "Very Happy", icon: VeryHappyface },
+//   { id: 1, label: "Happy", icon: Happyface },
+//   { id: 0, label: "Neutral", icon: Neutralface },
+//   { id: -1, label: "Sad", icon: Sadface },
+//   { id: -2, label: "Very Sad", icon: VerySadface },
+// ];
+
+type LogMoodStep1Props = {
+  value: MoodEntryDraft["mood"];
+  onChange: (value: MoodEntryDraft["mood"]) => void;
+  onContinue: () => void;
+};
+
+export const LogMoodStep1 = ({
+  value,
+  onChange,
+  onContinue,
+}: LogMoodStep1Props) => {
+  //const [selected, setSelected] = useState<number | null>(null);
+  const selected = value;
 
   const [error, setError] = useState<string>("");
+
+  // const options = useQuery(api.functions.moods.);
+
+  const options = useQuery(api.functions.getMoodsOptions.getMoodsOptions);
+
+  if (!options) return null;
+
+  //const uiMood = MOOD_MAP_REVERSE[value];
 
   const handleContinue = () => {
     if (selected === null) {
@@ -43,13 +74,14 @@ export const LogMoodStep1 = ({ onContinue }: { onContinue: () => void }) => {
         {options.map((opt) => (
           <button
             key={opt.id}
-            onClick={() => setSelected(opt.id)}
+            //onClick={() => onChange(opt.id)}
+            onClick={() => onChange(opt._id)}
             className={`
-              px-[2rem] py-[1.2rem] flex items-center gap-[1.2rem]
-              border-[2px] rounded-[1rem] bg-white outline-focus
+              px-8 py-[1.2rem] flex items-center gap-[1.2rem]
+              border-2 rounded-2xl bg-white outline-focus
               transition-all
               ${
-                selected === opt.id
+                selected === opt._id
                   ? "border-blue-600 bg-blue-50"
                   : "border-blue-100"
               }
@@ -57,10 +89,10 @@ export const LogMoodStep1 = ({ onContinue }: { onContinue: () => void }) => {
           >
             <div
               className={`
-                w-[2rem] h-[2rem] rounded-full border-[2px]
+                w-8 h-8 rounded-full border-2
                 transition-all
                 ${
-                  selected === opt.id
+                  selected === opt._id
                     ? "border-blue-600 border-[5px]"
                     : "border-blue-200 bg-white"
                 }
@@ -72,7 +104,7 @@ export const LogMoodStep1 = ({ onContinue }: { onContinue: () => void }) => {
             </p>
 
             <Image
-              src={opt.icon}
+              src={MOOD_ICONS[opt.order]}
               alt="emoji"
               className="w-[3.8rem] h-[3.8rem] ml-auto"
             />

@@ -6,19 +6,35 @@ export default defineSchema({
     clerkId: v.string(),
     email: v.string(),
     name: v.optional(v.string()),
-    createdAt: v.string(),
-  }),
-  mood_entries: defineTable({
-    createdAt: v.string(),
+    firstName: v.string(),
+    lastName: v.string(),
+    imageUrl: v.string(),
+    createdAt: v.number(),
+  }).index("by_clerkId", ["clerkId"]),
+
+  moods: defineTable({
+    userId: v.id("users"),
     mood: v.number(),
     feelings: v.array(v.string()),
-    journalEntry: v.string(),
-    sleepHours: v.number(),
-    userId: v.string(),
+    note: v.string(),
+    sleepOptionId: v.id("sleepOptions"),
+    //sleepHours: v.number(),
+
+    createdAt: v.number(),
   }),
 
-  mood_quotes: defineTable({
-    mood: v.number(),
+  moodOptions: defineTable({
+    order: v.number(),
+    label: v.string(),
+  }).index("by_order", ["order"]),
+
+  moodQuotes: defineTable({
+    moodOptionId: v.id("moodOptions"),
     text: v.string(),
   }),
+
+  sleepOptions: defineTable({
+    order: v.number(),
+    label: v.string(),
+  }).index("by_order", ["order"]),
 });

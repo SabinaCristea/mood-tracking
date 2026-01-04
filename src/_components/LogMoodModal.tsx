@@ -6,6 +6,9 @@ import Image from "next/image";
 import closeIcon from "/public/assets/images/close.svg";
 import { LogMoodStep3 } from "./LogMoodStep3";
 import { LogMoodStep4 } from "./LogMoodStep4";
+import { MoodEntryDraft } from "@/_lib/helpers/types";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 export const LogMoodModal = ({
   setOpen,
@@ -15,15 +18,51 @@ export const LogMoodModal = ({
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmitInformation = () => {
+  const [draft, setDraft] = useState<MoodEntryDraft>({
+    mood: null,
+    feelings: [],
+    note: "",
+    sleepOptionId: null,
+  });
+
+  const updateDraft = <K extends keyof MoodEntryDraft>(
+    key: K,
+    value: MoodEntryDraft[K]
+  ) => {
+    setDraft((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmitInformation = async () => {
     try {
-      console.log("saved");
+      setIsLoading(true);
+      await saveMood(draft);
+
       setOpen(false);
     } catch (err) {
       console.log(err);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const createMood = useMutation(api.functions.moods.createMood);
+
+  const saveMood = async (draft: MoodEntryDraft) => {
+    if (
+      draft.mood === null ||
+      draft.sleepOptionId === null ||
+      draft.feelings.length === 0 ||
+      !draft.note
+    ) {
+      throw new Error("Incomplete mood data");
+    }
+
+    await createMood({
+      mood: draft.mood,
+      feelings: draft.feelings,
+      note: draft.note,
+      sleepOptionId: draft.sleepOptionId,
+    });
   };
 
   return (
@@ -61,16 +100,32 @@ export const LogMoodModal = ({
         </TabList>
 
         <TabPanel>
-          <LogMoodStep1 onContinue={() => setStep(1)} />
+          <LogMoodStep1
+            value={draft.mood}
+            onChange={(mood) => updateDraft("mood", mood)}
+            onContinue={() => setStep(1)}
+          />
         </TabPanel>
         <TabPanel>
-          <LogMoodStep2 onContinue={() => setStep(2)} />
+          <LogMoodStep2
+            value={draft.feelings}
+            onChange={(feelings) => updateDraft("feelings", feelings)}
+            onContinue={() => setStep(2)}
+          />
         </TabPanel>
         <TabPanel>
-          <LogMoodStep3 onContinue={() => setStep(3)} />
+          <LogMoodStep3
+            value={draft.note}
+            onChange={(note) => updateDraft("note", note)}
+            onContinue={() => setStep(3)}
+          />
         </TabPanel>
         <TabPanel>
           <LogMoodStep4
+            value={draft.sleepOptionId}
+            onChange={(sleepOptionId) =>
+              updateDraft("sleepOptionId", sleepOptionId)
+            }
             onSubmit={handleSubmitInformation}
             loading={isLoading}
           />

@@ -8,6 +8,14 @@ import placeholderImage from "../../../public/assets/images/avatar-placeholder.s
 // import { saveUserProfile } from "../../../convex/functions/users";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import infoIcon from "/public/assets/images/info-circle.svg";
+
+type ProfileErrors = {
+  name?: string;
+  image?: string;
+};
+
+const ALLOWED_TYPES = ["image/png", "image/jpeg"];
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -15,6 +23,8 @@ export default function Page() {
   const [imagePreview, setImagePreview] = useState(placeholderImage);
 
   const [loading, setLoading] = useState(false);
+
+  const [errors, setErrors] = useState<ProfileErrors>({});
   const { user } = useUser();
   const router = useRouter();
 
@@ -22,6 +32,14 @@ export default function Page() {
     e.preventDefault();
 
     if (!user) return;
+
+    if (name.trim() === "") {
+      setErrors((prev) => ({
+        ...prev,
+        name: "Name cannot be empty",
+      }));
+      return;
+    }
 
     try {
       setLoading(true);
@@ -34,7 +52,7 @@ export default function Page() {
         await user.setProfileImage({ file: imageFile });
       }
 
-      console.log("✅ Profile updated!");
+      console.log("Profile updated!");
 
       router.push("/home");
     } catch (err) {
@@ -75,8 +93,16 @@ export default function Page() {
               placeholder="Jane Appleseed"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              required
+              //required
             />
+            {errors.name && (
+              <div className="flex items-center gap-[0.8rem] mt-[0.8rem]">
+                <Image src={infoIcon} alt="Info icon" />
+                <p className="text-red-500 text-[1.2rem] leading-[110%]">
+                  {errors.name}
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-8 mb-[3.2rem]">
@@ -95,15 +121,37 @@ export default function Page() {
                 Max 250K, PNG or JPEG
               </p>
 
-              <div className="relative">
+              <div className="relative focus-within:outline-2 focus-within:outline-blue-600 focus-within:outline-offset-4 rounded-[0.8rem]">
                 <input
                   type="file"
-                  accept="image/png, image/jpeg"
+                  //accept="image/png, image/jpeg"
                   id="file-upload"
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (!file) return;
+
+                    if (!ALLOWED_TYPES.includes(file.type)) {
+                      setErrors((prev) => ({
+                        ...prev,
+                        image:
+                          "Unsupported file type. Please uplaod a PNG or JPEG",
+                      }));
+                      return;
+                    }
+
+                    if (file.size > 250 * 1024) {
+                      setErrors((prev) => ({
+                        ...prev,
+                        image: "Image must be under 250KB",
+                      }));
+                      return;
+                    }
+
+                    setErrors((prev) => ({
+                      ...prev,
+                      image: undefined,
+                    }));
 
                     setImageFile(file);
                     setImagePreview(URL.createObjectURL(file));
@@ -116,6 +164,15 @@ export default function Page() {
                   Upload
                 </label>
               </div>
+
+              {errors.image && (
+                <div className="flex items-center gap-[0.8rem] mt-[0.8rem]">
+                  <Image src={infoIcon} alt="Info icon" />
+                  <p className="text-red-500 text-[1.2rem] leading-[110%]">
+                    {errors.image}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 

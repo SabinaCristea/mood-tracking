@@ -8,12 +8,22 @@ import Image from "next/image";
 
 const MAX_CHARS = 150;
 
-export const LogMoodStep3 = ({ onContinue }: { onContinue: () => void }) => {
+type LogMoodStep3Props = {
+  value: string;
+  onChange: (value: string) => void;
+  onContinue: () => void;
+};
+
+export const LogMoodStep3 = ({
+  value,
+  onChange,
+  onContinue,
+}: LogMoodStep3Props) => {
   const [error, setError] = useState("");
-  const [text, setText] = useState("");
+  // const [text, setText] = useState("");
 
   const handleContinue = () => {
-    if (text.length === 0) {
+    if (value.length === 0) {
       setError("Please write a few words about your day before continuing.");
       return;
     }
@@ -21,7 +31,7 @@ export const LogMoodStep3 = ({ onContinue }: { onContinue: () => void }) => {
     setError("");
     onContinue();
   };
-  console.log("lungime text", text.length);
+  console.log("lungime text", value.length);
 
   return (
     <div className="w-full flex flex-col gap-[2.4rem]">
@@ -31,14 +41,14 @@ export const LogMoodStep3 = ({ onContinue }: { onContinue: () => void }) => {
       {/* Textarea */}
       <div className="flex flex-col gap-[0.8rem]">
         <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           maxLength={MAX_CHARS}
           placeholder="Today I felt..."
-          className="resize-none w-full !h-[15rem] border-[1px] border-neutral-300 bg-neutral-0 rounded-[1rem]  px-[1.6rem] py-[1.2rem] placeholder:text-[1.8rem] placeholder:leading-[130%] placeholder:tracking-[0px] placeholder:italic placeholder:text-neutral-600 text-preset-6-regular text-neutral-900 outline-focus"
+          className="resize-none w-full !h-[15rem] border border-neutral-300 bg-neutral-0 rounded-[1rem]  px-[1.6rem] py-[1.2rem] placeholder:text-[1.8rem] placeholder:leading-[130%] placeholder:tracking-[0px] placeholder:italic placeholder:text-neutral-600 text-preset-6-regular text-neutral-900 outline-focus"
         />
         <div className="self-end text-preset-8">
-          {text.length}/{MAX_CHARS}
+          {value.length}/{MAX_CHARS}
         </div>
       </div>
 

@@ -51,6 +51,7 @@ export const ProfileDetails = ({
       }));
       return;
     }
+
     try {
       setLoading(true);
 
@@ -139,7 +140,7 @@ export const ProfileDetails = ({
                   Max 250K, PNG or JPEG
                 </p>
 
-                <div className="relative ">
+                <div className="relative focus-within:outline-2 focus-within:outline-blue-600 focus-within:outline-offset-4 rounded-[0.8rem]">
                   <input
                     type="file"
                     //  accept="image/png, image/jpeg"

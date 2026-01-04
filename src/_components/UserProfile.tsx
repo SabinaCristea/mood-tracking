@@ -99,8 +99,8 @@ export const UserProfile = ({
               {emailAddress}
             </p>
             <hr className="pt-[1.2rem] border-blue-100 " />
-            <div
-              className="flex items-center gap-4 hover:cursor-pointer"
+            <button
+              className="flex items-center gap-4 hover:cursor-pointer outline-focus"
               onClick={() => {
                 setIsProfileDropdownOpen(false);
                 setIsProfileDetailsOpen(true);
@@ -113,10 +113,10 @@ export const UserProfile = ({
                 height={16}
               />
               <p className="text-preset-7">Settings</p>
-            </div>
+            </button>
 
-            <div
-              className="flex items-center gap-4 pt-[1.2rem] hover:cursor-pointer"
+            <button
+              className="flex items-center gap-4 mt-[1.2rem] hover:cursor-pointer outline-focus"
               onClick={() => {
                 signOut();
                 router.push("/sign-in");
@@ -124,7 +124,7 @@ export const UserProfile = ({
             >
               <Image src={logoutIcon} alt="Logout Icon" />
               <p className="text-preset-7">Logout</p>
-            </div>
+            </button>
           </div>
         )}
       </div>

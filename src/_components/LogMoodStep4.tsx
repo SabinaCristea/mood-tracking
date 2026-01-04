@@ -5,28 +5,42 @@ import React, { useState } from "react";
 import { Button } from "./Button";
 
 import infoIcon from "/public/assets/images/info-circle.svg";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { Id } from "../../convex/_generated/dataModel";
 
-const options = [
-  { id: 1, label: "9+ hours" },
-  { id: 2, label: "7-8 hours" },
-  { id: 3, label: "5-6 hours" },
-  { id: 4, label: "3-4 hours" },
-  { id: 5, label: "0-2 hours" },
-];
+// const options = [
+//   { id: 1, label: "9+ hours" },
+//   { id: 2, label: "7-8 hours" },
+//   { id: 3, label: "5-6 hours" },
+//   { id: 4, label: "3-4 hours" },
+//   { id: 5, label: "0-2 hours" },
+// ];
 
-export const LogMoodStep4 = ({
-  onSubmit,
-  loading,
-}: {
+type LogMoodStep4Props = {
+  value: Id<"sleepOptions"> | null;
+  onChange: (value: Id<"sleepOptions">) => void;
   onSubmit: () => void;
   loading: boolean;
-}) => {
-  const [selected, setSelected] = useState<number | null>(null);
+};
+
+export const LogMoodStep4 = ({
+  value,
+  onChange,
+  onSubmit,
+  loading,
+}: LogMoodStep4Props) => {
+  //const [selected, setSelected] = useState<number | null>(null);
 
   const [error, setError] = useState<string>("");
 
+  const options = useQuery(api.functions.getSleepOptions.getSleepOptions);
+
+  //useQuery returns undefined on first render.
+  if (!options) return null;
+
   const handleSubmit = () => {
-    if (selected === null) {
+    if (!value) {
       setError("Please select an option before submitting.");
       return;
     }
@@ -41,16 +55,16 @@ export const LogMoodStep4 = ({
       </h1>
 
       <section role="options" className="flex flex-col gap-[1.2rem]">
-        {options.map((opt) => (
+        {options?.map((opt) => (
           <button
-            key={opt.id}
-            onClick={() => setSelected(opt.id)}
+            key={opt._id}
+            onClick={() => onChange(opt._id)}
             className={`
-              px-[2rem] py-[1.2rem] flex items-center gap-[1.2rem]
-              border-[2px] rounded-[1rem] bg-white outline-focus
+              px-8 py-[1.2rem] flex items-center gap-[1.2rem]
+              border-2 rounded-2xl bg-white outline-focus
               transition-all
               ${
-                selected === opt.id
+                value === opt._id
                   ? "border-blue-600 bg-blue-50"
                   : "border-blue-100"
               }
@@ -58,10 +72,10 @@ export const LogMoodStep4 = ({
           >
             <div
               className={`
-                w-[2rem] h-[2rem] rounded-full border-[2px]
+                w-8 h-8 rounded-full border-2
                 transition-all
                 ${
-                  selected === opt.id
+                  value === opt._id
                     ? "border-blue-600 border-[5px]"
                     : "border-blue-200 bg-white"
                 }
