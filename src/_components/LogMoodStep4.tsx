@@ -34,7 +34,7 @@ export const LogMoodStep4 = ({
 
   const [error, setError] = useState<string>("");
 
-  const options = useQuery(api.functions.getSleepOptions.getSleepOptions);
+  const options = useQuery(api.sleep.getSleepOptions.getSleepOptions);
 
   //useQuery returns undefined on first render.
   if (!options) return null;

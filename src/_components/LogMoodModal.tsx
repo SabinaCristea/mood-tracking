@@ -19,11 +19,13 @@ export const LogMoodModal = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const [draft, setDraft] = useState<MoodEntryDraft>({
-    mood: null,
+    moodOptionId: null,
     feelings: [],
     note: "",
     sleepOptionId: null,
   });
+
+  console.log(draft);
 
   const updateDraft = <K extends keyof MoodEntryDraft>(
     key: K,
@@ -45,11 +47,11 @@ export const LogMoodModal = ({
     }
   };
 
-  const createMood = useMutation(api.functions.moods.createMood);
+  const createMood = useMutation(api.moods.moods.createMood);
 
   const saveMood = async (draft: MoodEntryDraft) => {
     if (
-      draft.mood === null ||
+      draft.moodOptionId === null ||
       draft.sleepOptionId === null ||
       draft.feelings.length === 0 ||
       !draft.note
@@ -58,7 +60,7 @@ export const LogMoodModal = ({
     }
 
     await createMood({
-      mood: draft.mood,
+      moodOptionId: draft.moodOptionId,
       feelings: draft.feelings,
       note: draft.note,
       sleepOptionId: draft.sleepOptionId,
@@ -101,8 +103,10 @@ export const LogMoodModal = ({
 
         <TabPanel>
           <LogMoodStep1
-            value={draft.mood}
-            onChange={(mood) => updateDraft("mood", mood)}
+            value={draft.moodOptionId}
+            onChange={(moodOptionId) =>
+              updateDraft("moodOptionId", moodOptionId)
+            }
             onContinue={() => setStep(1)}
           />
         </TabPanel>

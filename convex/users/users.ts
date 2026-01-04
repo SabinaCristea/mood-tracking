@@ -3,42 +3,24 @@ import { v } from "convex/values";
 
 export const syncClerkUser = mutation({
   args: {
-    clerkUser: v.object({
-      id: v.string(),
-      firstName: v.optional(v.string()),
-      lastName: v.optional(v.string()),
-      imageUrl: v.optional(v.string()),
-      emailAddresses: v.optional(
-        v.array(
-          v.object({
-            emailAddress: v.string(),
-          })
-        )
-      ),
-    }),
+    clerkId: v.string(),
+    email: v.string(),
+    firstName: v.string(),
+    lastName: v.string(),
+    imageUrl: v.string(),
   },
 
-  handler: async (ctx, { clerkUser }) => {
+  handler: async (ctx, args) => {
     const existing = await ctx.db
       .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", clerkUser.id))
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", args.clerkId))
       .unique();
 
-    const userData = {
-      clerkId: clerkUser.id,
-      firstName: clerkUser.firstName ?? "",
-      lastName: clerkUser.lastName ?? "",
-      imageUrl: clerkUser.imageUrl ?? "",
-      email: clerkUser.emailAddresses?.[0]?.emailAddress ?? "",
-    };
+    if (existing) return;
 
-    if (existing) {
-      await ctx.db.patch(existing._id, userData);
-    } else {
-      await ctx.db.insert("users", {
-        ...userData,
-        createdAt: Date.now(),
-      });
-    }
+    await ctx.db.insert("users", {
+      ...args,
+      createdAt: Date.now(),
+    });
   },
 });

@@ -14,6 +14,7 @@ import { MoodEntryDraft } from "@/_lib/helpers/types";
 import { MOOD_MAP_REVERSE } from "@/_lib/helpers/moodMaps";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { Id } from "../../convex/_generated/dataModel";
 
 const MOOD_ICONS: Record<number, StaticImageData> = {
   2: VeryHappyface,
@@ -32,8 +33,8 @@ const MOOD_ICONS: Record<number, StaticImageData> = {
 // ];
 
 type LogMoodStep1Props = {
-  value: MoodEntryDraft["mood"];
-  onChange: (value: MoodEntryDraft["mood"]) => void;
+  value: Id<"moodOptions"> | null;
+  onChange: (value: Id<"moodOptions">) => void;
   onContinue: () => void;
 };
 
@@ -49,7 +50,7 @@ export const LogMoodStep1 = ({
 
   // const options = useQuery(api.functions.moods.);
 
-  const options = useQuery(api.functions.getMoodsOptions.getMoodsOptions);
+  const options = useQuery(api.moods.getMoodsOptions.getMoodsOptions);
 
   if (!options) return null;
 
@@ -73,7 +74,7 @@ export const LogMoodStep1 = ({
       <section role="options" className="flex flex-col gap-[1.2rem]">
         {options.map((opt) => (
           <button
-            key={opt.id}
+            key={opt._id}
             //onClick={() => onChange(opt.id)}
             onClick={() => onChange(opt._id)}
             className={`

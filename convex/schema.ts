@@ -14,7 +14,7 @@ export default defineSchema({
 
   moods: defineTable({
     userId: v.id("users"),
-    mood: v.number(),
+    moodOptionId: v.id("moodOptions"),
     feelings: v.array(v.string()),
     note: v.string(),
     sleepOptionId: v.id("sleepOptions"),

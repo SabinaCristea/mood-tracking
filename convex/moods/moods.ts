@@ -3,7 +3,7 @@ import { v } from "convex/values";
 
 export const createMood = mutation({
   args: {
-    mood: v.number(),
+    moodOptionId: v.id("moodOptions"),
     feelings: v.array(v.string()),
     note: v.string(),
     sleepOptionId: v.id("sleepOptions"),
@@ -17,11 +17,13 @@ export const createMood = mutation({
       .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
       .unique();
 
-    if (!user) throw new Error("User not found");
+    if (!user) {
+      throw new Error("User not found. Did you forget to sync the Clerk user?");
+    }
 
     await ctx.db.insert("moods", {
       userId: user._id,
-      mood: args.mood,
+      moodOptionId: args.moodOptionId,
       feelings: args.feelings,
       note: args.note,
       sleepOptionId: args.sleepOptionId,
