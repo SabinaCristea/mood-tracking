@@ -12,6 +12,9 @@ import { LogMoodModal } from "@/_components/LogMoodModal";
 import { Button } from "@/_components/Button";
 import { UserProfile } from "@/_components/UserProfile";
 import { ProfileDetails } from "@/_components/ProfileDetails";
+import { useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { TodayMoodSummary } from "@/_components/TodayMoodSummary";
 
 export default function HomePage() {
   const { isLoaded, isSignedIn } = useAuth();
@@ -27,11 +30,19 @@ export default function HomePage() {
 
   const firstName = user?.firstName;
 
+  const todayMood = useQuery(api.moods.moods.getMoodForToday);
+
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       router.replace("/sign-in");
     }
   }, [isLoaded, isSignedIn, router]);
+
+  if (todayMood?.mood?.label === undefined) return null;
+  if (todayMood?.randomQuote?.text === undefined) return null;
+  if (todayMood?.sleep?.label === undefined) return null;
+
+  console.log(todayMood);
 
   if (!isLoaded || !isSignedIn) {
     return null;
@@ -67,10 +78,21 @@ export default function HomePage() {
             {today}
           </p>
 
-          <Button
-            onClick={() => setIsLogOpen((prev) => !prev)}
-            label="Log today's mood"
-          />
+          {todayMood === null ? (
+            <Button
+              onClick={() => setIsLogOpen((prev) => !prev)}
+              label="Log today's mood"
+            />
+          ) : (
+            <TodayMoodSummary
+              moodLabel={todayMood.mood.label}
+              moodOrder={todayMood.mood.order}
+              moodQuote={todayMood.randomQuote.text}
+              hoursOfSleep={todayMood.sleep.label}
+              reflection={todayMood.note}
+              feelings={todayMood.feeling}
+            />
+          )}
         </div>
         {isLogOpen && <LogMoodModal setOpen={setIsLogOpen} />}
 

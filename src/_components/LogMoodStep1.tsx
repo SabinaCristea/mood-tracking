@@ -11,18 +11,11 @@ import { Button } from "./Button";
 
 import infoIcon from "/public/assets/images/info-circle.svg";
 import { MoodEntryDraft } from "@/_lib/helpers/types";
-import { MOOD_MAP_REVERSE } from "@/_lib/helpers/moodMaps";
+
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
-
-const MOOD_ICONS: Record<number, StaticImageData> = {
-  2: VeryHappyface,
-  1: Happyface,
-  0: Neutralface,
-  "-1": Sadface,
-  "-2": VerySadface,
-};
+import { MOOD_ICONS } from "@/_lib/helpers/moodFaces";
 
 // const options = [
 //   { id: 2, label: "Very Happy", icon: VeryHappyface },
@@ -43,18 +36,13 @@ export const LogMoodStep1 = ({
   onChange,
   onContinue,
 }: LogMoodStep1Props) => {
-  //const [selected, setSelected] = useState<number | null>(null);
   const selected = value;
 
   const [error, setError] = useState<string>("");
 
-  // const options = useQuery(api.functions.moods.);
-
   const options = useQuery(api.moods.getMoodsOptions.getMoodsOptions);
 
   if (!options) return null;
-
-  //const uiMood = MOOD_MAP_REVERSE[value];
 
   const handleContinue = () => {
     if (selected === null) {
@@ -75,7 +63,6 @@ export const LogMoodStep1 = ({
         {options.map((opt) => (
           <button
             key={opt._id}
-            //onClick={() => onChange(opt.id)}
             onClick={() => onChange(opt._id)}
             className={`
               px-8 py-[1.2rem] flex items-center gap-[1.2rem]

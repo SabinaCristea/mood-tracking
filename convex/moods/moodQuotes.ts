@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query } from "../_generated/server";
+import { getRandomQuoteForMoodOption } from "./helpers";
 
 export const getRandomQuoteForMood = query({
   args: { mood: v.number() },
@@ -11,13 +12,6 @@ export const getRandomQuoteForMood = query({
 
     if (!moodOption) return null;
 
-    const quotes = await ctx.db
-      .query("moodQuotes")
-      .filter((q) => q.eq(q.field("moodOptionId"), moodOption._id))
-      .collect();
-
-    if (quotes.length === 0) return null;
-
-    return quotes[Math.floor(Math.random() * quotes.length)];
+    return await getRandomQuoteForMoodOption(ctx.db, moodOption._id);
   },
 });
