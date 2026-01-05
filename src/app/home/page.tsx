@@ -30,17 +30,19 @@ export default function HomePage() {
 
   const firstName = user?.firstName;
 
-  const todayMood = useQuery(api.moods.moods.getMoodForToday);
-
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       router.replace("/sign-in");
     }
   }, [isLoaded, isSignedIn, router]);
 
-  if (todayMood?.mood?.label === undefined) return null;
-  if (todayMood?.randomQuote?.text === undefined) return null;
-  if (todayMood?.sleep?.label === undefined) return null;
+  const todayMood = useQuery(api.moods.moods.getMoodForToday);
+
+  if (todayMood === undefined) {
+    // query still loading
+    return null; // or a spinner/skeleton
+  }
+
 
   console.log(todayMood);
 
@@ -78,23 +80,26 @@ export default function HomePage() {
             {today}
           </p>
 
-          {todayMood === null ? (
+          {todayMood === null && (
             <Button
               onClick={() => setIsLogOpen((prev) => !prev)}
               label="Log today's mood"
             />
-          ) : (
-            <TodayMoodSummary
-              moodLabel={todayMood.mood.label}
-              moodOrder={todayMood.mood.order}
-              moodQuote={todayMood.randomQuote.text}
-              hoursOfSleep={todayMood.sleep.label}
-              reflection={todayMood.note}
-              feelings={todayMood.feeling}
-            />
           )}
         </div>
+
         {isLogOpen && <LogMoodModal setOpen={setIsLogOpen} />}
+
+        {todayMood && (
+          <TodayMoodSummary
+            moodLabel={todayMood?.mood?.label}
+            moodOrder={todayMood?.mood?.order}
+            moodQuote={todayMood?.randomQuote?.text}
+            hoursOfSleep={todayMood?.sleep?.label}
+            reflection={todayMood.note}
+            feelings={todayMood.feeling}
+          />
+        )}
 
         <div className="flex flex-col lg:flex-row lg:gap-[3.2rem] lg:mt-[6.4rem] mb-32">
           {/* AVERAGE MOOD */}

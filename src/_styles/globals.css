@@ -36,6 +36,22 @@ body {
   @apply focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600;
 }
 
+.text-preset-2 {
+  @apply text-[4rem] leading-[120%] tracking-[0.3px];
+}
+
+.text-preset-2-mobile {
+  @apply text-[3.2rem] leading-[120%] tracking-[0.3px];
+}
+
+.text-preset-3 {
+  @apply text-[3.2rem] leading-[140%] tracking-[0.3px];
+}
+
+.text-preset-3-mobile {
+  @apply text-[2.8rem] leading-[130%] tracking-[0.3px];
+}
+
 .text-preset-5 {
   @apply text-[2rem] leading-[140%] tracking-[0px];
 }

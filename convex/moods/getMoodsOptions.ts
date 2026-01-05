@@ -6,7 +6,3 @@ export const getMoodsOptions = query(async (ctx) => {
     .withIndex("by_order", (q) => q)
     .collect();
 });
-
-export const testPing = query(() => {
-  return "ok";
-});
