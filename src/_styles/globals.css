@@ -75,3 +75,7 @@ body {
 .text-preset-8 {
   @apply text-[1.3rem] leading-[100%] tracking-[0px] font-semibold text-neutral-600;
 }
+
+.text-preset-9 {
+  @apply text-[1.2rem] leading-[110%] tracking-[0px]  text-neutral-600;
+}

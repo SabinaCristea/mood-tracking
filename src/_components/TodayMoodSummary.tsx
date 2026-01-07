@@ -32,7 +32,7 @@ export const TodayMoodSummary = ({
         <Image
           src={MOOD_ICONS[moodOrder]}
           alt="emoji"
-          className="w-[20rem] h-[20rem] m-auto "
+          className="w-[20rem] h-[20rem] m-auto"
         />
         <div className="flex flex-col items-center gap-[1.6rem]">
           <Image
@@ -40,7 +40,7 @@ export const TodayMoodSummary = ({
             alt="quotes icon"
             className="m-auto w-[2.4rem] h-[2.4rem] "
           />
-          <blockquote className="text-preset-6-italic text-center text-neutral-900!">
+          <blockquote className="text-preset-6-italic text-center text-neutral-900! font-medium">
             “{moodQuote}”
           </blockquote>
         </div>
@@ -60,7 +60,7 @@ export const TodayMoodSummary = ({
               Reflection of the day
             </p>
           </div>
-          <p className="text-preset-6 h-[8rem] text-neutral-900">
+          <p className="text-preset-6 h-[8rem] text-neutral-900 font-medium">
             {reflection}
           </p>
           <div className="flex gap-[1.2rem]">

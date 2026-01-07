@@ -1,184 +1,374 @@
 import React from "react";
 import Chart from "chart.js";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
-import { ReactComponent as SleepSVG } from "./../../public/assets/images/icon-sleep.svg";
+const getTintedCanvas = (img, color) => {
+  const buffer = document.createElement("canvas");
+  buffer.width = img.width || 30;
+  buffer.height = img.height || 30;
+  const bctx = buffer.getContext("2d");
+
+  // Draw the original SVG icon
+  bctx.drawImage(img, 0, 0, buffer.width, buffer.height);
+
+  // Use 'source-in' to only keep the color where the icon pixels exist
+  bctx.globalCompositeOperation = "source-in";
+  bctx.fillStyle = color;
+  bctx.fillRect(0, 0, buffer.width, buffer.height);
+
+  return buffer;
+};
+
+const DAYS = 11;
+
+const ICON_PATHS = {
+  "-2": "/assets/images/icon-very-sad-white.svg",
+  "-1": "/assets/images/icon-sad-white.svg",
+  "0": "/assets/images/icon-neutral-white.svg",
+  "1": "/assets/images/icon-happy-white.svg",
+  "2": "/assets/images/icon-very-happy-white.svg",
+  sleep: "/assets/images/icon-sleep.svg",
+};
+
+export const loadImage = (src: string): Promise<HTMLImageElement> =>
+  new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Failed to load image at ${src}`));
+  });
 
 export default function CardBarChart() {
+  const recentMoods = useQuery(api.moods.getRecentMoods.getRecentMoods);
+
+  const chartRef = React.useRef<Chart | null>(null);
+
   React.useEffect(() => {
-    // Generate last 15 days
-    const labels = Array.from({ length: 11 }).map((_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - (10 - i)); // oldest → newest
-      return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-    });
+    if (!recentMoods) return;
 
-    const colorForHour = (h) => {
-      if (h <= 2) return "#FF9E9E"; // red
-      if (h <= 4) return "#FFB87A"; // orange
-      if (h <= 6) return "#FFD47B"; // yellow
-      if (h <= 8) return "#8EF2A0"; // green
-      return "#8DD3FF"; // blue (9+)
+    // 1. Load all images first
+    const loadAllIcons = async () => {
+      try {
+        const loadedIcons: Record<string, HTMLImageElement> = {};
+        await Promise.all(
+          Object.entries(ICON_PATHS).map(async ([key, path]) => {
+            loadedIcons[key] = await loadImage(path);
+          })
+        );
+
+        // 2. Once images are ready, initialize chart
+        initChart(loadedIcons);
+      } catch (error) {
+        console.error("Error loading icons:", error);
+      }
     };
 
-    const emojiForHour = (h) => {
-      if (h <= 2) return "😴";
-      if (h <= 4) return "😐";
-      if (h <= 6) return "🙂";
-      if (h <= 8) return "😃";
-      return "🚀";
-    };
+    const initChart = (moodIcons: Record<string, HTMLImageElement>) => {
+      const days = Array.from({ length: DAYS }).map((_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (DAYS - 1 - i));
+        d.setHours(0, 0, 0, 0);
+        return d;
+      });
 
-    const hours = [8, 7, 6, 10, 6, 5, 7, 7, 8, 8, 9];
-    const backgroundColors = hours.map(colorForHour);
+      const moodByDay = new Map<string, (typeof recentMoods)[0]>();
 
-    const config = {
-      type: "bar",
-      data: {
-        labels,
-        datasets: [
-          {
-            // label: new Date().getFullYear(),
-            backgroundColor: backgroundColors,
-            borderColor: backgroundColors,
-            //data: hours,
-            data: [],
-            fill: false,
-            barThickness: 40,
-            categoryPercentage: 0.6, // ADD GAP BETWEEN CATEGORIES
-            barPercentage: 0.7,
+      recentMoods.forEach((mood) => {
+        const d = new Date(mood.createdAt);
+        d.setHours(0, 0, 0, 0);
+        moodByDay.set(d.toISOString(), mood);
+      });
+
+      const labels = days.map((d) =>
+        d.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+      );
+
+      const sleepHoursForOrder = (order?: number) => {
+        switch (order) {
+          case 1:
+            return 10; // 9h +
+          case 2:
+            return 8; // 7-8
+          case 3:
+            return 6; // 5-6
+          case 4:
+            return 4; //3-4
+          case 5:
+            return 2; // 0-2
+          default:
+            return null;
+        }
+      };
+
+      const sleepHeights = days.map((day) => {
+        const mood = moodByDay.get(day.toISOString());
+        if (!mood) return null;
+        return sleepHoursForOrder(mood.sleep?.order);
+      });
+
+      const moodValues = days.map((day) => {
+        const mood = moodByDay.get(day.toISOString());
+        return mood?.mood?.order ?? null;
+      });
+
+      const colorForMoodOption = (mood: number) => {
+        switch (mood) {
+          case -2:
+            return "#FF9B99";
+          case -1:
+            return "#B8B1FF";
+          case 0:
+            return "#89CAFF";
+          case 1:
+            return "#89E780";
+          case 2:
+            return "#FFC97C";
+          default:
+            return "transparent";
+        }
+      };
+
+      const backgroundColors = moodValues.map(colorForMoodOption);
+
+      const sleepImg = moodIcons["sleep"];
+      const neutral600 = "#525252"; // Hex for neutral-600
+      const tintedSleepIcon = sleepImg
+        ? getTintedCanvas(sleepImg, neutral600)
+        : null;
+
+      const config = {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              data: sleepHeights,
+              backgroundColor: backgroundColors,
+              borderColor: backgroundColors,
+
+              fill: false,
+              barThickness: 40,
+              categoryPercentage: 0.6, // ADD GAP BETWEEN CATEGORIES
+              barPercentage: 0.7,
+              base: -2,
+            },
+          ],
+        },
+        options: {
+          indexAxis: "y",
+          maintainAspectRatio: false,
+          responsive: false, // REQUIRED so custom width works
+          // responsive: true,
+          layout: {
+            padding: { top: 20, bottom: 90, left: 55 },
           },
-        ],
-      },
-      options: {
-        indexAxis: "y",
-        maintainAspectRatio: false,
-        responsive: false, // ⭐ REQUIRED so custom width works
-        // responsive: true,
-        layout: {
-          padding: { top: 20, bottom: 50 },
-        },
-        legend: {
-          display: false,
-        },
-        scales: {
-          xAxes: [
-            {
-              display: true,
-              gridLines: {
-                display: false,
-                drawBorder: false,
-              },
-              ticks: {
-                autoSkip: false, // 👈 REQUIRED
+          legend: {
+            display: false,
+          },
+          scales: {
+            xAxes: [
+              {
+                display: true,
+                gridLines: {
+                  display: false,
+                  drawBorder: false,
+                },
+                ticks: {
+                  display: false,
+                  autoSkip: false, // 👈 REQUIRED
 
-                callback: function (value) {
-                  const [month, day] = value.split(" ");
-                  return [month, day];
+                  callback: function (value) {
+                    const [month, day] = value.split(" ");
+                    return [month, day];
+                  },
+                  fontColor: "#333",
+
+                  padding: 10,
+                  fontFamily: "'Reddit Sans', sans-serif",
                 },
-                fontColor: "#333",
-                padding: 10,
-                fontFamily: "Inter, Arial, sans-serif",
               },
-            },
-          ],
-          yAxes: [
-            {
-              display: true,
-              ticks: {
-                min: 0,
-                max: 8, // needed to align the labels
-                stepSize: 2, // generates values: 0,2,4,6,8,10
-                fontFamily: "Inter, Arial, sans-serif",
-                callback: function (value) {
-                  const map = {
-                    0: "💤 0–2 hours",
-                    2: "💤 3–4 hours",
-                    4: "💤 5–6 hours",
-                    6: "💤 7–8 hours",
-                    8: "💤 9+ hours",
-                  };
-                  return map[value] || "";
+            ],
+            yAxes: [
+              {
+                display: true,
+                ticks: {
+                  min: 0,
+                  max: 10, // needed to align the labels
+                  stepSize: 2, // generates values: 0,2,4,6,8,10
+                  fontFamily: "'Reddit Sans', sans-serif",
+                  fontSize: 12,
+                  padding: 50,
+                  mirror: true,
+                  // labelOffset: -120,
+                  textAlign: "left",
+
+                  callback: function (value) {
+                    const map = {
+                      2: " 0–2 hours",
+                      4: " 3–4 hours",
+                      6: " 5–6 hours",
+                      8: " 7–8 hours",
+                      10: " 9+ hours",
+                    };
+                    return map[value] || "";
+                  },
+                  fontColor: "#525252",
                 },
-                fontColor: "rgba(76, 84, 92, 0.6)",
-                padding: 10,
+                gridLines: {
+                  display: false,
+                  borderDash: [1],
+                  drawBorder: false,
+                  borderDashOffset: [2],
+                  color: "rgba(76, 84, 92, 0.2)",
+                },
               },
-              gridLines: {
-                borderDash: [1],
-                drawBorder: false,
-                borderDashOffset: [2],
-                color: "rgba(76, 84, 92, 0.2)",
-              },
-            },
-          ],
+            ],
+          },
         },
-      },
-      plugins: {
-        afterDatasetsDraw: function (chart) {
-          const ctx = chart.ctx;
-          chart.data.datasets.forEach((dataset, datasetIndex) => {
-            const meta = chart.getDatasetMeta(datasetIndex);
+        plugins: {
+          afterDatasetsDraw: function (chart) {
+            const ctx = chart.ctx;
+            const xAxis = chart.scales["x-axis-0"];
+            const yAxis = chart.scales["y-axis-0"];
+
+            // --- 1. Draw Mood Icons on Bars
+            // chart.data.datasets.forEach((dataset, datasetIndex) => {
+            // const meta = chart.getDatasetMeta(datasetIndex);
+            const meta = chart.getDatasetMeta(0);
+
             meta.data.forEach((bar, index) => {
-              const x = bar._model.x;
-              const y = bar._model.y;
-
-              // Draw emoji inside bar near top
-              ctx.font = "18px Arial";
-              ctx.textAlign = "center";
-              ctx.textBaseline = "bottom"; // aligns text to top of bar
-              ctx.fillStyle = "#000"; // contrast color
-              ctx.fillText(emojiForHour(dataset.data[index]), x, y + 25);
-              // +5 to move slightly down inside bar
+              const mood = moodValues[index];
+              const img = moodIcons[mood?.toString()];
+              if (img) {
+                const x = bar._model.x;
+                const y = bar._model.y;
+                const size = 30;
+                ctx.drawImage(img, x - size / 2, y + 5, size, size);
+              }
             });
-          });
+
+            // --- 2. Draw Sleep Icons on Y-Axis
+
+            const yScale = chart.scales["y-axis-0"];
+            if (tintedSleepIcon) {
+              yScale.ticks.forEach((label, index) => {
+                if (!label) return;
+                const yPos = yScale.getPixelForTick(index);
+
+                // Draw the TINTED canvas instead of the original image
+                ctx.drawImage(
+                  tintedSleepIcon,
+                  yScale.left - 53,
+                  yPos - 6,
+                  12,
+                  12
+                );
+              });
+            }
+
+            // --- DRAW X-AXIS (Bold Days) ---
+            chart.data.labels.forEach((label, index) => {
+              const [month, day] = label.split(" ");
+              const meta = chart.getDatasetMeta(0);
+              const xPos = meta.data[index]._model.x; // Get horizontal center of the bar
+              const yPos = yAxis.bottom + 15; // Position just below the bottom of the chart
+
+              ctx.textAlign = "center";
+              ctx.textBaseline = "top";
+
+              // 1. Draw the Month (Regular)
+              ctx.font = "400 12px 'Reddit Sans', sans-serif";
+              ctx.fillStyle = "#666";
+              ctx.fillText(month, xPos, yPos);
+
+              // 2. Draw the Day (Bold)
+              ctx.font = "700 13px 'Reddit Sans', sans-serif"; // 700 is Bold
+              ctx.fillStyle = "#333";
+              ctx.fillText(day, xPos, yPos + 16); // Shift down slightly (16px) for the second line
+            });
+
+            // });
+          },
         },
-      },
+      };
+
+      // ⭐ Full rounded bars for Chart.js v2
+      Chart.elements.Rectangle.prototype.draw = function () {
+        const ctx = this._chart.ctx;
+        const vm = this._view;
+        const x = vm.x;
+        const y = vm.y;
+        const width = vm.width;
+        const height = vm.base - vm.y;
+
+        const radius = 22; // 👈 adjust roundness
+
+        let left = x - width / 2;
+        let right = x + width / 2;
+        let top = y;
+        let bottom = vm.base;
+
+        ctx.beginPath();
+        ctx.fillStyle = vm.backgroundColor;
+
+        // Rounded rectangle
+        ctx.moveTo(left + radius, top);
+        ctx.lineTo(right - radius, top);
+        ctx.quadraticCurveTo(right, top, right, top + radius);
+        ctx.lineTo(right, bottom - radius);
+        ctx.quadraticCurveTo(right, bottom, right - radius, bottom);
+        ctx.lineTo(left + radius, bottom);
+        ctx.quadraticCurveTo(left, bottom, left, bottom - radius);
+        ctx.lineTo(left, top + radius);
+        ctx.quadraticCurveTo(left, top, left + radius, top);
+
+        ctx.fill();
+      };
+
+      // const ctx = document.getElementById("bar-chart").getContext("2d");
+
+      // const canvas = document.getElementById("bar-chart") as HTMLCanvasElement;
+      // canvas.width = Math.max(600, DAYS * 80);
+      // ⭐ SET CANVAS WIDTH so scrolling is possible
+      // canvas.width = 900; // adjust if you want more/less scroll
+
+      // const ctx = canvas.getContext("2d")!;
+
+      //   if (window.myBar) window.myBar.destroy();
+      //   window.myBar = new Chart(ctx, config);
+      // }, [recentMoods]);
+
+      // if ((window as any).sleepChart) {
+      //   (window as any).sleepChart.destroy();
+      // }
+
+      // (window as any).sleepChart = new Chart(ctx, config);
+      const canvas = document.getElementById("bar-chart") as HTMLCanvasElement;
+      if (canvas) {
+        canvas.width = Math.max(600, DAYS * 80);
+        const ctx = canvas.getContext("2d")!;
+        if (chartRef.current) chartRef.current.destroy();
+        chartRef.current = new Chart(ctx, config as any);
+      }
     };
 
-    // ⭐ Full rounded bars for Chart.js v2
-    Chart.elements.Rectangle.prototype.draw = function () {
-      const ctx = this._chart.ctx;
-      const vm = this._view;
-      const x = vm.x;
-      const y = vm.y;
-      const width = vm.width;
-      const height = vm.base - vm.y;
+    loadAllIcons();
 
-      const radius = 22; // 👈 adjust roundness
-
-      let left = x - width / 2;
-      let right = x + width / 2;
-      let top = y;
-      let bottom = vm.base;
-
-      ctx.beginPath();
-      ctx.fillStyle = vm.backgroundColor;
-
-      // Rounded rectangle
-      ctx.moveTo(left + radius, top);
-      ctx.lineTo(right - radius, top);
-      ctx.quadraticCurveTo(right, top, right, top + radius);
-      ctx.lineTo(right, bottom - radius);
-      ctx.quadraticCurveTo(right, bottom, right - radius, bottom);
-      ctx.lineTo(left + radius, bottom);
-      ctx.quadraticCurveTo(left, bottom, left, bottom - radius);
-      ctx.lineTo(left, top + radius);
-      ctx.quadraticCurveTo(left, top, left + radius, top);
-
-      ctx.fill();
+    return () => {
+      if (chartRef.current) chartRef.current.destroy();
     };
+  }, [recentMoods]);
 
-    // const ctx = document.getElementById("bar-chart").getContext("2d");
+  if (recentMoods === undefined) return null;
 
-    const canvas = document.getElementById("bar-chart");
-
-    // ⭐ SET CANVAS WIDTH so scrolling is possible
-    canvas.width = 900; // adjust if you want more/less scroll
-
-    const ctx = canvas.getContext("2d");
-
-    if (window.myBar) window.myBar.destroy();
-    window.myBar = new Chart(ctx, config);
-  }, []);
+  if (recentMoods.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center text-neutral-500">
+        No sleep data yet
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex flex-col min-w-0 break-words h-[42rem] lg:h-[40rem] ">
@@ -189,7 +379,3 @@ export default function CardBarChart() {
     </div>
   );
 }
-
-// focus-visible:outline-none
-//     focus-visible:ring-0
-//     focus-visible:border-neutral-300
