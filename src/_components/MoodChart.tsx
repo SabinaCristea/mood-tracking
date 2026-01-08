@@ -2,6 +2,8 @@ import React from "react";
 import Chart from "chart.js";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { CustomTooltip } from "./CustomTooltip";
+import NextImage from "next/image";
 
 const getTintedCanvas = (img, color) => {
   const buffer = document.createElement("canvas");
@@ -28,18 +30,27 @@ const ICON_PATHS = {
   "0": "/assets/images/icon-neutral-white.svg",
   "1": "/assets/images/icon-happy-white.svg",
   "2": "/assets/images/icon-very-happy-white.svg",
-  sleep: "/assets/images/icon-sleep.svg",
 };
+
+const sleepPath = "/assets/images/icon-sleep.svg";
 
 export const loadImage = (src: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
-    const img = new Image();
+    const img = new window.Image();
     img.src = src;
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error(`Failed to load image at ${src}`));
   });
 
 export default function CardBarChart() {
+  const [tooltip, setTooltip] = React.useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    data?: any;
+    alignRight?: boolean;
+  } | null>(null);
+
   const recentMoods = useQuery(api.moods.getRecentMoods.getRecentMoods);
 
   const chartRef = React.useRef<Chart | null>(null);
@@ -110,6 +121,16 @@ export default function CardBarChart() {
       const moodValues = days.map((day) => {
         const mood = moodByDay.get(day.toISOString());
         return mood?.mood?.order ?? null;
+      });
+
+      const reflection = days.map((day) => {
+        const mood = moodByDay.get(day.toISOString());
+        return mood?.note ?? "";
+      });
+
+      const tags = days.map((day) => {
+        const mood = moodByDay.get(day.toISOString());
+        return mood?.feelings ?? [];
       });
 
       const colorForMoodOption = (mood: number) => {
@@ -191,7 +212,7 @@ export default function CardBarChart() {
             ],
             yAxes: [
               {
-                display: true,
+                display: false,
                 ticks: {
                   min: 0,
                   max: 10, // needed to align the labels
@@ -225,6 +246,50 @@ export default function CardBarChart() {
               },
             ],
           },
+          tooltips: {
+            enabled: false, //  Turn off the default canvas tooltip
+            custom: function (tooltipModel) {
+              // Use 'this' to get the chart instance
+              const chartInstance = this._chart;
+              // If the tooltip is hidden, update state and exit
+              if (tooltipModel.opacity === 0) {
+                setTooltip(null);
+                return;
+              }
+
+              // 1. Get the scrollable container (the div wrapping the canvas)
+              const container =
+                chartInstance.canvas.closest(".overflow-x-auto");
+              if (!container) return;
+
+              // 2. Calculate the visible window
+              const scrollLeft = container.scrollLeft;
+              const viewportWidth = container.offsetWidth;
+              const visibleRightEdge = scrollLeft + viewportWidth;
+
+              // 3. Get the mouse position on the total canvas
+              const mouseX = tooltipModel.caretX;
+
+              // 4. Flip if the mouse is within 150px of the visible right edge
+              // OR if it's generally past the middle of the visible area
+              const alignRight = mouseX > visibleRightEdge - 180;
+
+              const index = tooltipModel.dataPoints[0].index;
+
+              setTooltip({
+                visible: true,
+                x: mouseX,
+                y: tooltipModel.caretY,
+                data: {
+                  mood: moodValues[index],
+                  sleep: sleepHeights[index],
+                  reflection: reflection[index],
+                  tags: tags[index],
+                },
+                alignRight, // Store this boolean
+              });
+            },
+          },
         },
         plugins: {
           afterDatasetsDraw: function (chart) {
@@ -250,22 +315,22 @@ export default function CardBarChart() {
 
             // --- 2. Draw Sleep Icons on Y-Axis
 
-            const yScale = chart.scales["y-axis-0"];
-            if (tintedSleepIcon) {
-              yScale.ticks.forEach((label, index) => {
-                if (!label) return;
-                const yPos = yScale.getPixelForTick(index);
+            // const yScale = chart.scales["y-axis-0"];
+            // if (tintedSleepIcon) {
+            //   yScale.ticks.forEach((label, index) => {
+            //     if (!label) return;
+            //     const yPos = yScale.getPixelForTick(index);
 
-                // Draw the TINTED canvas instead of the original image
-                ctx.drawImage(
-                  tintedSleepIcon,
-                  yScale.left - 53,
-                  yPos - 6,
-                  12,
-                  12
-                );
-              });
-            }
+            //     // Draw the TINTED canvas instead of the original image
+            //     ctx.drawImage(
+            //       tintedSleepIcon,
+            //       yScale.left - 53,
+            //       yPos - 6,
+            //       12,
+            //       12
+            //     );
+            //   });
+            // }
 
             // --- DRAW X-AXIS (Bold Days) ---
             chart.data.labels.forEach((label, index) => {
@@ -370,11 +435,90 @@ export default function CardBarChart() {
     );
   }
 
+  // return (
+  //   <div className="relative flex flex-col min-w-0 break-words h-[42rem] lg:h-[40rem] ">
+  //     {/* <div className="relative h-full"> */}
+  //     <div className="overflow-x-auto overflow-y-hidden h-[100%] outline-focus relative">
+  //       <canvas id="bar-chart"></canvas>
+
+  //       {/* Your External React Component */}
+  //       {tooltip && tooltip.visible && (
+  //         <div
+  //           className="absolute z-50 pointer-events-none transition-all duration-75 rounded-2xl drop-shadow-[0_4px_7px_#21214D16]"
+  //           style={{
+  //             left: tooltip.x,
+  //             top: tooltip.y - 20,
+  //             transform: tooltip.alignRight
+  //               ? "translate(-100%, -100%)"
+  //               : "translate(0%, -100%)",
+  //             marginLeft: tooltip.alignRight ? "-15px" : "15px",
+  //           }}
+  //         >
+  //           <CustomTooltip
+  //             mood={tooltip.data.mood}
+  //             sleep={tooltip.data.sleep}
+  //             reflection={tooltip.data.reflection}
+  //             tags={tooltip.data.tags}
+  //           />
+  //         </div>
+  //       )}
+  //     </div>
+  //   </div>
+  // );
+
+  //fix tooltip z index, y axis scroll, tooltip text
   return (
-    <div className="relative flex flex-col min-w-0 break-words h-[42rem] lg:h-[40rem] ">
-      {/* <div className="relative h-full"> */}
-      <div className="overflow-x-auto overflow-y-hidden h-[100%] outline-focus">
-        <canvas id="bar-chart"></canvas>
+    <div className="flex h-[40rem] w-full bg-white rounded-3xl overflow-hidden">
+      {/* 1. FIXED SIDEBAR */}
+      <div className="relative z-0 w-[100px] flex-shrink-0 bg-white flex flex-col justify-between pb-[11rem] pt-[0.7rem]">
+        {[10, 8, 6, 4, 2].map((value) => {
+          const labels: any = {
+            10: "9+ hours",
+            8: "7–8 hours",
+            6: "5–6 hours",
+            4: "3–4 hours",
+            2: "0–2 hours",
+          };
+          return (
+            <div key={value} className="flex items-center gap-3 h-10">
+              <NextImage
+                src="/assets/images/icon-sleep.svg"
+                className="w-[18px] opacity-60"
+                style={{ filter: "grayscale(1) brightness(0.4)" }}
+                alt="sleep icon"
+                width={12}
+                height={12}
+              />
+              <span className="text-[13px] font-reddit-sans text-neutral-500 whitespace-nowrap">
+                {labels[value]}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 2. SCROLLABLE CHART AREA */}
+      <div className=" z-100 grow overflow-x-auto relative scrollbar-hide">
+        <div style={{ width: Math.max(800, DAYS * 80) }} className="relative">
+          <canvas id="bar-chart"></canvas>
+
+          {/* 3. FLOATING TOOLTIP */}
+          {tooltip && tooltip.visible && (
+            <div
+              className="absolute z-1000 pointer-events-none transition-all duration-150"
+              style={{
+                left: tooltip.x,
+                bottom: 100,
+                transform: tooltip.alignRight
+                  ? "translateX(-100%)"
+                  : "translateX(0%)",
+                marginLeft: tooltip.alignRight ? "-20px" : "20px",
+              }}
+            >
+              <CustomTooltip {...tooltip.data} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
