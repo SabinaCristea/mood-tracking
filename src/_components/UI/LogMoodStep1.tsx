@@ -13,8 +13,8 @@ import infoIcon from "/public/assets/images/info-circle.svg";
 import { MoodEntryDraft } from "@/_lib/helpers/types";
 
 import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 import { MOOD_ICONS } from "@/_lib/helpers/moodFaces";
 
 // const options = [
@@ -60,11 +60,15 @@ export const LogMoodStep1 = ({
       </h1>
 
       <section role="options" className="flex flex-col gap-[1.2rem]">
-        {options.map((opt) => (
-          <button
-            key={opt._id}
-            onClick={() => onChange(opt._id)}
-            className={`
+        {options.map((opt) => {
+          const IconComponent =
+            MOOD_ICONS[opt.order as keyof typeof MOOD_ICONS];
+
+          return (
+            <button
+              key={opt._id}
+              onClick={() => onChange(opt._id)}
+              className={`
               px-8 py-[1.2rem] flex items-center gap-[1.2rem]
               border-2 rounded-2xl bg-white outline-focus
               transition-all
@@ -74,9 +78,9 @@ export const LogMoodStep1 = ({
                   : "border-blue-100"
               }
             `}
-          >
-            <div
-              className={`
+            >
+              <div
+                className={`
                 w-8 h-8 rounded-full border-2
                 transition-all
                 ${
@@ -85,19 +89,18 @@ export const LogMoodStep1 = ({
                     : "border-blue-200 bg-white"
                 }
               `}
-            ></div>
+              ></div>
 
-            <p className={`text-left text-[2rem] font-semibold `}>
-              {opt.label}
-            </p>
+              <p className={`text-left text-[2rem] font-semibold `}>
+                {opt.label}
+              </p>
 
-            <Image
-              src={MOOD_ICONS[opt.order]}
-              alt="emoji"
-              className="w-[3.8rem] h-[3.8rem] ml-auto"
-            />
-          </button>
-        ))}
+              {IconComponent && (
+                <IconComponent className="w-[3.8rem] h-[3.8rem] ml-auto" />
+              )}
+            </button>
+          );
+        })}
       </section>
 
       {error && (

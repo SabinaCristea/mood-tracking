@@ -1,14 +1,14 @@
-import { StaticImageData } from "next/image";
-import VeryHappyface from "/public/assets/images/icon-very-happy-color.svg";
-import Happyface from "/public/assets/images/icon-happy-color.svg";
-import Neutralface from "/public/assets/images/icon-neutral-color.svg";
-import Sadface from "/public/assets/images/icon-sad-color.svg";
-import VerySadface from "/public/assets/images/icon-very-sad-color.svg";
+import { VeryHappyIcon } from "@/_components/icons/VeryHappyIcon";
+import { HappyIcon } from "@/_components/icons/HappyIcon";
+import { NeutralIcon } from "@/_components/icons/NeutralIcon";
 
-export const MOOD_ICONS: Record<number, StaticImageData> = {
-  2: VeryHappyface,
-  1: Happyface,
-  0: Neutralface,
-  "-1": Sadface,
-  "-2": VerySadface,
+import { SadIcon } from "@/_components/icons/SadIcon";
+import { VerySadIcon } from "@/_components/icons/VerySadIcon";
+
+export const MOOD_ICONS = {
+  2: VeryHappyIcon,
+  1: HappyIcon,
+  0: NeutralIcon,
+  "-1": SadIcon,
+  "-2": VerySadIcon,
 };

@@ -2,7 +2,7 @@ import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
 import closeIcon from "/public/assets/images/close.svg";
 import { useUser } from "@clerk/nextjs";
-import placeholderImage from "../../public/assets/images/avatar-placeholder.svg";
+import placeholderImage from "/public/assets/images/avatar-placeholder.svg";
 
 import infoIcon from "/public/assets/images/info-circle.svg";
 

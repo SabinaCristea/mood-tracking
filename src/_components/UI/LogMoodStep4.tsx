@@ -6,8 +6,8 @@ import { Button } from "./Button";
 
 import infoIcon from "/public/assets/images/info-circle.svg";
 import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 
 // const options = [
 //   { id: 1, label: "9+ hours" },

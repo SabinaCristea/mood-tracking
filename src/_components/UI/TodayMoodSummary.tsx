@@ -1,9 +1,8 @@
 import { MOOD_ICONS } from "@/_lib/helpers/moodFaces";
-import Image from "next/image";
 import React from "react";
-import QuotesIcon from "../../public/assets/images/icon-quote.svg";
-import { ZzzIcon } from "@/icons/ZzzIcon";
-import { ReflectionsIcon } from "@/icons/ReflectionsIcon";
+import { ZzzIcon } from "@/_components/icons/ZzzIcon";
+import { ReflectionsIcon } from "@/_components/icons/ReflectionsIcon";
+import { QuotesIcon } from "../icons/QuotesIcon";
 
 export const TodayMoodSummary = ({
   moodLabel,
@@ -20,6 +19,8 @@ export const TodayMoodSummary = ({
   reflection: string;
   feelings: string[];
 }) => {
+  const SelectedIcon = MOOD_ICONS[moodOrder as keyof typeof MOOD_ICONS];
+
   return (
     <div className="flex flex-col gap-[2rem] mb-[-1.6rem] mt-[1.6rem]">
       <div className="flex flex-col py-[3.2rem] px-[1.6rem] bg-neutral-0 w-full  gap-[3.2rem] border border-blue-100 rounded-[1.6rem]">
@@ -29,17 +30,13 @@ export const TodayMoodSummary = ({
           </h2>
           <h1 className="text-preset-2 font-bold ">{moodLabel}</h1>
         </div>
-        <Image
-          src={MOOD_ICONS[moodOrder]}
-          alt="emoji"
-          className="w-[20rem] h-[20rem] m-auto"
-        />
+
+        {SelectedIcon && (
+          <SelectedIcon className="w-[20rem] h-[20rem] m-auto" />
+        )}
+
         <div className="flex flex-col items-center gap-[1.6rem]">
-          <Image
-            src={QuotesIcon}
-            alt="quotes icon"
-            className="m-auto w-[2.4rem] h-[2.4rem] "
-          />
+          <QuotesIcon className="m-auto w-[2.4rem] h-[2.4rem] " />
           <blockquote className="text-preset-6-italic text-center text-neutral-900! font-medium">
             “{moodQuote}”
           </blockquote>

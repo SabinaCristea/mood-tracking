@@ -7,14 +7,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import pattern from "../../../public/assets/images/bg-pattern-averages.svg";
 import formatDate from "@/_lib/helpers/formatDate";
-import CardBarChart from "@/_components/MoodChart";
-import { LogMoodModal } from "@/_components/LogMoodModal";
-import { Button } from "@/_components/Button";
-import { UserProfile } from "@/_components/UserProfile";
-import { ProfileDetails } from "@/_components/ProfileDetails";
+import CardBarChart from "@/_components/charts/MoodChart";
+import { LogMoodModal } from "@/_components/UI/LogMoodModal";
+import { Button } from "@/_components/UI/Button";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { TodayMoodSummary } from "@/_components/TodayMoodSummary";
+import { UserProfile } from "@/_components/UI/UserProfile";
+import { TodayMoodSummary } from "@/_components/UI/TodayMoodSummary";
+import { ProfileDetails } from "@/_components/UI/ProfileDetails";
 
 export default function HomePage() {
   const { isLoaded, isSignedIn } = useAuth();
@@ -40,7 +40,7 @@ export default function HomePage() {
 
   if (todayMood === undefined) {
     // query still loading
-    return null; // or a spinner/skeleton
+    return null;
   }
 
   if (!isLoaded || !isSignedIn) {

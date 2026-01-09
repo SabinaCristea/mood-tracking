@@ -8,10 +8,10 @@ import React, {
   useState,
 } from "react";
 import { ClipLoader } from "react-spinners";
-import dropdownArrow from "../../public/assets/images/icon-dropdown-arrow.svg";
-import placeholderImage from "../../public/assets/images/avatar-placeholder.svg";
-import settingsIcon from "../../public/assets/images/icon-settings.svg";
-import logoutIcon from "../../public/assets/images/icon-logout.svg";
+import dropdownArrow from "/public/assets/images/icon-dropdown-arrow.svg";
+import placeholderImage from "/public/assets/images/avatar-placeholder.svg";
+import settingsIcon from "/public/assets/images/icon-settings.svg";
+import logoutIcon from "/public/assets/images/icon-logout.svg";
 import Image from "next/image";
 import type { UserResource } from "@clerk/types";
 import { useAuth } from "@clerk/nextjs";

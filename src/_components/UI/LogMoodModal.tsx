@@ -8,7 +8,7 @@ import { LogMoodStep3 } from "./LogMoodStep3";
 import { LogMoodStep4 } from "./LogMoodStep4";
 import { MoodEntryDraft } from "@/_lib/helpers/types";
 import { useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { api } from "../../../convex/_generated/api";
 
 export const LogMoodModal = ({
   setOpen,
