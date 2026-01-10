@@ -385,7 +385,7 @@ export default function CardBarChart() {
     );
   }
 
-  // log out after more than 6hrs, replace all icons with comp instead of imgs, responsiveness, averages
+  // replace all icons with comp instead of imgs, responsiveness, averages
   return (
     <div className="relative flex  w-full  rounded-3xl ">
       {/* 1. FIXED SIDEBAR */}

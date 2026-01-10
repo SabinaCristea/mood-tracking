@@ -60,11 +60,11 @@ export const TodayMoodSummary = ({
           <p className="text-preset-6 h-[8rem] text-neutral-900 font-medium">
             {reflection}
           </p>
-          <div className="flex gap-[1.2rem]">
-            {feelings.map((feeling, i) => (
+          <div className="flex flex-wrap gap-[1.2rem]">
+            {feelings.map((feeling) => (
               <span
-                className="text-preset-6-italic text-neutral-600"
-                key={feelings[i]}
+                className="text-preset-6-italic text-neutral-600 break-all"
+                key={feeling}
               >
                 #{feeling}
               </span>
