@@ -1,0 +1,17 @@
+import { SVGProps } from "react";
+
+export const ArrowUp = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="15"
+    height="16"
+    fill="currentColor"
+    viewBox="0 0 15 16"
+    {...props}
+  >
+    <path
+      fill="#21214D"
+      d="M3.415 3.36c-.021-.19.149-.36.36-.36h8.871c.212 0 .36.149.36.36v8.87c0 .213-.17.383-.36.361l-.828.022c-.212 0-.382-.17-.36-.361l-.022-6.6L4.2 12.89a.347.347 0 0 1-.509 0l-.594-.595a.365.365 0 0 1 0-.509l7.236-7.236H3.755c-.191.021-.361-.148-.361-.36l.021-.828Z"
+    />
+  </svg>
+);

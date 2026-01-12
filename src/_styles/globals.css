@@ -52,6 +52,10 @@ body {
   @apply text-[2.8rem] leading-[130%] tracking-[0.3px];
 }
 
+.text-preset-4 {
+  @apply text-[2.4rem] leading-[140%] tracking-[0px];
+}
+
 .text-preset-5 {
   @apply text-[2rem] leading-[140%] tracking-[0px];
 }

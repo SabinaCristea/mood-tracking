@@ -1,6 +1,6 @@
 import { query } from "../_generated/server";
 
-export const getLast5Moods = query({
+export const getLastMoodEntry = query({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -19,7 +19,7 @@ export const getLast5Moods = query({
       .query("moods")
       .filter((q) => q.eq(q.field("userId"), user._id))
       .order("desc")
-      .take(5);
+      .take(1);
 
     const result = await Promise.all(
       moods.map(async (mood) => {
