@@ -46,8 +46,6 @@ export default function Page() {
     (err) => err.meta?.paramName === "code"
   )?.message;
 
-  //console.log(isEmailError, isPasswordError);
-
   if (!isLoaded) {
     return null;
   }

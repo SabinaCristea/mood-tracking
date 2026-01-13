@@ -15,9 +15,12 @@ export const getLast6Moods = query({
       return [];
     }
 
+    const sixDaysAgo = Date.now() - 6 * 24 * 60 * 60 * 1000;
+
     const moods = await ctx.db
       .query("moods")
       .filter((q) => q.eq(q.field("userId"), user._id))
+      .filter((q) => q.gte(q.field("createdAt"), sixDaysAgo))
       .order("desc")
       .take(6);
 

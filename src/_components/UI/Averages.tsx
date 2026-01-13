@@ -9,60 +9,81 @@ import { ArrowUp } from "../icons/ArrowUp";
 import { ArrowDown } from "../icons/ArrowDown";
 import { ArrowRight } from "../icons/ArrowRight";
 import { ZzzIcon } from "../icons/ZzzIcon";
+import { MOOD_ICONS, MOOD_ICONS_WHITE } from "@/_lib/helpers/moodFaces";
 
 export const Averages = () => {
   const last6CheckIns = useQuery(api.moods.getLast6Moods.getLast6Moods);
-  const lastMoodEntry = useQuery(api.moods.getLastMoodEntry.getLastMoodEntry);
 
-  const lastMood = lastMoodEntry[0].mood.label.toLowerCase();
-  const lastSleep = lastMoodEntry[0].sleep.label;
+  const todayDateString = new Date().toDateString();
 
-  console.log(lastMood, lastSleep);
+  const hasLoggedToday = last6CheckIns?.some(
+    (entry) => new Date(entry.createdAt).toDateString() === todayDateString
+  );
 
-  const moodValues = last6CheckIns
-    ?.map((m) => m.mood?.order)
-    .filter((v): v is number => v !== undefined);
+  const latestEntry = last6CheckIns?.[0];
+  const lastMoodLabel = latestEntry?.mood?.label;
+  const lastMoodOrder = latestEntry?.mood?.order;
+  const lastSleepLabel = latestEntry?.sleep?.label;
 
-  const sleepValues = last6CheckIns
-    ?.map((s) => s.sleep?.order)
-    .filter((v: number | undefined): v is number => v !== undefined)
-    .map((v) => 6 - v);
+  const moodEntries =
+    last6CheckIns
+      ?.filter((m) => m.mood !== null)
+      .map((m) => ({
+        value: m.mood!.order,
+        createdAt: m.createdAt,
+      })) || [];
 
-  const moodTrend = calcTrend(moodValues);
-  const sleepTrend = calcTrend(sleepValues);
+  const sleepEntries =
+    last6CheckIns
+      ?.filter((s) => s.sleep !== null)
+      .map((s) => ({
+        value: 6 - s.sleep!.order,
+        createdAt: s.createdAt,
+      })) || [];
 
-  const setArrDirection = (trend: string) => {
+  const moodTrend = calcTrend(moodEntries);
+  const sleepTrend = calcTrend(sleepEntries);
+
+  const isDataComplete = hasLoggedToday && moodTrend !== "needMoreData";
+
+  const setArrDirection = (trend: string, color: string) => {
     switch (trend) {
       case "improving":
-        return <ArrowUp />;
+        return <ArrowUp className={color} />;
       case "stable":
-        return <ArrowRight />;
+        return <ArrowRight className={color} />;
       case "declining":
-        return <ArrowDown />;
+        return <ArrowDown className={color} />;
       default:
         return "";
     }
   };
 
-  const setMoodTrendBgColor = (mood: string) => {
+  const setMoodTrendBgColor = (mood: string | undefined) => {
     switch (mood) {
-      case "very happy":
-        return "FFC97C";
-      case "happy":
-        return "89E780";
-      case "neutral":
-        return "89CAFF";
-      case "sad":
-        return "B8B1FF";
-      case "very sad":
-        return "FF9B99";
+      case "Very Happy":
+        return "bg-amber-300";
+      case "Happy":
+        return "bg-green-300";
+      case "Neutral":
+        return "bg-blue-300";
+      case "Sad":
+        return "bg-indigo-200";
+      case "Very Sad":
+        return "bg-red-300";
       default:
-        return "E0E6FA";
+        return "bg-blue-100";
     }
   };
 
+  const moodLabelForBg = isDataComplete ? lastMoodLabel : undefined;
+
+  console.log(setMoodTrendBgColor(lastMoodLabel));
+
   const moodMessage = moodMessages[moodTrend];
   const sleepMessage = sleepMessages[sleepTrend];
+
+  const MoodIcon = MOOD_ICONS_WHITE[lastMoodOrder as keyof typeof MOOD_ICONS];
 
   return (
     <div className="mt-[4.8rem] bg-white rounded-[1.6rem] flex flex-col gap-[2.4rem] px-[1.6rem]  py-8 w-full  xl:w-full mx-auto lg:p-[2.4rem] lg:mt-0">
@@ -74,14 +95,24 @@ export const Averages = () => {
             (Last 5 Check-ins)
           </span>
         </p>
-        <div className="bg-blue-100 rounded-[1.6rem] flex flex-col gap-[1.2rem] justify-center h-60 px-[1.6rem] py-8 relative overflow-hidden lg:p-8 ">
-          <h4 className="text-[2.4rem] leading-[140%] font-semibold ">
-            Keep tracking!
-          </h4>
-          <div className="flex items-center gap-[0.8rem]">
-            {setArrDirection(moodTrend)}
-            <p className="text-neutral-600 text-[1.5rem] leading-[140%]">
-              {/* Log 5 check-ins to see your average mood. */}
+        <div
+          className={`${setMoodTrendBgColor(moodLabelForBg)} rounded-[1.6rem] flex flex-col gap-[1.2rem] justify-center h-60 px-[1.6rem] py-8 relative overflow-hidden lg:p-8 `}
+        >
+          {moodTrend === "needMoreData" ? (
+            <h4 className="text-[2.4rem] leading-[140%] font-semibold ">
+              Keep tracking!
+            </h4>
+          ) : (
+            <div className="flex items-center gap-[1.2rem]">
+              <MoodIcon className="w-[2.4rem]" />
+              <h2 className="text-preset-4 font-semibold">{lastMoodLabel}</h2>
+            </div>
+          )}
+          <div className="flex items-start gap-[0.8rem]">
+            {setArrDirection(moodTrend, "text-neutral-900")}
+            <p
+              className={` ${moodTrend === "needMoreData" ? "text-neutral-600" : "text-neutral-900"}  text-[1.5rem] leading-[140%]`}
+            >
               {moodMessage}
             </p>
           </div>
@@ -110,17 +141,16 @@ export const Averages = () => {
           ) : (
             <div className="flex items-center gap-[1.6rem]">
               <ZzzIcon className="w-[2.4rem] h-[2.4rem] text-neutral-0 opacity-70" />
-              <h3 className="text-preset-4 text-neutral-0  font-bold">
-                {lastSleep}
+              <h3 className="text-preset-4 text-neutral-0  font-semibold">
+                {lastSleepLabel}
               </h3>
             </div>
           )}
           <div className="flex items-center gap-[0.8rem]">
-            {setArrDirection(sleepTrend)}
+            {setArrDirection(sleepTrend, "text-neutral-0 opacity-70")}
             <p
               className={`${sleepTrend === "needMoreData" ? "text-neutral-600" : "text-neutral-0 opacity-70"} text-[1.5rem] leading-[140%]`}
             >
-              {/* Track 5 nights to view average sleep. */}
               {sleepMessage}
             </p>
           </div>

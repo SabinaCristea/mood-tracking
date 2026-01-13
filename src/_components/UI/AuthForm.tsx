@@ -35,12 +35,9 @@ export const AuthForm = ({
   const [error, setError] = useState("");
 
   const [loading, setLoading] = useState(false);
-  console.log(buttonText);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log("Form submitted");
 
     setError("");
     setLoading(true);

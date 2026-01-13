@@ -31,7 +31,6 @@ export const LogMoodStep3 = ({
     setError("");
     onContinue();
   };
-  console.log("lungime text", value.length);
 
   return (
     <div className="w-full flex flex-col gap-[2.4rem]">

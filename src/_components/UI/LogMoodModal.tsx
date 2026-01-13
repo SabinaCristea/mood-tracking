@@ -25,8 +25,6 @@ export const LogMoodModal = ({
     sleepOptionId: null,
   });
 
-  console.log(draft);
-
   const updateDraft = <K extends keyof MoodEntryDraft>(
     key: K,
     value: MoodEntryDraft[K]

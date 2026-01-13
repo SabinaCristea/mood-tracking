@@ -14,8 +14,6 @@ export const AuthButton = ({
 }) => {
   const { pending } = useFormStatus();
 
-  //console.log(pending);
-
   return (
     <button
       type="submit"
