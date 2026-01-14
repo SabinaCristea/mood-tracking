@@ -78,20 +78,20 @@ export const AuthForm = ({
   };
 
   return (
-    <div className="flex flex-col items-center gap-[3.2rem] mt-[8rem]">
+    <div className="flex flex-col items-center gap-[3.2rem] mt-32">
       <Image src={logo} alt="Logo" className="" />
 
-      <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px]  text-neutral-900 bg-neutral-0 py-[4rem] px-[1.6rem] mx-[1.6rem] rounded-[1.6rem] ">
+      <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px]  text-neutral-900 bg-neutral-0 py-16 px-[1.6rem] mx-[1.6rem] rounded-[1.6rem] ">
         <h1 className="font-bold text-[2.8rem] leading-[130%] mb-[0.8rem]">
           {title}
         </h1>
         <p className="text-neutral-600 pb-[3.2rem]">{subtitle}</p>
         <form onSubmit={handleSubmit}>
-          <div className="input-email flex flex-col gap-[0.8rem] mb-[2rem]">
+          <div className="input-email flex flex-col gap-[0.8rem] mb-8">
             <label className="text-neutral-900">Email address</label>
             <input
               name="email"
-              className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] placeholder:text-neutral-600 px-[1.6rem]"
+              className="h-[4.9rem] border border-neutral-300 rounded-2xl placeholder:text-neutral-600 px-[1.6rem]"
               placeholder="name@mail.com"
               value={emailAddress}
               onChange={(e) => setEmailAddress(e.target.value)}
@@ -102,7 +102,7 @@ export const AuthForm = ({
             <input
               type="password"
               name="password"
-              className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] px-[1.6rem]"
+              className="h-[4.9rem] border border-neutral-300 rounded-2xl px-[1.6rem]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -115,7 +115,7 @@ export const AuthForm = ({
             </AuthButton>
           </div>
         </form>
-        <div className="flex gap-[0.5rem] mt-[2rem] justify-center">
+        <div className="flex gap-2 mt-8 justify-center">
           <p className="text-neutral-600"> {footerMsg}</p>
           <Link href={footerHref}>
             <button className="text-blue-600">{footerAction}</button>

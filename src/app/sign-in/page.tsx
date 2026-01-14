@@ -97,10 +97,10 @@ export default function Page() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-[3.2rem] mt-[8rem]">
+    <div className="flex flex-col items-center gap-[3.2rem] mt-32">
       <Image src={logo} alt="Logo" />
 
-      <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px]  text-neutral-900 bg-neutral-0 py-[4rem] px-[1.6rem] mx-[1.6rem] rounded-[1.6rem] ">
+      <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px]  text-neutral-900 bg-neutral-0 py-16 px-[1.6rem] mx-[1.6rem] rounded-[1.6rem] ">
         <h1 className="font-bold text-[2.8rem] leading-[130%] mb-[0.8rem]">
           Welcome back!
         </h1>
@@ -109,12 +109,12 @@ export default function Page() {
         </p>
 
         <form onSubmit={submit}>
-          <div className="input-email flex flex-col gap-[0.8rem] mb-[2rem]">
+          <div className="input-email flex flex-col gap-[0.8rem] mb-8">
             <label className="text-neutral-900">Email address</label>
             <input
               type="email"
               name="email"
-              className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] placeholder:text-neutral-600 px-[1.6rem] hover:border-neutral-600 outline-focus"
+              className="h-[4.9rem] border border-neutral-300 rounded-2xl placeholder:text-neutral-600 px-[1.6rem] hover:border-neutral-600 outline-focus"
               placeholder="name@mail.com"
               value={emailAddress}
               onChange={(e) => setEmailAddress(e.target.value)}
@@ -141,7 +141,7 @@ export default function Page() {
             <input
               type="password"
               name="password"
-              className="h-[4.9rem] border-[1px] border-neutral-300 rounded-[1rem] px-[1.6rem] hover:border-neutral-600 outline-focus"
+              className="h-[4.9rem] border border-neutral-300 rounded-2xl px-[1.6rem] hover:border-neutral-600 outline-focus"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -166,14 +166,14 @@ export default function Page() {
           <div className="action-btn">
             <button
               type="submit"
-              className="bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem] hover:bg-blue-700 hover:cursor-pointer outline-focus"
+              className="bg-blue-600 rounded-2xl text-neutral-0 w-full h-[5.2rem] hover:bg-blue-700 hover:cursor-pointer outline-focus"
             >
               {loading ? "Loading..." : "Log In"}
             </button>
           </div>
         </form>
 
-        <div className="flex gap-[0.5rem] mt-[2rem] justify-center">
+        <div className="flex gap-2 mt-8 justify-center">
           <p className="text-neutral-600"> Haven&apos;t got an account? </p>
           <Link href="/sign-up" className="outline-focus">
             <button className="text-blue-600 hover:cursor-pointer">

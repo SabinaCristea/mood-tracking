@@ -389,7 +389,7 @@ export default function CardBarChart() {
   return (
     <div className="relative flex  w-full  rounded-3xl ">
       {/* 1. FIXED SIDEBAR */}
-      <div className="absolute w-[100px] h-[-webkit-fill-available]  flex flex-col justify-between pb-[12rem] pt-[0.7rem]">
+      <div className="absolute w-[100px] h-[-webkit-fill-available]  flex flex-col justify-between pb-48 pt-[0.7rem]">
         {[10, 8, 6, 4, 2].map((value) => {
           const labels: any = {
             10: "9+ hours",
@@ -419,7 +419,7 @@ export default function CardBarChart() {
       {/* 2. SCROLLABLE CHART AREA */}
       <div
         ref={scrollContainerRef}
-        className="z-10 ml-[10rem] relative grow overflow-x-auto scrollbar-hide"
+        className="z-10 ml-40 relative grow overflow-x-auto scrollbar-hide"
       >
         <div
           style={{

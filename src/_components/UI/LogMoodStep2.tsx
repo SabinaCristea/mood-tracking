@@ -92,14 +92,14 @@ export const LogMoodStep2 = ({
                 key={feeling}
                 onClick={() => toggleFeeling(feeling)}
                 className={`
-        inline-flex items-center gap-[1.2rem] px-[1.6rem] py-[1.2rem] rounded-[1rem] border-[2px]
+        inline-flex items-center gap-[1.2rem] px-[1.6rem] py-[1.2rem] rounded-2xl border-2
         transition-all duration-200
         ${isSelected ? "border-blue-600" : "border-blue-100 "}
       `}
               >
                 <span
                   className={`
-          w-[1.6rem] h-[1.6rem] flex items-center justify-center rounded-[4px] border-[1.5px]
+          w-[1.6rem] h-[1.6rem] flex items-center justify-center rounded-sm border-[1.5px]
           ${isSelected ? "bg-blue-600 border-blue-600 text-white" : "border-blue-200"}
         `}
                 >

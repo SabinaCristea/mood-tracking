@@ -68,12 +68,11 @@ export const LogMoodModal = ({
   return (
     <dialog
       open
-      className="flex flex-col gap-[2.4rem] top-[5rem] bg-gradient-to-br from-white from-0% via-[#F5F5FF] via-[73%] to-[#E0E0FF] to-100% mx-auto z-100 w-[85%]  rounded-[1.6rem] px-[2rem] py-[3.2rem] "
+      className="flex flex-col gap-[2.4rem] top-20 bg-linear-to-br from-white from-0% via-[#F5F5FF] via-73% to-[#E0E0FF] to-100% mx-auto z-100 w-[85%]  rounded-[1.6rem] px-8 py-[3.2rem] "
     >
       <button
         onClick={() => setOpen(false)}
-        className="absolute top-[2rem]
-    right-[1.5rem] outline-focus"
+        className="absolute top-8 right-6 outline-focus"
       >
         <Image
           src={closeIcon}
@@ -92,7 +91,7 @@ export const LogMoodModal = ({
           {[0, 1, 2, 3].map((i) => (
             <Tab
               key={i}
-              className={`rounded-full h-[6px] w-[25%] transition-colors
+              className={`rounded-full h-1.5 w-[25%] transition-colors
         ${i <= step ? "bg-blue-600" : "bg-blue-200"} outline-focus`}
               disabled
             />

@@ -17,7 +17,7 @@ export const AuthButton = ({
   return (
     <button
       type="submit"
-      className="bg-blue-600 rounded-[1rem] text-neutral-0 w-[100%] h-[5.2rem]"
+      className="bg-blue-600 rounded-2xl text-neutral-0 w-full h-[5.2rem]"
       disabled={isPending}
     >
       {pending ? pendingLabel : children}

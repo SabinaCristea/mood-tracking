@@ -44,7 +44,7 @@ export const LogMoodStep3 = ({
           onChange={(e) => onChange(e.target.value)}
           maxLength={MAX_CHARS}
           placeholder="Today I felt..."
-          className="resize-none w-full !h-[15rem] border border-neutral-300 bg-neutral-0 rounded-[1rem]  px-[1.6rem] py-[1.2rem] placeholder:text-[1.8rem] placeholder:leading-[130%] placeholder:tracking-[0px] placeholder:italic placeholder:text-neutral-600 text-preset-6-regular text-neutral-900 outline-focus"
+          className="resize-none w-full h-60! border border-neutral-300 bg-neutral-0 rounded-2xl  px-[1.6rem] py-[1.2rem] placeholder:text-[1.8rem] placeholder:leading-[130%] placeholder:tracking-[0px] placeholder:italic placeholder:text-neutral-600 text-preset-6-regular text-neutral-900 outline-focus"
         />
         <div className="self-end text-preset-8">
           {value.length}/{MAX_CHARS}

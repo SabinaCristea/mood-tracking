@@ -78,7 +78,7 @@ export const UserProfile = ({
             setIsProfileDropdownOpen(true);
           }}
         >
-          <div className="rounded-full overflow-hidden w-[4rem] h-[4rem]">
+          <div className="rounded-full overflow-hidden w-16 h-16">
             <Image
               src={avatarSrc}
               width={40}

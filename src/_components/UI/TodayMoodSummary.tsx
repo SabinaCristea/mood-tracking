@@ -22,7 +22,7 @@ export const TodayMoodSummary = ({
   const SelectedIcon = MOOD_ICONS[moodOrder as keyof typeof MOOD_ICONS];
 
   return (
-    <div className="flex flex-col gap-[2rem] mb-[-1.6rem] mt-[1.6rem]">
+    <div className="flex flex-col gap-8 mb-[-1.6rem] mt-[1.6rem]">
       <div className="flex flex-col py-[3.2rem] px-[1.6rem] bg-neutral-0 w-full  gap-[3.2rem] border border-blue-100 rounded-[1.6rem]">
         <div className="flex flex-col items-center">
           <h2 className="text-preset-3 opacity-70 font-bold m-0">
@@ -31,9 +31,7 @@ export const TodayMoodSummary = ({
           <h1 className="text-preset-2 font-bold ">{moodLabel}</h1>
         </div>
 
-        {SelectedIcon && (
-          <SelectedIcon className="w-[20rem] h-[20rem] m-auto" />
-        )}
+        {SelectedIcon && <SelectedIcon className="w-[20rem] h-80 m-auto" />}
 
         <div className="flex flex-col items-center gap-[1.6rem]">
           <QuotesIcon className="m-auto w-[2.4rem] h-[2.4rem] " />
@@ -42,22 +40,22 @@ export const TodayMoodSummary = ({
           </blockquote>
         </div>
       </div>
-      <div className="flex flex-col gap-[2rem]">
-        <div className="flex flex-col p-[2rem] bg-neutral-0 w-full gap-[3.2rem] border border-blue-100 rounded-[1.6rem]">
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col p-8 bg-neutral-0 w-full gap-[3.2rem] border border-blue-100 rounded-[1.6rem]">
           <div className="flex gap-[1.2rem]">
             <ZzzIcon className=" w-[2.2rem] h-[2.2rem] text-neutral-600" />
             <p className="text-preset-6 text-neutral-600">Sleep</p>
           </div>
           <h1 className="text-preset-3 font-bold">{hoursOfSleep}</h1>
         </div>
-        <div className="flex flex-col p-[2rem] bg-neutral-0 w-full gap-[1.6rem] border border-blue-100 rounded-[1.6rem]">
+        <div className="flex flex-col p-8 bg-neutral-0 w-full gap-[1.6rem] border border-blue-100 rounded-[1.6rem]">
           <div className="flex items-center gap-[1.2rem]">
             <ReflectionsIcon className=" w-[2.2rem] h-[2.2rem] text-neutral-600" />
             <p className="text-preset-6 text-neutral-600">
               Reflection of the day
             </p>
           </div>
-          <p className="text-preset-6 h-[8rem] text-neutral-900 font-medium">
+          <p className="text-preset-6 h-32 text-neutral-900 font-medium">
             {reflection}
           </p>
           <div className="flex flex-wrap gap-[1.2rem]">

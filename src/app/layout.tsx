@@ -33,7 +33,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className="min-h-screen">
         <body
-          className={`${redditSans.className} antialiased bg-gradient-to-b from-[#f5f7ff] from-0% via-[#F5F5FF] via-[73%] to-[#E0E0FF] to-100%`}
+          className={`${redditSans.className} antialiased bg-linear-to-b from-[#f5f7ff] from-0% via-[#F5F5FF] via-73% to-[#E0E0FF] to-100%`}
         >
           <ConvexClientProvider>
             <UserSync />
