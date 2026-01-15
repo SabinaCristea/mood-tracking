@@ -8,7 +8,7 @@ export const createMoodForDate = mutation({
     sleepOptionId: v.id("sleepOptions"),
     feelings: v.array(v.string()),
     note: v.string(),
-    date: v.number(), // 👈 timestamp you control
+    date: v.number(),
   },
   handler: async (ctx, args) => {
     await ctx.db.insert("moods", {
@@ -17,7 +17,7 @@ export const createMoodForDate = mutation({
       sleepOptionId: args.sleepOptionId,
       feelings: args.feelings,
       note: args.note,
-      createdAt: args.date, // 👈 Jan 6
+      createdAt: args.date,
     });
   },
 });

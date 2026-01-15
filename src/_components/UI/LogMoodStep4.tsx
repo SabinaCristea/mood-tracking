@@ -1,22 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
 import { Button } from "./Button";
-
-import infoIcon from "/public/assets/images/info-circle.svg";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { InfoIcon } from "../icons/InfoIcon";
-
-// const options = [
-//   { id: 1, label: "9+ hours" },
-//   { id: 2, label: "7-8 hours" },
-//   { id: 3, label: "5-6 hours" },
-//   { id: 4, label: "3-4 hours" },
-//   { id: 5, label: "0-2 hours" },
-// ];
 
 type LogMoodStep4Props = {
   value: Id<"sleepOptions"> | null;
@@ -31,8 +20,6 @@ export const LogMoodStep4 = ({
   onSubmit,
   loading,
 }: LogMoodStep4Props) => {
-  //const [selected, setSelected] = useState<number | null>(null);
-
   const [error, setError] = useState<string>("");
 
   const options = useQuery(api.sleep.getSleepOptions.getSleepOptions);
@@ -45,7 +32,7 @@ export const LogMoodStep4 = ({
       setError("Please select an option before submitting.");
       return;
     }
-    setError(""); // clear error
+    setError("");
     onSubmit();
   };
 

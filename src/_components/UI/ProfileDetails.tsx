@@ -1,12 +1,9 @@
 import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
-import closeIcon from "/public/assets/images/close.svg";
 import { useUser } from "@clerk/nextjs";
 import placeholderImage from "/public/assets/images/avatar-placeholder.svg";
-
-import infoIcon from "/public/assets/images/info-circle.svg";
 import { InfoIcon } from "../icons/InfoIcon";
-import { CloseIcon } from "./CloseIcon";
+import { CloseIcon } from "../icons/CloseIcon";
 
 type ProfileDetailsTypes = {
   title: string;

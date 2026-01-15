@@ -1,15 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import logo from "../../../public/assets/images/logo.svg";
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-
 import { ClerkAPIError } from "@clerk/types";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
-import infoIcon from "../../../public/assets/images/info-circle.svg";
 import { Logo } from "@/_components/icons/Logo";
 import { InfoIcon } from "@/_components/icons/InfoIcon";
 

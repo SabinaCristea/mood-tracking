@@ -1,30 +1,12 @@
 "use client";
 
-import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
-import VeryHappyface from "/public/assets/images/icon-very-happy-color.svg";
-import Happyface from "/public/assets/images/icon-happy-color.svg";
-import Neutralface from "/public/assets/images/icon-neutral-color.svg";
-import Sadface from "/public/assets/images/icon-sad-color.svg";
-import VerySadface from "/public/assets/images/icon-very-sad-color.svg";
 import { Button } from "./Button";
-
-import infoIcon from "/public/assets/images/info-circle.svg";
-import { MoodEntryDraft } from "@/_lib/helpers/types";
-
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { MOOD_ICONS } from "@/_lib/helpers/moodFaces";
 import { InfoIcon } from "../icons/InfoIcon";
-
-// const options = [
-//   { id: 2, label: "Very Happy", icon: VeryHappyface },
-//   { id: 1, label: "Happy", icon: Happyface },
-//   { id: 0, label: "Neutral", icon: Neutralface },
-//   { id: -1, label: "Sad", icon: Sadface },
-//   { id: -2, label: "Very Sad", icon: VerySadface },
-// ];
 
 type LogMoodStep1Props = {
   value: Id<"moodOptions"> | null;
@@ -50,7 +32,7 @@ export const LogMoodStep1 = ({
       setError("Please select a mood before continuing.");
       return;
     }
-    setError(""); // clear error
+    setError("");
     onContinue();
   };
 

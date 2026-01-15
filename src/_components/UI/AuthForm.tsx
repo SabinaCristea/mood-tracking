@@ -2,11 +2,9 @@
 
 import React, { useState } from "react";
 import { AuthButton } from "./AuthButton";
-import logo from "../../public/assets/images/logo.svg";
-import Image from "next/image";
 import Link from "next/link";
 import "./../_styles/globals.css";
-import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
+import { useSignIn, useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Logo } from "../icons/Logo";
 
@@ -26,13 +24,11 @@ export const AuthForm = ({
   footerHref: string;
 }) => {
   const { isLoaded: signInLoaded, signIn } = useSignIn();
-  const { isLoaded: signUpLoaded, signUp, setActive } = useSignUp();
+  const { isLoaded: signUpLoaded, signUp } = useSignUp();
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [verifying, setVerifying] = React.useState(false);
-  const [code, setCode] = React.useState("");
   const [error, setError] = useState("");
 
   const [loading, setLoading] = useState(false);

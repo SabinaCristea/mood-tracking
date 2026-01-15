@@ -1,11 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import CheckIcon from "./CheckIcon";
 import { Button } from "./Button";
-import Image from "next/image";
-
-import infoIcon from "/public/assets/images/info-circle.svg";
 import { InfoIcon } from "../icons/InfoIcon";
+import CheckIcon from "../icons/CheckIcon";
 
 const feelings = [
   "Joyful",

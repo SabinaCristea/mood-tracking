@@ -2,14 +2,7 @@ import type { Metadata } from "next";
 import { Reddit_Sans } from "next/font/google";
 
 import ConvexClientProvider from "./ConvexClientProvider";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./../_styles/globals.css";
 import { UserSync } from "./UserSync";
 

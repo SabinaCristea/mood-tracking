@@ -2,9 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "./Button";
-
-import infoIcon from "/public/assets/images/info-circle.svg";
-import Image from "next/image";
 import { InfoIcon } from "../icons/InfoIcon";
 
 const MAX_CHARS = 150;
@@ -21,7 +18,6 @@ export const LogMoodStep3 = ({
   onContinue,
 }: LogMoodStep3Props) => {
   const [error, setError] = useState("");
-  // const [text, setText] = useState("");
 
   const handleContinue = () => {
     if (value.length === 0) {

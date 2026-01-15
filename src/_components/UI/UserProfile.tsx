@@ -8,15 +8,11 @@ import React, {
   useState,
 } from "react";
 import { ClipLoader } from "react-spinners";
-import dropdownArrow from "/public/assets/images/icon-dropdown-arrow.svg";
 import placeholderImage from "/public/assets/images/avatar-placeholder.svg";
-import settingsIcon from "/public/assets/images/icon-settings.svg";
-import logoutIcon from "/public/assets/images/icon-logout.svg";
 import Image from "next/image";
 import type { UserResource } from "@clerk/types";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { ProfileDetails } from "./ProfileDetails";
 import { DropdownArrow } from "../icons/DropdownArrow";
 import { LogoutIcon } from "../icons/LogoutIcon";
 import { SettingsIcon } from "../icons/SettingsIcon";
@@ -31,7 +27,6 @@ type UserProfileProps = {
 export const UserProfile = ({
   user,
   isLoaded,
-  isProfileDetailsOpen,
   setIsProfileDetailsOpen,
 }: UserProfileProps) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);

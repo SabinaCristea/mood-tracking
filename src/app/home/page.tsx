@@ -2,12 +2,9 @@
 
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import logo from "../../../public/assets/images/logo.svg";
-import Image from "next/image";
+
 import { useEffect, useState } from "react";
-import formatDate from "@/_lib/helpers/formatDate";
 import { LogMoodModal } from "@/_components/UI/LogMoodModal";
-import { Button } from "@/_components/UI/Button";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { UserProfile } from "@/_components/UI/UserProfile";

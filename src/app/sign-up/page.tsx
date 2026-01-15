@@ -1,9 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import logo from "../../../public/assets/images/logo.svg";
-import infoIcon from "../../../public/assets/images/info-circle.svg";
-import Image from "next/image";
 import Link from "next/link";
 import "./../../_styles/globals.css";
 import { useSignUp } from "@clerk/nextjs";

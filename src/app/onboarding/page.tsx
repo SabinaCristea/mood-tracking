@@ -1,14 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import logo from "../../../public/assets/images/logo.svg";
 import Image from "next/image";
 import placeholderImage from "../../../public/assets/images/avatar-placeholder.svg";
 // import { saveUserProfile } from "../../../convex/functions/users";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import infoIcon from "/public/assets/images/info-circle.svg";
 import { Logo } from "@/_components/icons/Logo";
 import { InfoIcon } from "@/_components/icons/InfoIcon";
 

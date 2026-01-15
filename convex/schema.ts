@@ -18,8 +18,6 @@ export default defineSchema({
     feelings: v.array(v.string()),
     note: v.string(),
     sleepOptionId: v.id("sleepOptions"),
-    //sleepHours: v.number(),
-
     createdAt: v.number(),
   }),
 

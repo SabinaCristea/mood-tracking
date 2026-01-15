@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { LogMoodStep1 } from "./LogMoodStep1";
 import { LogMoodStep2 } from "./LogMoodStep2";
-import Image from "next/image";
-import closeIcon from "/public/assets/images/close.svg";
 import { LogMoodStep3 } from "./LogMoodStep3";
 import { LogMoodStep4 } from "./LogMoodStep4";
 import { MoodEntryDraft } from "@/_lib/helpers/types";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { CloseIcon } from "./CloseIcon";
+import { CloseIcon } from "../icons/CloseIcon";
 
 export const LogMoodModal = ({
   setOpen,
@@ -130,4 +128,3 @@ export const LogMoodModal = ({
     </dialog>
   );
 };
-// w-[33.5rem]
