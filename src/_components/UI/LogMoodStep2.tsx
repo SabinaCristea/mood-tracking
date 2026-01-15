@@ -40,7 +40,6 @@ export const LogMoodStep2 = ({
   onChange,
   onContinue,
 }: LogMoodStep2Props) => {
-  //const [selected, setSelected] = useState<string[]>([]);
   const [error, setError] = useState("");
 
   const toggleFeeling = (feeling: string) => {
@@ -54,10 +53,9 @@ export const LogMoodStep2 = ({
       newSelected = [...value, feeling];
     }
 
-    //setSelected(newSelected);
-
     if (newSelected.length > 3) {
       setError("You can only select a maximum of 3 tags");
+      return;
     } else {
       setError("");
     }
