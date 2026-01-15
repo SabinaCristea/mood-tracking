@@ -9,6 +9,7 @@ import { LogMoodStep4 } from "./LogMoodStep4";
 import { MoodEntryDraft } from "@/_lib/helpers/types";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { CloseIcon } from "./CloseIcon";
 
 export const LogMoodModal = ({
   setOpen,
@@ -74,13 +75,7 @@ export const LogMoodModal = ({
         onClick={() => setOpen(false)}
         className="absolute top-8 right-6 outline-focus"
       >
-        <Image
-          src={closeIcon}
-          alt="close btn"
-          width={15}
-          height={15}
-          className="hover:cursor-pointer hover:opacity-50"
-        />
+        <CloseIcon className="hover:cursor-pointer hover:opacity-50" />
       </button>
       <h1 className="text-[2.8rem] md:text-[3.2rem] leading-[130%] md:leading-[140%] tracking-[-0.3px] font-bold ">
         Log your mood

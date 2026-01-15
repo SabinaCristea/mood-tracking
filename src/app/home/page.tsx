@@ -16,6 +16,7 @@ import { ProfileDetails } from "@/_components/UI/ProfileDetails";
 import { MoodSleepTrends } from "@/_components/UI/MoodSleepTrends";
 import { Averages } from "@/_components/UI/Averages";
 import { CTA } from "@/_components/UI/CTA";
+import { Logo } from "@/_components/icons/Logo";
 
 export default function HomePage() {
   const { isLoaded, isSignedIn } = useAuth();
@@ -54,7 +55,7 @@ export default function HomePage() {
       <div className="pt-16 px-[1.6rem] sm:px-[3.2rem]  w-full xl:max-w-500 2xl:max-w-520 mx-auto text-neutral-900 ">
         {/* HEADER */}
         <div className="flex justify-between">
-          <Image src={logo} alt="Logo" />
+          <Logo />
           <UserProfile
             user={user}
             isLoaded={isUserLoaded}

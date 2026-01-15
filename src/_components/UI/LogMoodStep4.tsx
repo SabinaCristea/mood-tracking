@@ -8,6 +8,7 @@ import infoIcon from "/public/assets/images/info-circle.svg";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
+import { InfoIcon } from "../icons/InfoIcon";
 
 // const options = [
 //   { id: 1, label: "9+ hours" },
@@ -91,7 +92,7 @@ export const LogMoodStep4 = ({
 
       {error && (
         <div className="flex items-center  gap-[0.8rem]">
-          <Image src={infoIcon} alt="Info icon" />
+          <InfoIcon />
           <p className="text-red-500 text-[1.2rem] leading-[110%]">{error}</p>
         </div>
       )}

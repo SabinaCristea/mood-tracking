@@ -8,6 +8,7 @@ import Link from "next/link";
 import "./../_styles/globals.css";
 import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { Logo } from "../icons/Logo";
 
 export const AuthForm = ({
   title,
@@ -79,7 +80,7 @@ export const AuthForm = ({
 
   return (
     <div className="flex flex-col items-center gap-[3.2rem] mt-32">
-      <Image src={logo} alt="Logo" className="" />
+      <Logo />
 
       <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px]  text-neutral-900 bg-neutral-0 py-16 px-[1.6rem] mx-[1.6rem] rounded-[1.6rem] ">
         <h1 className="font-bold text-[2.8rem] leading-[130%] mb-[0.8rem]">

@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { ClerkAPIError } from "@clerk/types";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import infoIcon from "../../../public/assets/images/info-circle.svg";
+import { Logo } from "@/_components/icons/Logo";
+import { InfoIcon } from "@/_components/icons/InfoIcon";
 
 export default function Page() {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -98,7 +100,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col items-center gap-[3.2rem] mt-32">
-      <Image src={logo} alt="Logo" />
+      <Logo />
 
       <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px]  text-neutral-900 bg-neutral-0 py-16 px-[1.6rem] mx-[1.6rem] rounded-[1.6rem] ">
         <h1 className="font-bold text-[2.8rem] leading-[130%] mb-[0.8rem]">
@@ -127,7 +129,7 @@ export default function Page() {
                   ?.filter((el) => el.meta?.paramName === "identifier")
                   .map((el, index) => (
                     <div key={index} className="flex items-start gap-[0.8rem]">
-                      <Image src={infoIcon} alt="Info icon" />
+                      <InfoIcon />
                       <li className="text-red-500 text-[1.2rem] leading-[110%]">
                         {el.longMessage}
                       </li>
@@ -153,7 +155,7 @@ export default function Page() {
                   ?.filter((el) => el.meta?.paramName === "password")
                   .map((el, index) => (
                     <div key={index} className="flex items-start gap-[0.8rem]">
-                      <Image src={infoIcon} alt="Info icon" />
+                      <InfoIcon />
                       <li className="text-red-500 text-[1.2rem] leading-[110%]">
                         {el.longMessage}
                       </li>

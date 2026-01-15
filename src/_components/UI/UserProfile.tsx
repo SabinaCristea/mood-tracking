@@ -17,6 +17,9 @@ import type { UserResource } from "@clerk/types";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { ProfileDetails } from "./ProfileDetails";
+import { DropdownArrow } from "../icons/DropdownArrow";
+import { LogoutIcon } from "../icons/LogoutIcon";
+import { SettingsIcon } from "../icons/SettingsIcon";
 
 type UserProfileProps = {
   user: UserResource | null | undefined;
@@ -73,7 +76,7 @@ export const UserProfile = ({
     <>
       <div className="relative flex items-center">
         <button
-          className="flex gap-4 hover:cursor-pointer outline-focus "
+          className="flex gap-4 hover:cursor-pointer outline-focus items-center"
           onClick={() => {
             setIsProfileDropdownOpen(true);
           }}
@@ -87,7 +90,7 @@ export const UserProfile = ({
               alt={fullName ?? "User avatar"}
             />
           </div>
-          <Image src={dropdownArrow} alt="arrow down" />
+          <DropdownArrow />
         </button>
         {isProfileDropdownOpen && (
           <div
@@ -106,12 +109,7 @@ export const UserProfile = ({
                 setIsProfileDetailsOpen(true);
               }}
             >
-              <Image
-                src={settingsIcon}
-                alt="Setting Icon"
-                width={16}
-                height={16}
-              />
+              <SettingsIcon />
               <p className="text-preset-7">Settings</p>
             </button>
 
@@ -122,7 +120,7 @@ export const UserProfile = ({
                 router.push("/sign-in");
               }}
             >
-              <Image src={logoutIcon} alt="Logout Icon" />
+              <LogoutIcon />
               <p className="text-preset-7">Logout</p>
             </button>
           </div>

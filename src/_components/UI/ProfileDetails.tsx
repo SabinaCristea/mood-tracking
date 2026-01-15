@@ -5,6 +5,8 @@ import { useUser } from "@clerk/nextjs";
 import placeholderImage from "/public/assets/images/avatar-placeholder.svg";
 
 import infoIcon from "/public/assets/images/info-circle.svg";
+import { InfoIcon } from "../icons/InfoIcon";
+import { CloseIcon } from "./CloseIcon";
 
 type ProfileDetailsTypes = {
   title: string;
@@ -84,11 +86,7 @@ export const ProfileDetails = ({
             className="absolute top-4 right-4 sm:top-10 sm:right-10 text-neutral-500 hover:text-neutral-900 cursor-pointer w-4 h-4 sm:w-6 sm:h-6 outline-focus"
             onClick={() => setIsProfileDetailsOpen(false)}
           >
-            <Image
-              src={closeIcon}
-              alt="close btn"
-              className="hover:cursor-pointer hover:opacity-50"
-            />
+            <CloseIcon className="hover:cursor-pointer hover:opacity-50" />
           </button>
 
           <h1 className="font-bold text-[2.8rem] leading-[130%] mb-[0.8rem]">
@@ -114,7 +112,7 @@ export const ProfileDetails = ({
               />
               {errors.name && (
                 <div className="flex items-center gap-[0.8rem] mt-[0.8rem]">
-                  <Image src={infoIcon} alt="Info icon" />
+                  <InfoIcon />
                   <p className="text-red-500 text-[1.2rem] leading-[110%]">
                     {errors.name}
                   </p>
@@ -185,7 +183,7 @@ export const ProfileDetails = ({
                 </div>
                 {errors.image && (
                   <div className="flex items-center gap-[0.8rem] mt-[0.8rem]">
-                    <Image src={infoIcon} alt="Info icon" />
+                    <InfoIcon />
                     <p className="text-red-500 text-[1.2rem] leading-[110%]">
                       {errors.image}
                     </p>

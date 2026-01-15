@@ -5,6 +5,7 @@ import { Button } from "./Button";
 import Image from "next/image";
 
 import infoIcon from "/public/assets/images/info-circle.svg";
+import { InfoIcon } from "../icons/InfoIcon";
 
 const feelings = [
   "Joyful",
@@ -111,7 +112,7 @@ export const LogMoodStep2 = ({
 
       {error && (
         <div className="flex items-center gap-[0.6rem] mb-[1.6rem]">
-          <Image src={infoIcon} alt="Info icon" />
+          <InfoIcon />
           <p className="text-red-500 text-[1.2rem] leading-[110%]">{error}</p>
         </div>
       )}

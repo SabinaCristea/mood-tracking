@@ -78,8 +78,6 @@ export const Averages = () => {
 
   const moodLabelForBg = isDataComplete ? lastMoodLabel : undefined;
 
-  console.log(setMoodTrendBgColor(lastMoodLabel));
-
   const moodMessage = moodMessages[moodTrend];
   const sleepMessage = sleepMessages[sleepTrend];
 

@@ -16,6 +16,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { MOOD_ICONS } from "@/_lib/helpers/moodFaces";
+import { InfoIcon } from "../icons/InfoIcon";
 
 // const options = [
 //   { id: 2, label: "Very Happy", icon: VeryHappyface },
@@ -105,7 +106,7 @@ export const LogMoodStep1 = ({
 
       {error && (
         <div className="flex items-center  gap-[0.8rem]">
-          <Image src={infoIcon} alt="Info icon" />
+          <InfoIcon />
           <p className="text-red-500 text-[1.2rem] leading-[110%]">{error}</p>
         </div>
       )}

@@ -377,15 +377,6 @@ export default function CardBarChart() {
 
   if (recentMoods === undefined) return null;
 
-  if (recentMoods.length === 0) {
-    return (
-      <div className="h-64 flex items-center justify-center text-neutral-500">
-        No sleep data yet
-      </div>
-    );
-  }
-
-  // replace all icons with comp instead of imgs, responsiveness, averages
   return (
     <div className="relative flex  w-full  rounded-3xl ">
       {/* 1. FIXED SIDEBAR */}

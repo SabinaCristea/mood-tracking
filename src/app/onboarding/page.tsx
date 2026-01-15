@@ -9,6 +9,8 @@ import placeholderImage from "../../../public/assets/images/avatar-placeholder.s
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import infoIcon from "/public/assets/images/info-circle.svg";
+import { Logo } from "@/_components/icons/Logo";
+import { InfoIcon } from "@/_components/icons/InfoIcon";
 
 type ProfileErrors = {
   name?: string;
@@ -73,7 +75,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col items-center gap-[3.2rem] mt-32">
-      <Image src={logo} alt="Logo" />
+      <Logo />
 
       <div className="card text-[1.8rem] leading-[140%] tracking-[-0.3px] text-neutral-900 bg-neutral-0 py-16 px-[1.6rem] mx-[1.6rem] sm:px-[3.2rem] rounded-[1.6rem] ">
         <h1 className="font-bold text-[2.8rem] leading-[130%] mb-[0.8rem]">
@@ -97,7 +99,7 @@ export default function Page() {
             />
             {errors.name && (
               <div className="flex items-center gap-[0.8rem] mt-[0.8rem]">
-                <Image src={infoIcon} alt="Info icon" />
+                <InfoIcon />
                 <p className="text-red-500 text-[1.2rem] leading-[110%]">
                   {errors.name}
                 </p>
@@ -167,7 +169,7 @@ export default function Page() {
 
               {errors.image && (
                 <div className="flex items-center gap-[0.8rem] mt-[0.8rem]">
-                  <Image src={infoIcon} alt="Info icon" />
+                  <InfoIcon />
                   <p className="text-red-500 text-[1.2rem] leading-[110%]">
                     {errors.image}
                   </p>
