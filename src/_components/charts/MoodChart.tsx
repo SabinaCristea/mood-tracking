@@ -186,7 +186,7 @@ export default function CardBarChart() {
           responsive: false, // REQUIRED so custom width works
           // responsive: true,
           layout: {
-            padding: { top: 20, bottom: 28, left: 55 },
+            padding: { top: 20, bottom: 55, left: 55 },
           },
           legend: {
             display: false,
@@ -378,9 +378,9 @@ export default function CardBarChart() {
   if (recentMoods === undefined) return null;
 
   return (
-    <div className="relative flex  w-full  rounded-3xl ">
+    <div className="relative flex w-full rounded-3xl ">
       {/* 1. FIXED SIDEBAR */}
-      <div className="absolute w-[100px] h-[-webkit-fill-available]  flex flex-col justify-between pb-48 pt-[0.7rem]">
+      <div className="absolute w-[100px] h-[-webkit-fill-available] flex flex-col justify-between pb-[10.5rem] pt-[0.7rem]">
         {[10, 8, 6, 4, 2].map((value) => {
           const labels: any = {
             10: "9+ hours",
@@ -415,7 +415,7 @@ export default function CardBarChart() {
         <div
           style={{
             width: Math.max(720, DAYS * 65),
-            height: "38rem",
+            height: "34rem",
             overflowY: "hidden",
           }}
           className=" "

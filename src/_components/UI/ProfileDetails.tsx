@@ -80,7 +80,7 @@ export const ProfileDetails = ({
         <div className="bg-neutral-0 py-16 px-8 sm:py-[4.8rem] sm:px-16 rounded-2xl shadow-lg w-full md:w-240 mx-8 sm:mx-32 md:mx-auto relative">
           {/* Close button */}
           <button
-            className="absolute top-4 right-4 sm:top-10 sm:right-10 text-neutral-500 hover:text-neutral-900 cursor-pointer w-4 h-4 sm:w-6 sm:h-6 outline-focus"
+            className="absolute  top-10 right-10 text-neutral-500 hover:text-neutral-900 cursor-pointer w-4 h-4 sm:w-6 sm:h-6 outline-focus"
             onClick={() => setIsProfileDetailsOpen(false)}
           >
             <CloseIcon className="hover:cursor-pointer hover:opacity-50" />

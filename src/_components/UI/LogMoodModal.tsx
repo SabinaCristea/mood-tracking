@@ -67,11 +67,12 @@ export const LogMoodModal = ({
   return (
     <dialog
       open
-      className="flex flex-col gap-[2.4rem] top-20 bg-linear-to-br from-white from-0% via-[#F5F5FF] via-73% to-[#E0E0FF] to-100% mx-auto z-100 w-[85%]  rounded-[1.6rem] px-8 py-[3.2rem] "
+      className="flex flex-col gap-[2.4rem] top-20 bg-linear-to-br from-white from-0% via-[#F5F5FF] via-73% to-[#E0E0FF] to-100% mx-auto z-100 w-[85%] sm:w-240
+      rounded-[1.6rem] px-8 py-[3.2rem] sm:px-16 sm:py-[4.8rem]"
     >
       <button
         onClick={() => setOpen(false)}
-        className="absolute top-8 right-6 outline-focus"
+        className="absolute top-[25px] right-[25px] outline-focus"
       >
         <CloseIcon className="hover:cursor-pointer hover:opacity-50" />
       </button>

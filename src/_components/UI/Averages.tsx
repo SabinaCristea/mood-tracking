@@ -88,7 +88,7 @@ export const Averages = () => {
       {/* average mood */}
       <div className="flex flex-col gap-[1.2rem]">
         <p className="text-[2rem] leading-[140%] font-semibold">
-          Average Mood
+          Average Mood{" "}
           <span className="text-neutral-600 text-[1.5rem] leading-[140%] ">
             (Last 5 Check-ins)
           </span>
@@ -124,7 +124,7 @@ export const Averages = () => {
       {/* average sleep */}
       <div className="flex flex-col gap-[1.2rem]">
         <p className="text-[2rem] leading-[140%] font-semibold">
-          Average Sleep
+          Average Sleep{" "}
           <span className="text-neutral-600 text-[1.5rem] leading-[140%]">
             (Last 5 Check-ins)
           </span>

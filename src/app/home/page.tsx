@@ -80,7 +80,7 @@ export default function HomePage() {
           />
         )}
 
-        <div className="flex flex-col lg:flex-row lg:gap-[3.2rem] lg:mt-[6.4rem] mb-32">
+        <div className="flex flex-col lg:mt-[5rem] lg:flex-row lg:gap-[3.2rem]  mb-32">
           <Averages />
 
           <MoodSleepTrends />
