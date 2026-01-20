@@ -6,6 +6,20 @@ import { CustomTooltip } from "../UI/CustomTooltip";
 import NextImage from "next/image";
 import { createPortal } from "react-dom";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ChartTooltip = any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ChartV2 = any;
+
+type TooltipData = {
+  mood?: string | undefined;
+  sleep?: string | null | undefined;
+  reflection?: string | undefined;
+  tags?: string[] | undefined;
+};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ChartV2 = Chart as any;
+
 const DAYS = 11;
 
 const ICON_PATHS = {
@@ -29,7 +43,7 @@ export default function CardBarChart() {
     visible: boolean;
     x: number;
     y: number;
-    data?: any;
+    data?: TooltipData;
     alignRight?: boolean;
   } | null>(null);
 
@@ -142,7 +156,7 @@ export default function CardBarChart() {
         return mood?.feelings ?? [];
       });
 
-      const colorForMoodOption = (mood: number) => {
+      const colorForMoodOption = (mood: number | null) => {
         switch (mood) {
           case -2:
             return "#FF9B99";
@@ -201,10 +215,11 @@ export default function CardBarChart() {
                 },
                 ticks: {
                   display: false,
-                  autoSkip: false, // 👈 REQUIRED
+                  autoSkip: false,
 
-                  callback: function (value) {
-                    const [month, day] = value.split(" ");
+                  callback: function (value: string | number) {
+                    const label = String(value);
+                    const [month, day] = label.split(" ");
                     return [month, day];
                   },
                   fontColor: "#333",
@@ -233,10 +248,12 @@ export default function CardBarChart() {
             ],
           },
           tooltips: {
-            enabled: false, //  Turn off the default canvas tooltip
-            custom: function (tooltipModel) {
+            enabled: false, // Turn off the default canvas tooltip
+
+            custom: function (tooltipModel: ChartTooltip) {
               // Use 'this' to get the chart instance
-              const chartInstance = this._chart;
+
+              const chartInstance = (this as ChartTooltip)._chart;
               // If the tooltip is hidden, update state and exit
               if (tooltipModel.opacity === 0) {
                 setTooltip(null);
@@ -280,7 +297,7 @@ export default function CardBarChart() {
           },
         },
         plugins: {
-          afterDatasetsDraw: function (chart) {
+          afterDatasetsDraw: function (chart: ChartV2) {
             const ctx = chart.ctx;
             // const xAxis = chart.scales["x-axis-0"];
             const yAxis = chart.scales["y-axis-0"];
@@ -288,9 +305,10 @@ export default function CardBarChart() {
             // --- 1. Draw Mood Icons on Bars
             const meta = chart.getDatasetMeta(0);
 
-            meta.data.forEach((bar, index) => {
+            meta.data.forEach((bar: ChartV2, index: number) => {
               const mood = moodValues[index];
-              const img = moodIcons[mood?.toString()];
+              if (mood === null || mood === undefined) return;
+              const img = moodIcons[mood.toString()];
               if (img) {
                 const x = bar._model.x;
                 const y = bar._model.y;
@@ -300,7 +318,7 @@ export default function CardBarChart() {
             });
 
             // --- DRAW X-AXIS (Bold Days) ---
-            chart.data.labels.forEach((label, index) => {
+            chart.data.labels.forEach((label: string, index: number) => {
               const [month, day] = label.split(" ");
               const meta = chart.getDatasetMeta(0);
               const xPos = meta.data[index]._model.x; // Get horizontal center of the bar
@@ -325,21 +343,21 @@ export default function CardBarChart() {
         },
       };
 
-      // ⭐ Full rounded bars for Chart.js v2
-      Chart.elements.Rectangle.prototype.draw = function () {
+      // Full rounded bars for Chart.js v2
+      ChartV2.elements.Rectangle.prototype.draw = function () {
         const ctx = this._chart.ctx;
         const vm = this._view;
         const x = vm.x;
         const y = vm.y;
         const width = vm.width;
-        const height = vm.base - vm.y;
+        //  const height = vm.base - vm.y;
 
-        const radius = 22; // 👈 adjust roundness
+        const radius = 22; // adjust roundness
 
-        let left = x - width / 2;
-        let right = x + width / 2;
-        let top = y;
-        let bottom = vm.base;
+        const left = x - width / 2;
+        const right = x + width / 2;
+        const top = y;
+        const bottom = vm.base;
 
         ctx.beginPath();
         ctx.fillStyle = vm.backgroundColor;
@@ -364,6 +382,7 @@ export default function CardBarChart() {
         // canvas.height = 640; // 40rem is 640px
         const ctx = canvas.getContext("2d")!;
         if (chartRef.current) chartRef.current.destroy();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         chartRef.current = new Chart(ctx, config as any);
       }
     };
@@ -377,12 +396,15 @@ export default function CardBarChart() {
 
   if (recentMoods === undefined) return null;
 
+  const chartEl = document.getElementById("bar-chart");
+  const chartRect = chartEl?.getBoundingClientRect();
+
   return (
     <div className="relative flex w-full rounded-3xl ">
       {/* 1. FIXED SIDEBAR */}
-      <div className="absolute w-[100px] h-[-webkit-fill-available] flex flex-col justify-between pb-[10.5rem] pt-[0.7rem]">
+      <div className="absolute w-[100px] h-[-webkit-fill-available] flex flex-col justify-between pb-42 pt-[0.7rem]">
         {[10, 8, 6, 4, 2].map((value) => {
-          const labels: any = {
+          const labels: Record<number, string> = {
             10: "9+ hours",
             8: "7–8 hours",
             6: "5–6 hours",
@@ -423,21 +445,15 @@ export default function CardBarChart() {
           <canvas id="bar-chart"></canvas>
         </div>
         {/* 3. FLOATING TOOLTIP */}
-
-        {tooltip &&
-          tooltip.visible &&
+        {tooltip?.visible &&
+          chartRect &&
           createPortal(
             <div
               className="fixed pointer-events-none transition-all duration-150"
               style={{
                 zIndex: 9999,
-                // Get the bounding box of the canvas to offset body-level portal
-                left:
-                  document.getElementById("bar-chart")?.getBoundingClientRect()
-                    .left! + tooltip.x,
-                top: document
-                  .getElementById("bar-chart")
-                  ?.getBoundingClientRect().top!,
+                left: chartRect.left + tooltip.x,
+                top: chartRect.top,
                 transform: tooltip.alignRight
                   ? "translate(-100%, 0%)"
                   : "translate(0%, 0%)",

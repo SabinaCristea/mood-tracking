@@ -13,16 +13,20 @@ export const TodayMoodSummary = ({
   feelings,
 }: {
   moodLabel: string | undefined;
-  moodOrder: number;
+  moodOrder?: number;
   moodQuote: string | undefined;
   hoursOfSleep: string | undefined;
   reflection: string;
   feelings: string[];
 }) => {
-  const SelectedIcon = MOOD_ICONS[moodOrder as keyof typeof MOOD_ICONS];
+  const SelectedIcon =
+    moodOrder !== undefined
+      ? MOOD_ICONS[moodOrder as keyof typeof MOOD_ICONS]
+      : null;
 
   return (
-    <div className="flex flex-col gap-8 mb-[-1.6rem] mt-[1.6rem] lg:flex-row lg:gap-[3.2rem] lg:h-[34rem] lg:mt-0">
+    <div className="flex flex-col gap-8 mb-[-1.6rem] mt-[1.6rem] lg:flex-row lg:gap-[3.2rem] lg:h-136 lg:mt-0">
+      {/* lg:h-[34rem] */}
       <div className="flex flex-col py-[3.2rem] px-[1.6rem] sm:px-[3.2rem] bg-neutral-0 w-full gap-[3.2rem] border border-blue-100 rounded-[1.6rem] sm:h-136 sm:justify-between sm:relative sm:overflow-hidden lg:w-[58%]">
         <div className="flex flex-col items-center sm:items-start">
           <h2 className="text-preset-3 opacity-70 font-bold m-0">

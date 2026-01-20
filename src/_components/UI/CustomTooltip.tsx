@@ -6,10 +6,10 @@ import { SadIcon } from "../icons/SadIcon";
 import { NeutralIcon } from "../icons/NeutralIcon";
 
 type TooltipPropTypes = {
-  mood: string;
-  sleep: string;
-  reflection: string;
-  tags: string[];
+  mood?: string | undefined;
+  sleep?: string | null | undefined;
+  reflection?: string | undefined;
+  tags?: string[] | undefined;
 };
 
 export const CustomTooltip = ({
@@ -18,7 +18,7 @@ export const CustomTooltip = ({
   reflection,
   tags,
 }: TooltipPropTypes) => {
-  const getIconByMood = (mood: string) => {
+  const getIconByMood = (mood: string | undefined) => {
     switch (mood) {
       case "Very Happy":
         return <VeryHappyIcon width={16} height={16} />;
@@ -52,7 +52,7 @@ export const CustomTooltip = ({
       </div>
       <div className="flex flex-col gap-[0.8rem]">
         <h3 className="text-preset-8">Tags</h3>
-        <p className="text-preset-9 font-semibold">{tags.join(", ")}</p>
+        <p className="text-preset-9 font-semibold">{tags?.join(", ")}</p>
       </div>
     </div>
   );

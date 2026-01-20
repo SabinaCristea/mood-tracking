@@ -84,7 +84,7 @@ export const Averages = () => {
   const MoodIcon = MOOD_ICONS_WHITE[lastMoodOrder as keyof typeof MOOD_ICONS];
 
   return (
-    <div className="mt-[4.8rem] bg-white rounded-[1.6rem] flex flex-col gap-[2.4rem] px-[1.6rem]  py-8 w-full  xl:w-full mx-auto lg:p-[2.4rem] lg:mt-0">
+    <div className="mt-[4.8rem] bg-white rounded-[1.6rem] flex flex-col gap-[2.4rem] px-[1.6rem] py-8 w-full   mx-auto lg:p-[2.4rem] lg:mt-0 lg:[w-30%]">
       {/* average mood */}
       <div className="flex flex-col gap-[1.2rem]">
         <p className="text-[2rem] leading-[140%] font-semibold">
