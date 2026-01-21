@@ -421,7 +421,7 @@ export default function CardBarChart() {
                 width={12}
                 height={12}
               />
-              <span className=" text-[13px] font-reddit-sans text-neutral-500 whitespace-nowrap">
+              <span className="text-[13px] font-reddit-sans text-neutral-500 whitespace-nowrap">
                 {labels[value]}
               </span>
             </div>
@@ -436,13 +436,14 @@ export default function CardBarChart() {
       >
         <div
           style={{
-            width: Math.max(720, DAYS * 65),
+            width: "100%",
+            minWidth: Math.max(720, DAYS * 65),
             height: "34rem",
             overflowY: "hidden",
           }}
           className=" "
         >
-          <canvas id="bar-chart"></canvas>
+          <canvas id="bar-chart" className="w-full h-full"></canvas>
         </div>
         {/* 3. FLOATING TOOLTIP */}
         {tooltip?.visible &&

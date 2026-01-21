@@ -15,6 +15,7 @@ import { Averages } from "@/_components/UI/Averages";
 import { CTA } from "@/_components/UI/CTA";
 import { Logo } from "@/_components/icons/Logo";
 
+/// comments, readme file, how to deploy
 export default function HomePage() {
   const { isLoaded, isSignedIn } = useAuth();
 
@@ -80,9 +81,13 @@ export default function HomePage() {
           />
         )}
 
-        <div className="flex flex-col lg:mt-20 lg:flex-row lg:gap-[3.2rem]  mb-32">
-          <Averages />
-          <MoodSleepTrends />
+        <div className="flex flex-col  lg:flex-row lg:gap-[3.2rem] lg:mt-20 mb-32">
+          <div className="flex-1 lg:flex-2 xl:flex-none">
+            <Averages />
+          </div>
+          <div className="flex-1 lg:flex-3 min-w-0 xl:w-full">
+            <MoodSleepTrends />
+          </div>
         </div>
       </div>
       {isProfileDetailsOpen && (
