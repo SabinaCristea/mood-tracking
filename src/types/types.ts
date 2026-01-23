@@ -6,3 +6,11 @@ export type MoodEntryDraft = {
   note: string;
   sleepOptionId: Id<"sleepOptions"> | null;
 };
+
+declare global {
+  interface CustomJwtSessionClaims {
+    metadata: {
+      onboardingCompleted?: boolean;
+    };
+  }
+}
