@@ -24,8 +24,20 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState<ProfileErrors>({});
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoaded || !user) return;
+
+    const completed = user.unsafeMetadata?.onboardingCompleted;
+
+    console.log(completed);
+
+    if (completed) {
+      router.replace("/home");
+    }
+  }, [isLoaded, user, router]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -51,9 +63,14 @@ export default function Page() {
         await user.setProfileImage({ file: imageFile });
       }
 
-      console.log("Profile updated!");
+      await user.update({
+        unsafeMetadata: {
+          onboardingCompleted: true,
+        },
+      });
 
       router.push("/home");
+      router.refresh();
     } catch (err) {
       console.error(err);
     } finally {
@@ -120,12 +137,12 @@ export default function Page() {
                 Max 250K, PNG or JPEG
               </p>
 
-              <div className="relative focus-within:outline-2 focus-within:outline-blue-600 focus-within:outline-offset-4 rounded-[0.8rem]">
+              <div className="relative focus-within:outline-2 focus-within:outline-blue-600 focus-within:outline-offset-4 rounded-[0.8rem] hover:cursor-pointer">
                 <input
                   type="file"
                   //accept="image/png, image/jpeg"
                   id="file-upload"
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  className="absolute inset-0 w-full h-full opacity-0 hover:cursor-pointer"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (!file) return;
@@ -158,7 +175,7 @@ export default function Page() {
                 />
                 <label
                   htmlFor="file-upload"
-                  className="leading-[130%] tracking-[0px] px-[1.6rem] py-[0.8rem] border border-neutral-300 rounded-[0.8rem] outline-focus hover:cursor-pointer flex justify-center items-center"
+                  className="leading-[130%] tracking-[0px] px-[1.6rem] py-[0.8rem] border border-neutral-300 rounded-[0.8rem] outline-focus hover:cursor-pointer flex justify-center items-center "
                 >
                   Upload
                 </label>

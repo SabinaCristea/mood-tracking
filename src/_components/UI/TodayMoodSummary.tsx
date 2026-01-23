@@ -41,7 +41,7 @@ export const TodayMoodSummary = ({
 
         <div className="flex flex-col items-center gap-[1.6rem] sm:items-start">
           <QuotesIcon className="m-auto w-[2.4rem] h-[2.4rem] sm:m-0" />
-          <blockquote className="text-preset-6-italic text-center text-neutral-900! font-medium sm:w-[24.6rem] sm:text-left">
+          <blockquote className="text-preset-6-italic text-center text-neutral-900! font-medium sm:w-[24.6rem] sm:text-left z-40">
             “{moodQuote}”
           </blockquote>
         </div>
