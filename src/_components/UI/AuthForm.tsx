@@ -74,6 +74,8 @@ export const AuthForm = ({
     }
   };
 
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+
   return (
     <div className="flex flex-col items-center gap-[3.2rem] mt-32">
       <Logo />
