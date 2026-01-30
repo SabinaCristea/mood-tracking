@@ -7,8 +7,8 @@ import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { ClerkAPIError } from "@clerk/types";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
-import { Logo } from "@/_components/icons/Logo";
-import { InfoIcon } from "@/_components/icons/InfoIcon";
+import { Logo } from "@/src/_components/icons/Logo";
+import { InfoIcon } from "@/src/_components/icons/InfoIcon";
 
 export default function Page() {
   const { isLoaded, signUp, setActive } = useSignUp();

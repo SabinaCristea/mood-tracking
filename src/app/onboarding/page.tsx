@@ -6,8 +6,8 @@ import placeholderImage from "../../../public/assets/images/avatar-placeholder.s
 // import { saveUserProfile } from "../../../convex/functions/users";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Logo } from "@/_components/icons/Logo";
-import { InfoIcon } from "@/_components/icons/InfoIcon";
+import { Logo } from "@/src/_components/icons/Logo";
+import { InfoIcon } from "@/src/_components/icons/InfoIcon";
 
 type ProfileErrors = {
   name?: string;

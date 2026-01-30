@@ -1,7 +1,7 @@
-import { MOOD_ICONS } from "@/_lib/helpers/moodFaces";
+import { MOOD_ICONS } from "@/src/_lib/helpers/moodFaces";
 import React from "react";
-import { ZzzIcon } from "@/_components/icons/ZzzIcon";
-import { ReflectionsIcon } from "@/_components/icons/ReflectionsIcon";
+import { ZzzIcon } from "@/src/_components/icons/ZzzIcon";
+import { ReflectionsIcon } from "@/src/_components/icons/ReflectionsIcon";
 import { QuotesIcon } from "../icons/QuotesIcon";
 
 export const TodayMoodSummary = ({

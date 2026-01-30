@@ -4,9 +4,9 @@ import { LogMoodStep1 } from "./LogMoodStep1";
 import { LogMoodStep2 } from "./LogMoodStep2";
 import { LogMoodStep3 } from "./LogMoodStep3";
 import { LogMoodStep4 } from "./LogMoodStep4";
-import { MoodEntryDraft } from "@/types/types";
+import { MoodEntryDraft } from "@/src/types/types";
 import { useMutation } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { CloseIcon } from "../icons/CloseIcon";
 
 export const LogMoodModal = ({

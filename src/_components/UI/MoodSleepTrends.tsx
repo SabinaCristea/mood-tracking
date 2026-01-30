@@ -11,4 +11,3 @@ export const MoodSleepTrends = () => {
     </div>
   );
 };
-//mx-auto lg:max-w-[76.8rem] lg:flex-1

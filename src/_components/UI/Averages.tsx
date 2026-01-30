@@ -1,15 +1,15 @@
 import Image from "next/image";
 import React from "react";
 import pattern from "../../../public/assets/images/bg-pattern-averages.svg";
-import { calcTrend } from "@/_utils/calcTrend";
-import { moodMessages, sleepMessages } from "@/_utils/trendMessages";
+import { moodMessages, sleepMessages } from "@/src/_utils/trendMessages";
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { ArrowUp } from "../icons/ArrowUp";
 import { ArrowDown } from "../icons/ArrowDown";
 import { ArrowRight } from "../icons/ArrowRight";
 import { ZzzIcon } from "../icons/ZzzIcon";
-import { MOOD_ICONS, MOOD_ICONS_WHITE } from "@/_lib/helpers/moodFaces";
+import { MOOD_ICONS, MOOD_ICONS_WHITE } from "@/src/_lib/helpers/moodFaces";
+import { calcTrend } from "@/src/_utils/calcTrend";
 
 export const Averages = () => {
   const last6CheckIns = useQuery(api.moods.getLast6Moods.getLast6Moods);

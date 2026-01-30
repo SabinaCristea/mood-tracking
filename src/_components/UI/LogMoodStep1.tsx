@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { Button } from "./Button";
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
-import { MOOD_ICONS } from "@/_lib/helpers/moodFaces";
+import { MOOD_ICONS } from "@/src/_lib/helpers/moodFaces";
 import { InfoIcon } from "../icons/InfoIcon";
 
 type LogMoodStep1Props = {

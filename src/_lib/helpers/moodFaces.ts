@@ -1,14 +1,14 @@
-import { VeryHappyIcon } from "@/_components/icons/VeryHappyIcon";
-import { HappyIcon } from "@/_components/icons/HappyIcon";
-import { NeutralIcon } from "@/_components/icons/NeutralIcon";
-import { SadIcon } from "@/_components/icons/SadIcon";
-import { VerySadIcon } from "@/_components/icons/VerySadIcon";
+import { VeryHappyIcon } from "@/src/_components/icons/VeryHappyIcon";
+import { HappyIcon } from "@/src/_components/icons/HappyIcon";
+import { NeutralIcon } from "@/src/_components/icons/NeutralIcon";
+import { SadIcon } from "@/src/_components/icons/SadIcon";
+import { VerySadIcon } from "@/src/_components/icons/VerySadIcon";
 
-import { VeryHappyIconWhite } from "@/_components/icons/VeryHappyIconWhite";
-import { HappyIconWhite } from "@/_components/icons/HappyIconWhite";
-import { NeutralIconWhite } from "@/_components/icons/NeutralIconWhite";
-import { SadIconWhite } from "@/_components/icons/SadIconWhite";
-import { VerySadIconWhite } from "@/_components/icons/VerySadIconWhite";
+import { VeryHappyIconWhite } from "@/src/_components/icons/VeryHappyIconWhite";
+import { HappyIconWhite } from "@/src/_components/icons/HappyIconWhite";
+import { NeutralIconWhite } from "@/src/_components/icons/NeutralIconWhite";
+import { SadIconWhite } from "@/src/_components/icons/SadIconWhite";
+import { VerySadIconWhite } from "@/src/_components/icons/VerySadIconWhite";
 
 export const MOOD_ICONS = {
   2: VeryHappyIcon,

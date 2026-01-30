@@ -4,16 +4,16 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
-import { LogMoodModal } from "@/_components/UI/LogMoodModal";
+import { LogMoodModal } from "@/src/_components/UI/LogMoodModal";
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-import { UserProfile } from "@/_components/UI/UserProfile";
-import { TodayMoodSummary } from "@/_components/UI/TodayMoodSummary";
-import { ProfileDetails } from "@/_components/UI/ProfileDetails";
-import { MoodSleepTrends } from "@/_components/UI/MoodSleepTrends";
-import { Averages } from "@/_components/UI/Averages";
-import { CTA } from "@/_components/UI/CTA";
-import { Logo } from "@/_components/icons/Logo";
+import { api } from "@/convex/_generated/api";
+import { UserProfile } from "@/src/_components/UI/UserProfile";
+import { TodayMoodSummary } from "@/src/_components/UI/TodayMoodSummary";
+import { ProfileDetails } from "@/src/_components/UI/ProfileDetails";
+import { MoodSleepTrends } from "@/src/_components/UI/MoodSleepTrends";
+import { Averages } from "@/src/_components/UI/Averages";
+import { CTA } from "@/src/_components/UI/CTA";
+import { Logo } from "@/src/_components/icons/Logo";
 
 /// comments, readme file, how to deploy
 export default function HomePage() {

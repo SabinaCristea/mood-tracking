@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "./Button";
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { InfoIcon } from "../icons/InfoIcon";
 

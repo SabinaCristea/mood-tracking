@@ -1,7 +1,7 @@
 import React from "react";
 import Chart from "chart.js";
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { CustomTooltip } from "../UI/CustomTooltip";
 import NextImage from "next/image";
 import { createPortal } from "react-dom";
