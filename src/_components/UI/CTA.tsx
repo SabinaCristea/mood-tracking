@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "./Button";
-import formatDate from "@/_lib/helpers/formatDate";
+import formatDate from "@/src/_lib/helpers/formatDate";
 
 const today = formatDate(new Date());
 
