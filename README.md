@@ -47,7 +47,7 @@ Users should be able to:
 ![Logged Mood Details](./public/assets/screenshots/happy-1.png)
 ![Logged Mood Averages and Trends](./public/assets/screenshots/happy-2.png)
 ![Trends Mobile](./public/assets/screenshots/phone-trends.png)
-![Trends and Averages Full Data](./public/assets/screenshots/sign-in.png)
+![Trends and Averages Full Data](./public/assets/screenshots/trends-and-averages.png)
 ![Update Profile](./public/assets/screenshots/update-profile.png)
 
 ### Links
