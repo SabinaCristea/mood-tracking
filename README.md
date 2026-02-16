@@ -35,6 +35,7 @@ Users should be able to:
 
 ### Screenshots
 
+![Dashboard](./public/assets/screenshots/happy-1.png)
 ![Log In](./public/assets/screenshots/sign-in.png)
 ![Log In Error](./public/assets/screenshots/login-error.png)
 ![Sign Up Verify](./public/assets/screenshots/sign-up-verify.png)
