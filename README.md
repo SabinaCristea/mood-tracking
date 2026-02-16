@@ -6,7 +6,7 @@ This is a solution to the [Mood tracking app challenge on Frontend Mentor](https
 
 - [Overview](#overview)
   - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
+  - [Screenshot](#screenshots)
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
@@ -22,7 +22,7 @@ Users should be able to:
 
 - Log their mood, feelings, reflections, and sleep each day
 - See today's mood, feelings, reflection, and sleep, once logged
-- See a relevant mood quote based on today's mood (found in the `data.json` file)
+- See a relevant mood quote based on today's mood
 - See a graph showing the most recent eleven records to identify mood and sleep trends
 - Interact with each bar on the mood and sleep trends chart to see all information about that day
 - See their average mood and sleep from the past five check-ins and see how they compare with the previous five
@@ -33,22 +33,27 @@ Users should be able to:
 - **Bonus**: Create an account and log in (add user authentication to the full-stack app)
 - **Bonus**: Integrate with a third-party image-hosting service for the avatar upload
 
-### Screenshot /////
+### Screenshots
 
-![](./screenshot.jpg)
+![Log In](./public/assets/screenshots/sign-in.png)
+![Log In Error](./public/assets/screenshots/login-error.png)
+![Sign Up Verify](./public/assets/screenshots/sign-up-verify.png)
+![Onboarding](./public/assets/screenshots/onboarding.png)
+![Homapage Mobile No Data](./public/assets/screenshots/phone-no-data.png)
+![Log Mood Step 1](./public/assets/screenshots/log-1.png)
+![Log Mood Step 2](./public/assets/screenshots/log-2.png)
+![Log Mood Step 3](./public/assets/screenshots/log-3.png)
+![Log Mood Step 4](./public/assets/screenshots/log-4.png)
+![Logged Mood Details](./public/assets/screenshots/happy-1.png)
+![Logged Mood Averages and Trends](./public/assets/screenshots/happy-2.png)
+![Trends Mobile](./public/assets/screenshots/phone-trends.png)
+![Trends and Averages Full Data](./public/assets/screenshots/sign-in.png)
+![Update Profile](./public/assets/screenshots/update-profile.png)
 
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
+### Links
 
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it.
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
-
-### Links ////
-
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [https://github.com/SabinaCristea/mood-tracking]
+- Live Site URL: [https://mood-tracking-delta.vercel.app/]
 
 ## My process
 
@@ -62,33 +67,27 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Clerk](https://clerk.com/) - Authentication & User Management
 - [ChartJS](https://www.chartjs.org/) - Charting Library
 
-### What I learned ////
+### Features
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+**- Full-Stack Integration:** Real-time data syncing using Convex and secure user management via Clerk.
+**- Multi-Step Check-in:** An intuitive four-step logging process for capturing mood, feelings, reflections, and sleep quality.
+**- Dynamic Trend Analysis:** Custom logic to calculate mood and sleep trends by comparing today’s data against a rolling 5-day average.
+**- Advanced Data Visualization:** Interactive charts built with Chart.js that display the last 11 records with custom styling and tooltips.
+**- Personalized Insights:** Contextual mood quotes and visual feedback (icons and colors) based on the user's current emotional state.
+**- Profile Management:** Ability to update user metadata and avatars directly within the app.
+**- Responsive Design:** A mobile-first approach ensuring a seamless experience from smartphones to large desktop monitors.
 
-To see how you can add code snippets, see below:
+### What I learned
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
+This project was my first time diving into a full-stack architecture using Convex and Clerk. Integrating real-time database management with seamless authentication was a massive learning curve. I learned how to handle relational data (mapping moods and sleep logs to specific users) and how to manage global state using Convex hooks.
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
+The hardest part of this challenge was definitely customizing Chart.js. The default configurations are quite rigid, and matching the specific design requirements - such as custom bar radius, specific grid line styling, and interactive tooltips - required deep diving into the library's API and plugin system.
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
+### Continued development
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+Database Optimization: Now that I'm comfortable with the basics of Convex, I want to learn more about advanced indexing and schema validation to ensure the app remains performant as the dataset grows.
 
-### Continued development ////
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Complex State Machines: The multi-step logging process (Step 1 to 4) was fun to build. I plan to explore other libraries to manage complex UI flows more declaratively in future projects.
 
 ## Author
 

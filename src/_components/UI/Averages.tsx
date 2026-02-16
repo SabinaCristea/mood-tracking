@@ -17,10 +17,12 @@ export const Averages = () => {
   const todayDateString = new Date().toDateString();
 
   const hasLoggedToday = last6CheckIns?.some(
-    (entry) => new Date(entry.createdAt).toDateString() === todayDateString
+    (entry) => new Date(entry.createdAt).toDateString() === todayDateString,
   );
 
-  const latestEntry = last6CheckIns?.[0];
+  const latestEntry = last6CheckIns
+    ?.slice()
+    .sort((a, b) => b.createdAt - a.createdAt)[0];
   const lastMoodLabel = latestEntry?.mood?.label;
   const lastMoodOrder = latestEntry?.mood?.order;
   const lastSleepLabel = latestEntry?.sleep?.label;

@@ -13,6 +13,9 @@ const redditSans = Reddit_Sans({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/favicon.ico",
+  },
   title: "Mood Tracker",
   description: "Track your mood and sleep data",
 };

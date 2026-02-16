@@ -1,32 +1,26 @@
 export function calcTrend(entries: { createdAt: number; value?: number }[]) {
   if (!entries || entries.length === 0) return "needMoreData";
 
-  const now = new Date();
-  now.setHours(23, 59, 59, 999); // End of today
-
-  // 1. Create a map of the last 6 days (0 = today, 5 = 5 days ago)
   const last5Days = Array.from({ length: 5 }).map((_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    return d.toDateString();
+    return d.toISOString().split("T")[0]; // Returns "2026-02-16"
   });
 
-  // 2. Map entries to those specific dates
   const valuesByDay = last5Days.map((dateStr) => {
-    const entry = entries.find(
-      (e) => new Date(e.createdAt).toDateString() === dateStr
-    );
+    const entry = entries.find((e) => {
+      const entryDate = new Date(e.createdAt).toISOString().split("T")[0];
+      return entryDate === dateStr;
+    });
     return entry?.value;
   });
 
-  // valuesByDay[0] is Today, valuesByDay[1-5] are the previous days
   const today = valuesByDay[0];
+  // Filter out undefined to see how many days we actually have
   const previousDays = valuesByDay
     .slice(1)
     .filter((v): v is number => v !== undefined);
 
-  // Requirement: Must have today AND at least some previous data
-  // (Or strictly 5 previous days if you want perfect consecutiveness)
   if (today === undefined || previousDays.length < 4) {
     return "needMoreData";
   }
