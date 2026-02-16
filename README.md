@@ -91,7 +91,7 @@ Complex State Machines: The multi-step logging process (Step 1 to 4) was fun to 
 
 ## Author
 
-- Website - [Sabina Cristea](https://www.sabinacristea.com)
+- Website - [sabinacristea.com](https://www.sabinacristea.com)
 - Frontend Mentor - [@SabinaCristea](https://www.frontendmentor.io/profile/SabinaCristea)
 - LinkedIn - [Sabina Cristea](https://www.linkedin.com/in/sabina-cristea/)
 - Instagram - [@sabinacodes](https://www.instagram.com/sabinacodes/)
